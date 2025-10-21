@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 1 – Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .accordion-content { display: none; }
+  .accordion-header { cursor: pointer; }
+  textarea, input[type="file"] { width: 100%; }
+  input[type="file"] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 0.5rem; }
+</style>
+</head>
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Level 1 Dashboard</h1>
+  <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
+  <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
+  <button onclick="showSection('tests')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
+  <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">👥 Students</button>
+  <button onclick="logout()" class="w-full px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-2 justify-center mt-auto">🚪 Logout</button>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+  <!-- Welcome Section -->
+  <section id="welcome" class="space-y-6">
+    <h2 class="text-3xl font-bold text-white">👋 Welcome Teacher!</h2>
+    <div class="bg-white/95 p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+      <p class="text-lg">Welcome to your professional hub for Level 1. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.</p>
+      <p class="text-lg">Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.</p>
+      <p class="text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.</p>
+      <p class="text-lg">Thank you for your unwavering devotion to your students and your craft. Together, we are building not just a school, but a community where learning thrives, potential is unlocked, and every teacher has the support to shine. Let us continue to inspire, innovate, and transform education every day, one student at a time.</p>
+      <p class="text-lg text-gray-700 italic">💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.</p>
+      <p class="text-lg text-gray-700 italic">💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.</p>
+    </div>
+  </section>
+
+  <!-- Lessons Section -->
+  <section id="lessons" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📘 Lessons (Upload any file)</h2>
+    <div id="lessonsContainer" class="space-y-4"></div>
+  </section>
+
+  <!-- Tests Section -->
+  <section id="tests" class="hidden space-y-4">
+    <h2 class="text-2xl font-semibold text-white">📝 Tests</h2>
+    <div id="testsContainer" class="space-y-4"></div>
+  </section>
+
+  <!-- Students Section -->
+  <section id="students" class="hidden">
+    <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
+    <div class="bg-white shadow rounded-2xl p-6">
+      <p>Here you can view and manage Level 1 students. Future updates can include progress tracking and notes per student.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ------------------- ACCESS CHECK -------------------
+  const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
+  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
+    alert('Access denied. Only the teacher can access Level 1.');
+    window.location.href = '../login.html';
+  }
+
+  // ------------------- NAVIGATION -------------------
+  function showSection(section) {
+    document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(section).classList.remove('hidden');
+  }
+
+  function logout() {
+    localStorage.removeItem('loggedStudent');
+    window.location.href = '../login.html';
+  }
+
+  // ------------------- LESSONS -------------------
+  const lessonTitles = [
+    "Greetings and farewells",
+    "Introducing yourself and others",
+    "Classroom language",
+    "Numbers 0–20",
+    "Asking about age, nationality, and country",
+    "Alphabet and spelling",
+    "Days, months, seasons",
+    "Telling time",
+    "Family members",
+    "Describing people",
+    "Talking about friends",
+    "Possessives",
+    "Everyday activities",
+    "Talking about routines",
+    "Colors and shapes",
+    "Clothes and accessories",
+    "Weather and seasons",
+    "Places in the city",
+    "Fruits and vegetables",
+    "Meals",
+    "Likes and dislikes",
+    "At the restaurant",
+    "Types of transport",
+    "Asking/giving directions",
+    "Countries and cities",
+    "Body parts",
+    "Health problems",
+    "Gadgets",
+    "Hobbies",
+    "Invitations",
+    "Jobs",
+    "Workplaces",
+    "Future dreams"
+  ];
+
+  const lessonsContainer = document.getElementById('lessonsContainer');
+
+  lessonTitles.forEach((title, index) => {
+    const i = index + 1;
+    const div = document.createElement('div');
+    div.className = "bg-white rounded-2xl shadow p-4 space-y-4";
+
+    div.innerHTML = `
+      <div class="accordion-header bg-blue-200 p-4 font-semibold rounded cursor-pointer flex justify-between items-center" onclick="toggleAccordion(this)">
+        <span>Lesson ${i}: ${title}</span>
+        <span class="text-blue-700">+</span>
+      </div>
+      <div class="accordion-content p-4 space-y-4 bg-gray-50 rounded">
+        <label class="font-semibold">Upload File (video, audio, PDF, image, docx, etc.)</label>
+        <input type="file" id="file${i}">
+        <label class="font-semibold">Instructions</label>
+        <textarea id="instructions${i}" placeholder="Enter instructions for Lesson ${i}..." class="border rounded p-2"></textarea>
+        <label class="font-semibold">Tasks / Notes</label>
+        <textarea id="tasks${i}" placeholder="Enter tasks or notes for Lesson ${i}..." class="border rounded p-2"></textarea>
+        <button onclick="saveLesson(${i})" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save Lesson ${i}</button>
+      </div>
+    `;
+    lessonsContainer.appendChild(div);
+  });
+
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('span:last-child');
+    if (content.style.display === "block") {
+      content.style.display = "none";
+      icon.textContent = "+";
+    } else {
+      content.style.display = "block";
+      icon.textContent = "−";
+    }
+  }
+
+  function saveLesson(i) {
+    const fileInput = document.getElementById(`file${i}`);
+    const instructions = document.getElementById(`instructions${i}`).value;
+    const tasks = document.getElementById(`tasks${i}`).value;
+
+    const lessonKey = `level1_lesson_${i}`;
+    const lessonData = { instructions, tasks, file: null };
+
+    if (fileInput.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        lessonData.file = e.target.result;
+        localStorage.setItem(lessonKey, JSON.stringify(lessonData));
+        updateStudentDashboard(i, lessonData);
+        alert(`Lesson ${i} saved!`);
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      localStorage.setItem(lessonKey, JSON.stringify(lessonData));
+      updateStudentDashboard(i, lessonData);
+      alert(`Lesson ${i} saved (without file)!`);
+    }
+  }
+
+  function updateStudentDashboard(i, lessonData) {
+    const lessons = JSON.parse(localStorage.getItem('student_lessons_level1')) || {};
+    lessons[i] = lessonData;
+    localStorage.setItem('student_lessons_level1', JSON.stringify(lessons));
+  }
+
+  // ------------------- LOAD SAVED DATA -------------------
+  window.onload = () => {
+    lessonTitles.forEach((_, i) => {
+      const saved = JSON.parse(localStorage.getItem(`level1_lesson_${i + 1}`));
+      if (saved) {
+        document.getElementById(`instructions${i + 1}`).value = saved.instructions || "";
+        document.getElementById(`tasks${i + 1}`).value = saved.tasks || "";
+      }
+    });
+  };
+
+  // ------------------- TESTS -------------------
+  const testsContainer = document.getElementById('testsContainer');
+  const testTitles = [
+    "Test 1 – Units 1–4",
+    "Test 2 – Units 5–8",
+    "Test 3 – Units 9–12",
+    "Final Presentation"
+  ];
+
+  testTitles.forEach((title, t) => {
+    const div = document.createElement('div');
+    div.className = "bg-white rounded-2xl shadow p-4";
+    div.innerHTML = `
+      <h3 class="font-semibold mb-2">${title}</h3>
+      <textarea id="test${t+1}" placeholder="Enter test details..." class="w-full border rounded p-2"></textarea>
+      <button onclick="saveTest(${t+1})" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save Test ${t+1}</button>
+    `;
+    testsContainer.appendChild(div);
+  });
+
+  function saveTest(t) {
+    const data = document.getElementById(`test${t}`).value;
+    localStorage.setItem(`level1_test_${t}`, data);
+    alert(`Test ${t} saved!`);
+  }
+
+  window.addEventListener('load', () => {
+    testTitles.forEach((_, t) => {
+      const saved = localStorage.getItem(`level1_test_${t + 1}`);
+      if (saved) document.getElementById(`test${t + 1}`).value = saved;
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+/* General page style */
+/* =========================
+   GENERAL PAGE STYLES
+   ========================= */
+/* =========================
+   ESTILOS GERAIS DA PÁGINA
+   ========================= */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F2F2F2; /* Fundo claro */
+    color: #003366; /* Texto em azul escuro */
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+   CONTAINER PRINCIPAL
+   ========================= */
+main {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #FFFFFF; /* Fundo branco */
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    color: #003366; /* Texto em azul escuro */
+}
+
+/* =========================
+   TÍTULOS
+   ========================= */
+h1, h2 {
+    text-align: center;
+    color: #003366; /* Azul escuro */
+}
+
+/* =========================
+   RÓTULOS DE FORMULÁRIO
+   ========================= */
+form label {
+    font-size: 16px;
+    color: #003366; /* Azul escuro */
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* =========================
+   CAMPOS DE ENTRADA E SELEÇÃO
+   ========================= */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #003366; /* Borda azul escuro */
+    background-color: #FFFFFF; /* Fundo branco */
+    color: #003366; /* Texto em azul escuro */
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #FFCC00; /* Borda amarela */
+    background-color: #FFCC00; /* Fundo amarelo */
+    color: #003366; /* Texto em azul escuro */
+}
+
+/* =========================
+   BOTÃO
+   ========================= */
+button {
+    width: 100%;
+    background-color: #003366; /* Fundo azul escuro */
+    color: #FFFFFF; /* Texto branco */
+    padding: 14px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #FFCC00; /* Fundo amarelo ao passar o mouse */
+    color: #003366; /* Texto azul escuro */
+}
+
+/* =========================
+   RESPONSIVO PARA MOBILE
+   ========================= */
+@media (max-width: 768px) {
+    main {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="number"],
+    select,
+    button {
+        width: 100%;
+    }
+}
+
+/* Subscription Form Specific Styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+form button {
+    background-color: #004080;
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #0066cc;
+}
+/* Mobile & Tablet Responsive Styles */
+@media (max-width: 768px) {
+    main {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    header nav a {
+        display: block;
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="number"],
+    form select,
+    form button {
+        width: 100%;
+    }
+
+    form button {
+        padding: 15px;
+        font-size: 18px;
+    }
+}
+/* Highlight Checkboxes and Dropdowns */
+form input[type="checkbox"] {
+    accent-color: #004080; /* Modern blue color for checkboxes */
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+form select {
+    border: 1px solid #004080;
+    background-color: #f2f7ff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form select:focus {
+    outline: 2px solid #0066cc;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="number"]:focus {
+    border: 1px solid #004080;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 64, 128, 0.5);
+}
+/* Progress Bar Styles */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 15px;
+    background-color: #004080;
+    border-radius: 10px;
+    transition: width 0.3s ease-in-out;
+}

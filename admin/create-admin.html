@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Create Default Admin – CUAMBE English School</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-800 via-purple-600 to-orange-500 p-6">
+  <div class="bg-white/95 rounded-2xl shadow-2xl p-10 w-full max-w-md text-center">
+    <h1 class="text-2xl font-extrabold text-blue-900 mb-4">👑 Create Default Admin</h1>
+    <p class="text-gray-700 mb-6 leading-relaxed">
+      This action will create the admin account:<br>
+      <strong>admin@mr.cuambe.com</strong><br>
+      with password <strong>Felis84</strong>.
+    </p>
+
+    <button id="btn" class="bg-gradient-to-r from-red-600 to-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition">
+      🚀 Create Admin
+    </button>
+
+    <p id="msg" class="mt-6 text-gray-700 text-sm"></p>
+  </div>
+
+  <script>
+    // Hash password using SHA-256
+    async function hashPassword(password) {
+      const enc = new TextEncoder();
+      const buf = await crypto.subtle.digest('SHA-256', enc.encode(password));
+      return Array.from(new Uint8Array(buf))
+                  .map(b => b.toString(16).padStart(2, '0'))
+                  .join('');
+    }
+
+    document.getElementById('btn').addEventListener('click', async () => {
+      const email = 'admin@mr.cuambe.com';
+      const name = 'Super Admin';
+      const password = 'Felis84';
+      const passwordHash = await hashPassword(password);
+
+      // Store admin list + login session
+      const admins = [{ name, email, passwordHash }];
+      localStorage.setItem('admins', JSON.stringify(admins));
+      localStorage.setItem('loggedAdmin', JSON.stringify({ email }));
+
+      document.getElementById('msg').innerHTML = `
+        ✅ <strong>${email}</strong> created successfully.<br>
+        You are now logged in as admin.<br><br>
+        You can safely close this page and open your <strong>Admin Dashboard</strong>.
+      `;
+      document.getElementById('btn').disabled = true;
+      console.log('✅ Admin created:', email);
+    });
+  </script>
+</body>
+</html>

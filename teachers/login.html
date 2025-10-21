@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Login</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex items-center justify-center p-6">
+
+<div class="bg-white/95 shadow-2xl rounded-3xl p-10 w-full max-w-3xl">
+  <h1 class="text-4xl font-bold text-center mb-6">👩‍🏫 Teacher Login</h1>
+  <form id="loginForm" class="space-y-6">
+    <input type="email" id="email" placeholder="Email Address" required class="w-full border rounded px-4 py-2">
+    <input type="password" id="password" placeholder="Password" required class="w-full border rounded px-4 py-2">
+    <button type="submit" class="bg-blue-700 text-white w-full py-3 rounded-xl">🔑 Login</button>
+  </form>
+</div>
+
+<script>
+async function hashPassword(password) {
+  const enc = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(password));
+  return Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  const email = document.getElementById("email").value.toLowerCase();
+  const password = document.getElementById("password").value;
+  const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+  const teacher = teachers.find(t=>t.email===email);
+  if(!teacher){ alert("Teacher not found"); return; }
+  const hash = await hashPassword(password);
+  if(hash !== teacher.passwordHash){ alert("Incorrect password"); return; }
+  localStorage.setItem("loggedTeacher", JSON.stringify(teacher));
+  window.location.href = "dashboard.html";
+});
+</script>
+</body>
+</html>

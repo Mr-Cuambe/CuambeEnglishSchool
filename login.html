@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – CUAMBE English School</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 flex items-center justify-center min-h-screen p-6">
+
+  <div class="bg-white/95 shadow-2xl rounded-3xl p-10 w-full max-w-md backdrop-blur-md">
+    <!-- Title -->
+    <h1 class="text-4xl font-extrabold text-center mb-6 text-blue-900 drop-shadow-md">🔑 Login</h1>
+
+    <!-- Form -->
+    <form id="loginForm" class="space-y-6">
+      <!-- Email -->
+      <div>
+        <label for="email" class="block font-semibold text-gray-700">📧 Email Address</label>
+        <input type="email" id="email" required 
+               class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block font-semibold text-gray-700">🔒 Password</label>
+        <input type="password" id="password" required 
+               class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
+      </div>
+
+      <!-- Submit -->
+      <div class="text-center">
+        <button type="submit" 
+                class="w-full bg-gradient-to-r from-red-600 to-blue-900 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transform transition">
+          ✅ Login
+        </button>
+      </div>
+    </form>
+
+    <!-- Error Message -->
+    <p id="errorMsg" class="text-red-600 text-center text-sm mt-4 hidden">❌ Invalid login. Please try again.</p>
+  </div>
+
+<script>
+  const users = [
+    { email: "mr@cuambe.com", password: "Felis84", name: "Teacher", level: "teacher" }
+    // Later add students: { email:"student@cuambe.com", password:"1234", level:"level2" }
+  ];
+
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+      localStorage.setItem("loggedStudent", JSON.stringify(user));
+      if (user.level === "teacher") {
+        window.location.href = "Levels/level1.html";
+      } else {
+        window.location.href = `Levels/${user.level}.html`;
+      }
+    } else {
+      document.getElementById("errorMsg").classList.remove("hidden");
+    }
+  });
+</script>
+</body>
+</html>

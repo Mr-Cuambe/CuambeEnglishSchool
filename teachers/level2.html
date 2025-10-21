@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2 – Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .accordion-content { display: none; }
+  .accordion-header { cursor: pointer; }
+  textarea, input[type="file"] { width: 100%; }
+  input[type="file"] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 0.5rem; }
+</style>
+</head>
+<body class="bg-gradient-to-r from-purple-800 via-pink-600 to-yellow-500 min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-72 bg-gradient-to-b from-purple-900 to-purple-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Level 2 Dashboard</h1>
+  <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-purple-800 hover:bg-purple-600 text-white font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
+  <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-purple-800 hover:bg-purple-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
+  <button onclick="showSection('tests')" class="w-full px-4 py-3 rounded-xl bg-purple-800 hover:bg-purple-600 text-white font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
+  <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-purple-800 hover:bg-purple-600 text-white font-semibold flex items-center gap-2 justify-center">👥 Students</button>
+  <button onclick="logout()" class="w-full px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-2 justify-center mt-auto">🚪 Logout</button>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+<!-- Welcome Section -->
+<section id="welcome" class="space-y-6">
+  <h2 class="text-3xl font-bold text-white">👋 Welcome Teacher!</h2>
+  <div class="bg-white/95 p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+    <p class="text-lg">
+      Welcome to your professional hub for Level 2. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.
+    </p>
+    <p class="text-lg">
+      Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.
+    </p>
+    <p class="text-lg">
+      This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.
+    </p>
+    <p class="text-lg">
+      Thank you for your unwavering devotion to your students and your craft. Together, we are building not just a school, but a community where learning thrives, potential is unlocked, and every teacher has the support to shine. Let us continue to inspire, innovate, and transform education every day, one student at a time.
+    </p>
+    <p class="text-lg text-gray-700 italic">
+      💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.
+    </p>
+    <p class="text-lg text-gray-700 italic">
+      💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.
+    </p>
+  </div>
+</section>
+
+
+  <!-- Lessons Section -->
+  <section id="lessons" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📘 Lessons (Upload any file)</h2>
+    <div id="lessonsContainer"></div>
+  </section>
+
+  <!-- Tests Section -->
+  <section id="tests" class="hidden">
+    <h2 class="text-2xl font-semibold text-white mb-4">📝 Tests</h2>
+    <div class="bg-white shadow rounded-2xl p-6 space-y-4" id="testsContainer"></div>
+  </section>
+
+  <!-- Students Section -->
+  <section id="students" class="hidden">
+    <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
+    <div class="bg-white shadow rounded-2xl p-6">
+      <p>Here you can view and manage Level 2 students. Future updates can include progress tracking and notes per student.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Teacher access
+  const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
+  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
+    alert('Access denied. Only the teacher can access Level 2.');
+    window.location.href = '../login.html';
+  }
+
+  function showSection(section) {
+    document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(section).classList.remove('hidden');
+  }
+
+  function logout() {
+    localStorage.removeItem('loggedStudent');
+    window.location.href = '../login.html';
+  }
+
+  // Level 2 Lessons
+  const level2Lessons = [
+    "Greetings and small talk in different situations",
+    "Introducing yourself and others in more detail",
+    "Talking about family and friends",
+    "Describing people: appearance, personality, habits",
+    "Numbers, dates, and time expressions",
+    "Daily expressions: polite requests, apologies, thanks",
+    "Talking about your community and local events",
+    "Daily routines: school, home, and community",
+    "Using adverbs of frequency (always, usually, sometimes, never)",
+    "Sequencing events: first, then, after that, finally",
+    "Discussing hobbies and leisure activities",
+    "Talking about sports and entertainment",
+    "Talking about weekend activities",
+    "Food and drink vocabulary (Mozambican and international foods)",
+    "Ordering in restaurants, cafés, and markets",
+    "Talking about shopping: clothes, groceries, and local products",
+    "Expressing likes, dislikes, and preferences",
+    "Health vocabulary: common illnesses and symptoms",
+    "Visiting the doctor or pharmacy: simple dialogues",
+    "Giving advice and recommendations",
+    "Grammar Chapter 1 – Present simple & question forms",
+    "Types of transport: local and national",
+    "Asking for and giving directions (urban and rural contexts)",
+    "Booking tickets and arranging short trips",
+    "Grammar Chapter 2 – Past simple & question forms",
+    "Talking about places you visited in your community",
+    "Sharing past travel experiences",
+    "Everyday gadgets: phone, TV, radio, computer, internet",
+    "Communicating online: WhatsApp, social media, email",
+    "Talking about hobbies, games, music, and free-time activities",
+    "Invitations and social plans: making, accepting, declining politely",
+    "Expressing existence of something somewhere",
+    "Countable and Uncountable Nouns",
+    "Common jobs and professions in Mozambique",
+    "Describing responsibilities and schedules at work",
+    "Grammar Chapter 3 – Future (will / going to)"
+  ];
+
+  const lessonsContainer = document.getElementById('lessonsContainer');
+
+  level2Lessons.forEach((title, index) => {
+    const i = index + 1;
+    const div = document.createElement('div');
+    div.className = "bg-white rounded-2xl shadow p-4 space-y-4";
+
+    div.innerHTML = `
+      <div class="accordion-header bg-purple-200 p-4 font-semibold rounded cursor-pointer" onclick="toggleAccordion(this)">
+        Lesson ${i}: ${title}
+      </div>
+      <div class="accordion-content p-4 space-y-4">
+        <label class="font-semibold">Upload File (video, audio, PDF, image, docx, etc.)</label>
+        <input type="file" id="file${i}">
+        <label class="font-semibold">Instructions</label>
+        <textarea id="instructions${i}" placeholder="Enter instructions for Lesson ${i}..." class="border rounded p-2"></textarea>
+        <label class="font-semibold">Tasks / Notes</label>
+        <textarea id="tasks${i}" placeholder="Enter tasks or notes for Lesson ${i}..." class="border rounded p-2"></textarea>
+        <button onclick="saveLesson(${i})" class="bg-green-600 text-white px-4 py-2 rounded">Save Lesson ${i}</button>
+      </div>
+    `;
+    lessonsContainer.appendChild(div);
+  });
+
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    content.style.display = content.style.display === "block" ? "none" : "block";
+  }
+
+  function saveLesson(i) {
+    const fileInput = document.getElementById(`file${i}`);
+    const instructions = document.getElementById(`instructions${i}`).value;
+    const tasks = document.getElementById(`tasks${i}`).value;
+
+    if(fileInput.files.length > 0){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        localStorage.setItem(`level2_file${i}`, e.target.result);
+        localStorage.setItem(`level2_instructions${i}`, instructions);
+        localStorage.setItem(`level2_tasks${i}`, tasks);
+        alert(`Lesson ${i} saved!`);
+      }
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      localStorage.setItem(`level2_instructions${i}`, instructions);
+      localStorage.setItem(`level2_tasks${i}`, tasks);
+      alert(`Lesson ${i} saved without file!`);
+    }
+  }
+
+  // Load saved lessons
+  window.onload = function() {
+    for (let i = 1; i <= level2Lessons.length; i++) {
+      const savedInstructions = localStorage.getItem(`level2_instructions${i}`);
+      const savedTasks = localStorage.getItem(`level2_tasks${i}`);
+      if(savedInstructions) document.getElementById(`instructions${i}`).value = savedInstructions;
+      if(savedTasks) document.getElementById(`tasks${i}`).value = savedTasks;
+    }
+  }
+
+  // Tests
+  const testsContainer = document.getElementById('testsContainer');
+  const testTitles = [
+    "Test 1 – covering Units 1–6",
+    "Test 2 – covering Units 7–12",
+    "Test 3 – covering Units 13–18",
+    "Test 4 – Final oral presentation"
+  ];
+
+  testTitles.forEach((title, t) => {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <h3 class="font-semibold mb-2">${title}</h3>
+      <textarea id="test${t+1}" placeholder="Enter test details..." class="w-full border rounded p-2"></textarea>
+      <button onclick="saveTest('test${t+1}')" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">Save Test ${t+1}</button>
+    `;
+    testsContainer.appendChild(div);
+  });
+
+  function saveTest(id) {
+    const value = document.getElementById(id).value;
+    localStorage.setItem(`level2_${id}`, value);
+    alert(`${id} saved!`);
+  }
+
+  // Load saved tests
+  window.addEventListener('load', () => {
+    for(let t=1; t<=testTitles.length; t++){
+      const savedTest = localStorage.getItem(`level2_test${t}`);
+      if(savedTest) document.getElementById(`test${t}`).value = savedTest;
+    }
+  });
+</script>
+</body>
+</html>

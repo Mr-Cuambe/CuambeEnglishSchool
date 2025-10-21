@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 4 – Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .accordion-content { display: none; }
+  .accordion-header { cursor: pointer; }
+  textarea, input[type="file"] { width: 100%; }
+  input[type="file"] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 0.5rem; }
+</style>
+</head>
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Level 4 Dashboard</h1>
+  <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
+  <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
+  <button onclick="showSection('tests')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
+  <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">👥 Students</button>
+  <button onclick="logout()" class="w-full px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-2 justify-center mt-auto">🚪 Logout</button>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+  <!-- Welcome Section -->
+  <section id="welcome" class="space-y-6">
+    <h2 class="text-3xl font-bold text-white">👋 Welcome Teacher!</h2>
+    <div class="bg-white/95 p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+      <p class="text-lg">Welcome to your professional hub for Level 4. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.</p>
+      <p class="text-lg">Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.</p>
+      <p class="text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.</p>
+      <p class="text-lg">Thank you for your unwavering devotion to your students and your craft. Together, we are building not just a school, but a community where learning thrives, potential is unlocked, and every teacher has the support to shine. Let us continue to inspire, innovate, and transform education every day, one student at a time.</p>
+      <p class="text-lg text-gray-700 italic">💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.</p>
+      <p class="text-lg text-gray-700 italic">💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.</p>
+    </div>
+  </section>
+
+  <!-- Lessons Section -->
+  <section id="lessons" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📘 Lessons (Upload any file)</h2>
+    <div id="lessonsContainer"></div>
+  </section>
+
+  <!-- Tests Section -->
+  <section id="tests" class="hidden">
+    <h2 class="text-2xl font-semibold text-white mb-4">📝 Tests</h2>
+    <div class="bg-white shadow rounded-2xl p-6 space-y-4" id="testsContainer"></div>
+  </section>
+
+  <!-- Students Section -->
+  <section id="students" class="hidden">
+    <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
+    <div class="bg-white shadow rounded-2xl p-6">
+      <p>Here you can view and manage Level 4 students. Future updates can include progress tracking and notes per student.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Teacher access
+  const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
+  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
+    alert('Access denied. Only the teacher can access Level 4.');
+    window.location.href = '../login.html';
+  }
+
+  // Sidebar navigation
+  function showSection(section) {
+    document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(section).classList.remove('hidden');
+  }
+
+  function logout() {
+    localStorage.removeItem('loggedStudent');
+    window.location.href = '../login.html';
+  }
+
+  // Lessons
+  const lessonTitles = [
+    "Expanding greetings and small talk: formal & informal contexts",
+    "Introducing yourself and others in detail",
+    "Talking about family, friends, and relationships",
+    "Discussing personality, habits, and routines",
+    "Daily expressions: making requests, offering help, expressing opinions",
+    "Talking about local community life",
+    "Cultural events and social celebrations in Mozambique",
+    "Talking about school, studies, and learning experiences",
+    "Discussing jobs, workplaces, and daily responsibilities",
+    "Talking about hobbies, sports, and leisure activities",
+    "Describing routines in school, work, and home",
+    "Grammar Chapter 1 – Present Perfect & Present Perfect Continuous",
+    "Using adverbs of frequency and time expressions",
+    "Talking about weekend and holiday activities",
+    "Advanced food and drink vocabulary (local and international)",
+    "Talking about shopping: clothes, groceries, markets, malls",
+    "Ordering food and drinks in different situations",
+    "Expressing likes, dislikes, and preferences in context",
+    "Health and wellness: common illnesses, symptoms, remedies",
+    "Visiting the doctor or pharmacy: dialogues and role-plays",
+    "Grammar Chapter 2 – Past Simple & Past Continuous",
+    "Giving advice and making recommendations",
+    "Transport vocabulary: local, regional, and international travel",
+    "Asking for and giving directions, describing routes",
+    "Planning trips and travel arrangements",
+    "Talking about city life, villages, landmarks, and services",
+    "Discussing distances, locations, and travel experiences",
+    "Making plans with friends or family for trips",
+    "Comparing rural and urban life in Mozambique",
+    "Using phones, computers, and social media effectively",
+    "Sending messages, emails, and online communication phrases",
+    "Discussing hobbies, games, music, and free-time activities",
+    "Invitations, arranging social events, and polite refusals",
+    "Grammar Chapter 3 – Future forms (will / going to / Present Continuous for future)",
+    "Common jobs and professions in Mozambique",
+    "Talking about workplaces: school, market, hospital, office, farm",
+    "Describing schedules, responsibilities, and work-life balance",
+    "Grammar Chapter 4 – Reported Speech & Modals for Advice/Obligation",
+    "Expressing future plans, ambitions, goals, and intentions"
+  ];
+
+  const lessonsContainer = document.getElementById('lessonsContainer');
+
+  lessonTitles.forEach((title, index) => {
+    const i = index + 1;
+    const div = document.createElement('div');
+    div.className = "bg-white rounded-2xl shadow p-4 space-y-4";
+
+    div.innerHTML = `
+      <div class="accordion-header bg-blue-200 p-4 font-semibold rounded cursor-pointer" onclick="toggleAccordion(this)">
+        Lesson ${i}: ${title}
+      </div>
+      <div class="accordion-content p-4 space-y-4">
+        <label class="font-semibold">Upload File (video, audio, PDF, image, docx, etc.)</label>
+        <input type="file" id="file${i}">
+        <label class="font-semibold">Instructions</label>
+        <textarea id="instructions${i}" placeholder="Enter instructions for Lesson ${i}..." class="border rounded p-2"></textarea>
+        <label class="font-semibold">Tasks / Notes</label>
+        <textarea id="tasks${i}" placeholder="Enter tasks or notes for Lesson ${i}..." class="border rounded p-2"></textarea>
+        <button onclick="saveLesson(${i})" class="bg-green-600 text-white px-4 py-2 rounded">Save Lesson ${i}</button>
+      </div>
+    `;
+    lessonsContainer.appendChild(div);
+  });
+
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    content.style.display = content.style.display === "block" ? "none" : "block";
+  }
+
+  function saveLesson(i) {
+    const fileInput = document.getElementById(`file${i}`);
+    const instructions = document.getElementById(`instructions${i}`).value;
+    const tasks = document.getElementById(`tasks${i}`).value;
+
+    if(fileInput.files.length > 0){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        localStorage.setItem(`level4_file${i}`, e.target.result);
+        localStorage.setItem(`level4_instructions${i}`, instructions);
+        localStorage.setItem(`level4_tasks${i}`, tasks);
+        alert(`Lesson ${i} saved!`);
+        updateStudentDashboard(i, e.target.result, instructions, tasks);
+      }
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      localStorage.setItem(`level4_instructions${i}`, instructions);
+      localStorage.setItem(`level4_tasks${i}`, tasks);
+      alert(`Lesson ${i} saved without file!`);
+      updateStudentDashboard(i, null, instructions, tasks);
+    }
+  }
+
+  function updateStudentDashboard(i, fileData, instructions, tasks) {
+    let studentLessons = JSON.parse(localStorage.getItem('student_lessons')) || {};
+    studentLessons[i] = { file: fileData, instructions, tasks };
+    localStorage.setItem('student_lessons', JSON.stringify(studentLessons));
+  }
+
+  window.onload = function() {
+    for (let i = 1; i <= lessonTitles.length; i++) {
+      const savedInstructions = localStorage.getItem(`level4_instructions${i}`);
+      const savedTasks = localStorage.getItem(`level4_tasks${i}`);
+      if(savedInstructions) document.getElementById(`instructions${i}`).value = savedInstructions;
+      if(savedTasks) document.getElementById(`tasks${i}`).value = savedTasks;
+    }
+  }
+
+  // Tests
+  const testsContainer = document.getElementById('testsContainer');
+  const testTitles = [
+    "Test 1 – Unit 1 Review",
+    "Test 2 – Unit 2 Review",
+    "Test 3 – Unit 3 Review",
+    "Test 4 – Unit 4 Review"
+  ];
+
+  testTitles.forEach((title, t) => {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <h3 class="font-semibold mb-2">${title}</h3>
+      <textarea id="test${t+1}" placeholder="Enter test details..." class="w-full border rounded p-2"></textarea>
+      <button onclick="saveTest('test${t+1}')" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">Save Test ${t+1}</button>
+    `;
+    testsContainer.appendChild(div);
+  });
+
+  function saveTest(id) {
+    const value = document.getElementById(id).value;
+    localStorage.setItem(`level4_${id}`, value);
+    alert(`${id} saved!`);
+  }
+
+  window.addEventListener('load', () => {
+    for(let t=1; t<=testTitles.length; t++){
+      const savedTest = localStorage.getItem(`level4_test${t}`);
+      if(savedTest) document.getElementById(`test${t}`).value = savedTest;
+    }
+  });
+
+</script>
+
+</body>
+</html>

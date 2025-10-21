@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard – Cuambe English School</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+</style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Teacher Dashboard</h1>
+
+  <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">
+    🏠 Welcome
+  </button>
+
+  <button onclick="showSection('levels')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">
+    📚 Levels
+  </button>
+
+  <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">
+    👥 Students
+  </button>
+
+  <button onclick="showSection('settings')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">
+    ⚙️ Settings
+  </button>
+
+  <button onclick="logout()" class="w-full px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 font-bold flex items-center gap-2 justify-center mt-auto">
+    🚪 Logout
+  </button>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+  <!-- Welcome Section -->
+  <section id="welcome" class="space-y-6">
+    <h2 class="text-3xl font-bold text-white">👋 Welcome, Teacher!</h2>
+    <div class="bg-white/95 p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+      <p class="text-lg">
+        Welcome to your professional hub, the Teacher Dashboard for Cuambe English School.  
+        Here, you can plan lessons, upload learning materials, manage levels, and instantly connect with your students’ dashboards.
+      </p>
+
+      <p class="text-lg">
+        This platform celebrates your creativity, leadership, and passion for teaching.  
+        It’s built to simplify your planning process, track student engagement, and keep your lessons accessible anytime, anywhere.
+      </p>
+
+      <p class="text-lg text-gray-700 italic">
+        💡 Tip: Click on “Levels” to access your course pages (Level 1–5). All files you upload there — videos, audios, PDFs, images, and documents — are automatically shared with students after saving.
+      </p>
+    </div>
+  </section>
+
+  <!-- Levels Section -->
+  <section id="levels" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📚 Manage Course Levels</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Level 1 -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
+        <h3 class="text-xl font-bold text-blue-700 mb-3">Level 1</h3>
+        <p class="text-gray-600 text-center mb-4">
+          Fundamental English for beginners: greetings, introductions, routines, and essential communication.
+        </p>
+        <button onclick="openLevel('level1.html')" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow">
+          Open Level 1
+        </button>
+      </div>
+
+      <!-- Level 2 -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
+        <h3 class="text-xl font-bold text-blue-700 mb-3">Level 2</h3>
+        <p class="text-gray-600 text-center mb-4">
+          Expanding everyday vocabulary, time expressions, and dialogues for elementary learners.
+        </p>
+        <button onclick="openLevel('level2.html')" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow">
+          Open Level 2
+        </button>
+      </div>
+
+      <!-- Level 3 -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
+        <h3 class="text-xl font-bold text-blue-700 mb-3">Level 3</h3>
+        <p class="text-gray-600 text-center mb-4">
+          Building fluency through storytelling, question forms, and daily conversations.
+        </p>
+        <button onclick="openLevel('level3.html')" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow">
+          Open Level 3
+        </button>
+      </div>
+
+      <!-- Level 4 -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
+        <h3 class="text-xl font-bold text-blue-700 mb-3">Level 4</h3>
+        <p class="text-gray-600 text-center mb-4">
+          Developing advanced discussions, opinions, and cultural communication skills.
+        </p>
+        <button onclick="openLevel('level4.html')" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow">
+          Open Level 4
+        </button>
+      </div>
+
+      <!-- Level 5 -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
+        <h3 class="text-xl font-bold text-blue-700 mb-3">Level 5</h3>
+        <p class="text-gray-600 text-center mb-4">
+          Mastering professional English: debates, essay writing, and oral presentations.
+        </p>
+        <button onclick="openLevel('level5.html')" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow">
+          Open Level 5
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Students Section -->
+  <section id="students" class="hidden space-y-4">
+    <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
+    <div class="bg-white/90 p-6 rounded-2xl shadow text-gray-800 space-y-4" id="studentsContainer">
+      <!-- Students will be dynamically listed here -->
+    </div>
+  </section>
+
+  <!-- Settings Section -->
+  <section id="settings" class="hidden space-y-4">
+    <h2 class="text-2xl font-semibold text-white mb-4">⚙️ Settings</h2>
+    <div class="bg-white/90 p-6 rounded-2xl shadow text-gray-800 space-y-6">
+
+      <p>Manage your account preferences, dashboard themes, or teaching notes here.</p>
+
+      <div class="flex items-center justify-between border-t pt-4">
+        <span class="font-semibold text-gray-700">Dark Mode</span>
+        <input type="checkbox" id="darkModeToggle" class="w-6 h-6 cursor-pointer">
+      </div>
+
+      <!-- Email & Password Update -->
+      <div class="space-y-4 mt-4">
+        <h3 class="text-xl font-semibold text-blue-700">Update Email & Password</h3>
+        <div class="space-y-2">
+          <label class="block font-semibold text-gray-700">Current Email</label>
+          <input type="email" id="currentEmail" class="w-full border rounded-lg px-4 py-2" value="mr@cuambe.com">
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold text-gray-700">Current Password</label>
+          <input type="password" id="currentPassword" class="w-full border rounded-lg px-4 py-2" placeholder="Enter current password">
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold text-gray-700">New Password</label>
+          <input type="password" id="newPassword" class="w-full border rounded-lg px-4 py-2" placeholder="Enter new password">
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold text-gray-700">Confirm New Password</label>
+          <input type="password" id="confirmNewPassword" class="w-full border rounded-lg px-4 py-2" placeholder="Confirm new password">
+        </div>
+
+        <button onclick="updateCredentials()" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow mt-2">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Access control
+  const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
+  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
+    alert('Access denied. Only the teacher can access this page.');
+    window.location.href = '../login.html';
+  }
+
+  // Navigation
+  function showSection(section) {
+    document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(section).classList.remove('hidden');
+  }
+
+  function openLevel(url) {
+    window.location.href = url;
+  }
+
+  function logout() {
+    localStorage.removeItem('loggedStudent');
+    window.location.href = '../login.html';
+  }
+
+  // Dark Mode toggle
+  document.getElementById('darkModeToggle').addEventListener('change', function() {
+    document.body.classList.toggle('bg-gray-900');
+  });
+
+  // Display students
+  function loadStudents() {
+    const container = document.getElementById('studentsContainer');
+    container.innerHTML = '';
+    const students = JSON.parse(localStorage.getItem('students') || '[]');
+    if(students.length === 0){
+      container.innerHTML = '<p>No students subscribed yet.</p>';
+      return;
+    }
+
+    students.forEach((student, i) => {
+      const div = document.createElement('div');
+      div.className = "flex justify-between items-center bg-gray-100 rounded-lg p-3";
+      div.innerHTML = `
+        <div>
+          <p class="font-semibold text-blue-700">${student.fullName}</p>
+          <p class="text-gray-700 text-sm">Email: ${student.email} | Level: ${student.level}</p>
+        </div>
+        <button onclick="removeStudent(${i})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg">Remove</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function removeStudent(index){
+    let students = JSON.parse(localStorage.getItem('students') || '[]');
+    students.splice(index,1);
+    localStorage.setItem('students', JSON.stringify(students));
+    loadStudents();
+  }
+
+  // Email & Password update
+  async function hashPassword(password) {
+    const enc = new TextEncoder();
+    const data = enc.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function updateCredentials() {
+    const email = document.getElementById("currentEmail").value.trim();
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+    let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+    const teacher = teachers.find(t => t.email === "mr@cuambe.com");
+    if(!teacher){ alert("Teacher not found."); return; }
+
+    const currentPasswordHash = await hashPassword(currentPassword);
+    if(currentPasswordHash !== teacher.passwordHash){
+      alert("Current password is incorrect.");
+      return;
+    }
+
+    if(newPassword && newPassword !== confirmNewPassword){
+      alert("New password and confirmation do not match.");
+      return;
+    }
+
+    teacher.email = email;
+    if(newPassword) teacher.passwordHash = await hashPassword(newPassword);
+
+    const index = teachers.findIndex(t => t.email === "mr@cuambe.com");
+    teachers[index] = teacher;
+    localStorage.setItem("teachers", JSON.stringify(teachers));
+    localStorage.setItem("loggedStudent", JSON.stringify({email: email}));
+
+    alert("Email and password updated successfully!");
+    document.getElementById("currentPassword").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmNewPassword").value = "";
+  }
+
+  // Load students on page load
+  loadStudents();
+</script>
+
+</body>
+</html>
