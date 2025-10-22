@@ -28,6 +28,16 @@
                class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
+      <!-- Role Selector -->
+      <div>
+        <label for="role" class="block font-semibold text-gray-700">👤 Login as</label>
+        <select id="role" class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
+          <option value="admin">Admin</option>
+          <option value="teacher">Teacher</option>
+          <option value="student">Student</option>
+        </select>
+      </div>
+
       <!-- Submit -->
       <div class="text-center">
         <button type="submit" 
@@ -42,24 +52,31 @@
   </div>
 
 <script>
+  // User credentials
   const users = [
-    { email: "mr@cuambe.com", password: "Felis84", name: "Teacher", level: "teacher" }
-    // Later add students: { email:"student@cuambe.com", password:"1234", level:"level2" }
+    { email: "mr@cuambe.com", password: "Felis84", name: "Mr Cuambe", role: "admin" },
+    { email: "teacher1@cuambe.com", password: "Teach123", name: "Teacher One", role: "teacher" },
+    { email: "student1@cuambe.com", password: "Stud123", name: "Student One", role: "student" }
   ];
 
   document.getElementById("loginForm").addEventListener("submit", function(e) {
     e.preventDefault();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
+    const role = document.getElementById("role").value;
 
-    const user = users.find(u => u.email === email && u.password === password);
+    const user = users.find(u => u.email === email && u.password === password && u.role === role);
 
     if (user) {
-      localStorage.setItem("loggedStudent", JSON.stringify(user));
-      if (user.level === "teacher") {
+      localStorage.setItem("loggedUser", JSON.stringify(user));
+
+      // Redirect based on role
+      if (user.role === "admin") {
+        window.location.href = "admin/dashboard.html";
+      } else if (user.role === "teacher") {
         window.location.href = "Levels/level1.html";
-      } else {
-        window.location.href = `Levels/${user.level}.html`;
+      } else if (user.role === "student") {
+        window.location.href = `Levels/${user.role}.html`;
       }
     } else {
       document.getElementById("errorMsg").classList.remove("hidden");
