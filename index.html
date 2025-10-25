@@ -13,7 +13,7 @@
     overflow-x: hidden;
   }
 
-  /* SIDEBAR (Desktop view by default) */
+  /* SIDEBAR (Desktop view) */
   .sidebar-btn { transition: all 0.2s; }
   .sidebar-btn:hover { background: rgba(255,255,255,0.2); border-radius: 0.5rem; }
   .dropdown-item:hover { background-color: #f3f4f6; }
@@ -85,18 +85,25 @@
 
   /* RESPONSIVE */
   @media (max-width: 1024px) {
-    .main-content { padding: 3rem 2rem; margin-left: 17rem; }
+    .main-content {
+      padding: 3rem 2rem;
+      margin-left: 17rem;
+    }
   }
 
   @media (max-width: 768px) {
+    /* Sidebar slide-in */
     .sidebar { left: -100%; width: 16rem; transition: left 0.3s ease; }
     .sidebar.open { left: 0; }
 
+    /* Content */
     .main-content { margin-left: 0; padding: 2rem 1rem; }
 
+    /* Header/text scale */
     .header-title { font-size: 1.6rem; margin-top: 4rem; }
     .content-paragraph { font-size: 1rem; line-height: 1.6rem; }
 
+    /* Hamburger */
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -111,16 +118,13 @@
       border-radius: 0.5rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
-    .hamburger span {
-      display: block;
-      width: 1.5rem;
-      height: 0.2rem;
-      background: #fff;
-    }
+    .hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
 
+    /* Overlay */
     .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 150; }
     .overlay.show { display: block; }
 
+    /* Language dropdown */
     .language-container { top: 0.8rem; right: 3.5rem; }
 
     footer { font-size: 0.9rem; padding: 0.8rem; }
@@ -131,32 +135,34 @@
 
 <!-- Hamburger -->
 <div class="hamburger md:hidden" id="hamburger">
-  <span></span><span></span><span></span>
+  <span></span>
+  <span></span>
+  <span></span>
 </div>
 
 <!-- Sidebar -->
 <aside class="sidebar">
   <img src="images/logo.png" alt="CUAMBE Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
-  <h2 class="text-2xl font-bold mb-6 text-center drop-shadow-lg" id="sidebarTitle">NAVIGATION PAD</h2>
+  <h2 class="text-2xl font-bold mb-6 text-center drop-shadow-lg">NAVIGATION PAD</h2>
 
   <nav class="flex-1 space-y-4">
-    <button onclick="window.location.href='index.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="homeBtn">🏠 Home</button>
+    <button onclick="window.location.href='index.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">🏠 Home</button>
 
     <div class="relative">
       <button id="dashboardDropdownBtn" class="sidebar-btn flex items-center justify-between w-full px-3 py-2 font-semibold">
         🧭 Dashboards <span id="dropdownArrow">▼</span>
       </button>
       <div id="dashboardDropdown" class="absolute left-0 mt-2 w-56 bg-white text-gray-900 rounded-lg shadow-lg hidden flex-col z-50 overflow-hidden">
-        <div onclick="window.location.href='admin/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer" id="adminDash">Admin Dashboard</div>
-        <div onclick="window.location.href='teachers/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer" id="teachersDash">Teachers Dashboard</div>
-        <div onclick="window.location.href='students/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer" id="studentsDash">Students Dashboard</div>
+        <div onclick="window.location.href='admin/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Admin Dashboard</div>
+        <div onclick="window.location.href='teachers/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Teachers Dashboard</div>
+        <div onclick="window.location.href='students/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Students Dashboard</div>
       </div>
     </div>
 
-    <button onclick="window.location.href='students/subscription.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="studentSubBtn">📝 Student Subscription</button>
-    <button onclick="window.location.href='teachers/subscription.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="teacherSubBtn">📝 Teacher Subscription</button>
-    <button onclick="window.location.href='payments.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="paymentsBtn">💰 Payments</button>
-    <button onclick="window.location.href='contact.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="contactBtn">📞 Contact Us</button>
+    <button onclick="window.location.href='students/subscription.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">📝 Student Subscription</button>
+    <button onclick="window.location.href='teachers/subscription.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">📝 Teacher Subscription</button>
+    <button onclick="window.location.href='payments.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">💰 Payments</button>
+    <button onclick="window.location.href='contact.html'" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">📞 Contact Us</button>
   </nav>
 </aside>
 
@@ -173,21 +179,35 @@
 
 <!-- Main Content -->
 <div class="main-content">
-  <h1 class="header-title" id="headerTitle">WELCOME TO CUAMBE ENGLISH SCHOOL</h1>
+  <h1 class="header-title" id="welcomeTitle">WELCOME TO CUAMBE ENGLISH SCHOOL</h1>
 
-  <p class="content-paragraph" id="para1">For you to login your dashboard, you have to fill in the subscription in accordance with your role and in the subscription you have to insert your email and set the password that you will use to access your dashboard as a teacher or as a student. Your credentials are private and no one can see them in your login so, make sure you don't forget them.</p>
+  <p class="content-paragraph" id="para1">
+    For you to login your dashboard, you have to fill in the subscription in accordance with your role and in the subscription you have to insert your email and set the password that you will use to access your dashboard as a teacher or as a student. Your credentials are private and no one can see them in your login so, make sure you don't forget them.
+  </p>
 
-  <p class="content-paragraph" id="para2">At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.</p>
+  <p class="content-paragraph" id="para2">
+    At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.
+  </p>
 
-  <p class="content-paragraph" id="para3">Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.</p>
+  <p class="content-paragraph" id="para3">
+    Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.
+  </p>
 
-  <p class="content-paragraph" id="para4">All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.</p>
+  <p class="content-paragraph" id="para4">
+    All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.
+  </p>
 
-  <p class="content-paragraph" id="para5">Before starting classes, every student takes a diagnostic test to ensure they are enrolled at the right level. Our courses are divided into clear levels, each lasting three months, an intensive learning period we call an edition.</p>
+  <p class="content-paragraph" id="para5">
+    Before starting classes, every student takes a diagnostic test to ensure they are enrolled at the right level. Our courses are divided into clear levels, each lasting three months, an intensive learning period we call an edition.
+  </p>
 
-  <p class="content-paragraph" id="para6">To strengthen real-world skills, students are required to complete an internship towards the end of their studies. At the conclusion of the course, learners must also pass a final exam, ensuring that every graduate leaves with both knowledge and practical competence.</p>
+  <p class="content-paragraph" id="para6">
+    To strengthen real-world skills, students are required to complete an internship towards the end of their studies. At the conclusion of the course, learners must also pass a final exam, ensuring that every graduate leaves with both knowledge and practical competence.
+  </p>
 
-  <p class="content-paragraph" id="para7">We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English, where your dreams and ambitions will flourish. Our team is dedicated to supporting you every step of the way, ensuring that learning is enjoyable, meaningful, and empowering.</p>
+  <p class="content-paragraph" id="para7">
+    We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English, where your dreams and ambitions will flourish. Our team is dedicated to supporting you every step of the way, ensuring that learning is enjoyable, meaningful, and empowering.
+  </p>
 </div>
 
 <footer>
@@ -205,6 +225,7 @@
     overlay.classList.toggle('show');
   });
 
+  // Close sidebar when overlay is clicked
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
@@ -218,68 +239,29 @@
     arrow.textContent = dropdown.classList.contains('hidden') ? '▼' : '▲';
   });
 
-  // Translations
-  const translations = {
-    en: {
-      headerTitle: "WELCOME TO CUAMBE ENGLISH SCHOOL",
-      para1: "For you to login your dashboard, you have to fill in the subscription in accordance with your role and in the subscription you have to insert your email and set the password that you will use to access your dashboard as a teacher or as a student. Your credentials are private and no one can see them in your login so, make sure you don't forget them.",
-      para2: "At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.",
-      para3: "Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.",
-      para4: "All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.",
-      para5: "Before starting classes, every student takes a diagnostic test to ensure they are enrolled at the right level. Our courses are divided into clear levels, each lasting three months, an intensive learning period we call an edition.",
-      para6: "To strengthen real-world skills, students are required to complete an internship towards the end of their studies. At the conclusion of the course, learners must also pass a final exam, ensuring that every graduate leaves with both knowledge and practical competence.",
-      para7: "We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English, where your dreams and ambitions will flourish. Our team is dedicated to supporting you every step of the way, ensuring that learning is enjoyable, meaningful, and empowering.",
-      sidebar: {
-        home: "Home",
-        dashboards: "Dashboards",
-        admin: "Admin Dashboard",
-        teachers: "Teachers Dashboard",
-        students: "Students Dashboard",
-        studentSub: "Student Subscription",
-        teacherSub: "Teacher Subscription",
-        payments: "Payments",
-        contact: "Contact Us"
-      }
-    },
-    pt: {
-      headerTitle: "BEM-VINDO À ESCOLA DE INGLÊS CUAMBE",
-      para1: "Para fazer login no seu dashboard, você precisa preencher a inscrição de acordo com o seu papel e na inscrição você deve inserir seu e-mail e definir a senha que usará para acessar seu dashboard como professor ou como aluno. Suas credenciais são privadas e ninguém pode vê-las, então certifique-se de não esquecê-las.",
-      para2: "Na Escola de Inglês Cuambe, estamos comprometidos a fornecer educação de alta qualidade em inglês para crianças e adultos. Nossos programas são ministrados online através de plataformas flexíveis e profissionais como WhatsApp e Google Meet, garantindo que o aprendizado seja sempre acessível e conveniente.",
-      para3: "Nossas aulas são projetadas para serem altamente interativas e participativas. Com uma abordagem de aprendizado centrada no aluno, garantimos que cada aluno esteja engajado, confiante e apoiado durante toda sua jornada de aprendizagem.",
-      para4: "Todos os nossos professores são profissionais altamente capacitados, dedicados a criar um ambiente de aprendizagem dinâmico. Os materiais que usamos são cuidadosamente desenvolvidos para melhorar a comunicação oral e ajudar os alunos a construir habilidades práticas de inglês no mundo real.",
-      para5: "Antes de iniciar as aulas, cada aluno faz um teste diagnóstico para garantir que esteja matriculado no nível certo. Nossos cursos são divididos em níveis claros, cada um com duração de três meses, um período intensivo de aprendizado que chamamos de edição.",
-      para6: "Para fortalecer habilidades do mundo real, os alunos são obrigados a completar um estágio ao final de seus estudos. Ao concluir o curso, os alunos também devem passar em um exame final, garantindo que cada graduado saia com conhecimento e competência prática.",
-      para7: "Estamos muito animados para recebê-lo na Escola de Inglês Cuambe! Juntos, embarcaremos em uma jornada inspiradora pelo mundo do inglês, onde seus sonhos e ambições florescerão. Nossa equipe está dedicada a apoiá-lo em cada etapa do caminho, garantindo que o aprendizado seja agradável, significativo e empoderador.",
-      sidebar: {
-        home: "Início",
-        dashboards: "Dashboards",
-        admin: "Dashboard do Admin",
-        teachers: "Dashboard dos Professores",
-        students: "Dashboard dos Alunos",
-        studentSub: "Inscrição de Aluno",
-        teacherSub: "Inscrição de Professor",
-        payments: "Pagamentos",
-        contact: "Contato"
-      }
+  // Bilingual content
+  const langSelect = document.getElementById('languageSelect');
+  langSelect.addEventListener('change', () => {
+    const lang = langSelect.value;
+    if(lang === 'pt'){
+      document.getElementById('welcomeTitle').textContent = "BEM-VINDO À ESCOLA DE INGLÊS CUAMBE";
+      document.getElementById('para1').textContent = "Para acessar o seu dashboard, você deve preencher a inscrição de acordo com sua função e inserir seu email e definir a senha que você usará para acessar seu dashboard como professor ou aluno. Suas credenciais são privadas, então certifique-se de não esquecê-las.";
+      document.getElementById('para2').textContent = "Na Escola de Inglês Cuambe, estamos comprometidos em fornecer educação de alta qualidade em inglês para crianças e adultos. Nossos programas são ministrados online por meio de plataformas flexíveis e profissionais como WhatsApp e Google Meet, garantindo que o aprendizado seja sempre acessível e conveniente.";
+      document.getElementById('para3').textContent = "Nossas aulas são projetadas para serem altamente interativas e participativas. Com uma abordagem centrada no aluno, garantimos que cada aprendiz esteja engajado, confiante e apoiado durante toda a sua jornada de aprendizado.";
+      document.getElementById('para4').textContent = "Todos os nossos professores são profissionais altamente qualificados, dedicados a criar um ambiente de aprendizagem dinâmico. Os materiais que usamos são cuidadosamente desenvolvidos para melhorar a comunicação oral e ajudar os alunos a construir habilidades práticas do mundo real.";
+      document.getElementById('para5').textContent = "Antes de iniciar as aulas, cada aluno realiza um teste diagnóstico para garantir que esteja matriculado no nível correto. Nossos cursos são divididos em níveis claros, cada um com duração de três meses, um período de aprendizado intensivo que chamamos de edição.";
+      document.getElementById('para6').textContent = "Para fortalecer as habilidades do mundo real, os alunos são obrigados a completar um estágio ao final dos estudos. Ao concluir o curso, os alunos também devem passar em um exame final, garantindo que cada graduado saia com conhecimento e competência prática.";
+      document.getElementById('para7').textContent = "Estamos muito felizes em recebê-lo na Escola de Inglês Cuambe! Juntos, embarcaremos em uma jornada inspiradora pelo mundo do inglês, onde seus sonhos e ambições florescerão. Nossa equipe está dedicada a apoiá-lo em cada passo, garantindo que o aprendizado seja agradável, significativo e fortalecedor.";
+    } else {
+      document.getElementById('welcomeTitle').textContent = "WELCOME TO CUAMBE ENGLISH SCHOOL";
+      document.getElementById('para1').textContent = "For you to login your dashboard, you have to fill in the subscription in accordance with your role and in the subscription you have to insert your email and set the password that you will use to access your dashboard as a teacher or as a student. Your credentials are private and no one can see them in your login so, make sure you don't forget them.";
+      document.getElementById('para2').textContent = "At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.";
+      document.getElementById('para3').textContent = "Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.";
+      document.getElementById('para4').textContent = "All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.";
+      document.getElementById('para5').textContent = "Before starting classes, every student takes a diagnostic test to ensure they are enrolled at the right level. Our courses are divided into clear levels, each lasting three months, an intensive learning period we call an edition.";
+      document.getElementById('para6').textContent = "To strengthen real-world skills, students are required to complete an internship towards the end of their studies. At the conclusion of the course, learners must also pass a final exam, ensuring that every graduate leaves with both knowledge and practical competence.";
+      document.getElementById('para7').textContent = "We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English, where your dreams and ambitions will flourish. Our team is dedicated to supporting you every step of the way, ensuring that learning is enjoyable, meaningful, and empowering.";
     }
-  };
-
-  const languageSelect = document.getElementById('languageSelect');
-  languageSelect.addEventListener('change', () => {
-    const lang = languageSelect.value;
-    document.getElementById('headerTitle').textContent = translations[lang].headerTitle;
-    for (let i = 1; i <= 7; i++) {
-      document.getElementById(`para${i}`).textContent = translations[lang][`para${i}`];
-    }
-    document.getElementById('homeBtn').textContent = `🏠 ${translations[lang].sidebar.home}`;
-    document.getElementById('dashboardDropdownBtn').childNodes[0].textContent = `🧭 ${translations[lang].sidebar.dashboards} `;
-    document.getElementById('adminDash').textContent = translations[lang].sidebar.admin;
-    document.getElementById('teachersDash').textContent = translations[lang].sidebar.teachers;
-    document.getElementById('studentsDash').textContent = translations[lang].sidebar.students;
-    document.getElementById('studentSubBtn').textContent = `📝 ${translations[lang].sidebar.studentSub}`;
-    document.getElementById('teacherSubBtn').textContent = `📝 ${translations[lang].sidebar.teacherSub}`;
-    document.getElementById('paymentsBtn').textContent = `💰 ${translations[lang].sidebar.payments}`;
-    document.getElementById('contactBtn').textContent = `📞 ${translations[lang].sidebar.contact}`;
   });
 </script>
 
