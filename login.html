@@ -6,32 +6,32 @@
   <title>Login – CUAMBE English School</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 flex items-center justify-center min-h-screen p-6">
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 flex items-center justify-center min-h-screen p-4 sm:p-6">
 
-  <div class="bg-white/95 shadow-2xl rounded-3xl p-10 w-full max-w-md backdrop-blur-md">
+  <div class="bg-white/95 shadow-2xl rounded-3xl p-6 sm:p-10 w-full max-w-sm sm:max-w-md backdrop-blur-md">
     <!-- Title -->
-    <h1 class="text-4xl font-extrabold text-center mb-6 text-blue-900 drop-shadow-md">🔑 Login</h1>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-center mb-6 text-blue-900 drop-shadow-md">🔑 Login</h1>
 
     <!-- Form -->
-    <form id="loginForm" class="space-y-6">
+    <form id="loginForm" class="space-y-5 sm:space-y-6">
       <!-- Email -->
       <div>
-        <label for="email" class="block font-semibold text-gray-700">📧 Email Address</label>
+        <label for="email" class="block font-semibold text-gray-700 text-sm sm:text-base">📧 Email Address</label>
         <input type="email" id="email" required 
-               class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
+               class="w-full border rounded-lg px-3 py-2 sm:px-4 sm:py-3 mt-1 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
       <!-- Password -->
       <div>
-        <label for="password" class="block font-semibold text-gray-700">🔒 Password</label>
+        <label for="password" class="block font-semibold text-gray-700 text-sm sm:text-base">🔒 Password</label>
         <input type="password" id="password" required 
-               class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
+               class="w-full border rounded-lg px-3 py-2 sm:px-4 sm:py-3 mt-1 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
-      <!-- Role Selector (Admin auto-selected) -->
+      <!-- Role Selector -->
       <div>
-        <label for="role" class="block font-semibold text-gray-700">👤 Login as</label>
-        <select id="role" class="w-full border rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-red-500 outline-none">
+        <label for="role" class="block font-semibold text-gray-700 text-sm sm:text-base">👤 Login as</label>
+        <select id="role" class="w-full border rounded-lg px-3 py-2 sm:px-4 sm:py-3 mt-1 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
           <option value="admin" selected>Admin</option>
           <option value="teacher">Teacher</option>
           <option value="student">Student</option>
@@ -41,51 +41,51 @@
       <!-- Submit -->
       <div class="text-center">
         <button type="submit" 
-                class="w-full bg-gradient-to-r from-red-600 to-blue-900 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transform transition">
+                class="w-full bg-gradient-to-r from-red-600 to-blue-900 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition text-sm sm:text-base">
           ✅ Login
         </button>
       </div>
     </form>
 
     <!-- Error Message -->
-    <p id="errorMsg" class="text-red-600 text-center text-sm mt-4 hidden">❌ Invalid login. Please try again.</p>
+    <p id="errorMsg" class="text-red-600 text-center text-xs sm:text-sm mt-4 hidden">❌ Invalid login. Please try again.</p>
   </div>
 
-<script>
-  // User credentials
-  const users = [
-    { email: "mr@cuambe.com", password: "Felis84", name: "Mr Cuambe", role: "admin" },
-    { email: "teacher1@cuambe.com", password: "Teach123", name: "Teacher One", role: "teacher" },
-    { email: "student1@cuambe.com", password: "Stud123", name: "Student One", role: "student" }
-  ];
+  <script>
+    // User credentials
+    const users = [
+      { email: "mr@cuambe.com", password: "Felis84", name: "Mr Cuambe", role: "admin" },
+      { email: "teacher1@cuambe.com", password: "Teach123", name: "Teacher One", role: "teacher" },
+      { email: "student1@cuambe.com", password: "Stud123", name: "Student One", role: "student" }
+    ];
 
-  // Auto-select Admin by default
-  const roleSelect = document.getElementById('role');
-  roleSelect.value = 'admin';
+    // Default role
+    const roleSelect = document.getElementById('role');
+    roleSelect.value = 'admin';
 
-  document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const role = document.getElementById("role").value;
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
 
-    const user = users.find(u => u.email === email && u.password === password && u.role === role);
+      const user = users.find(u => u.email === email && u.password === password && u.role === role);
 
-    if (user) {
-      localStorage.setItem("loggedUser", JSON.stringify(user));
+      if (user) {
+        localStorage.setItem("loggedUser", JSON.stringify(user));
 
-      // Redirect based on role
-      if (user.role === "admin") {
-        window.location.href = "admin/dashboard.html";
-      } else if (user.role === "teacher") {
-        window.location.href = "Levels/level1.html";
-      } else if (user.role === "student") {
-        window.location.href = `Levels/${user.role}.html`;
+        // Redirect based on role
+        if (user.role === "admin") {
+          window.location.href = "admin/dashboard.html";
+        } else if (user.role === "teacher") {
+          window.location.href = "Levels/level1.html";
+        } else if (user.role === "student") {
+          window.location.href = `Levels/${user.role}.html`;
+        }
+      } else {
+        document.getElementById("errorMsg").classList.remove("hidden");
       }
-    } else {
-      document.getElementById("errorMsg").classList.remove("hidden");
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 </html>

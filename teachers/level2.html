@@ -13,10 +13,10 @@
   input[type="file"] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 0.5rem; }
 </style>
 </head>
-<body class="bg-gradient-to-r from-purple-800 via-pink-600 to-yellow-500 min-h-screen flex">
+<body class="bg-gradient-to-r from-purple-800 via-pink-600 to-yellow-500 min-h-screen flex flex-col md:flex-row">
 
 <!-- Sidebar -->
-<aside class="w-72 bg-gradient-to-b from-purple-900 to-purple-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+<aside id="sidebar" class="w-full md:w-72 bg-gradient-to-b from-purple-900 to-purple-700 text-white flex flex-col shadow-lg p-4 space-y-4 hidden md:flex">
   <h1 class="text-2xl font-bold text-center mb-6">Level 2 Dashboard</h1>
   <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-purple-800 hover:bg-purple-600 text-white font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
   <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-purple-800 hover:bg-purple-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
@@ -25,54 +25,47 @@
   <button onclick="logout()" class="w-full px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-2 justify-center mt-auto">🚪 Logout</button>
 </aside>
 
+<!-- Mobile hamburger -->
+<div class="md:hidden flex justify-between items-center bg-purple-900 text-white p-4">
+  <h1 class="text-xl font-bold">Level 2 Dashboard</h1>
+  <button id="hamburger" class="text-2xl">☰</button>
+</div>
+
 <!-- Main Content -->
-<main class="flex-1 p-8 space-y-8 overflow-y-auto">
+<main class="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto">
 
 <!-- Welcome Section -->
 <section id="welcome" class="space-y-6">
   <h2 class="text-3xl font-bold text-white">👋 Welcome Teacher!</h2>
-  <div class="bg-white/95 p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
-    <p class="text-lg">
-      Welcome to your professional hub for Level 2. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.
-    </p>
-    <p class="text-lg">
-      Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.
-    </p>
-    <p class="text-lg">
-      This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.
-    </p>
-    <p class="text-lg">
-      Thank you for your unwavering devotion to your students and your craft. Together, we are building not just a school, but a community where learning thrives, potential is unlocked, and every teacher has the support to shine. Let us continue to inspire, innovate, and transform education every day, one student at a time.
-    </p>
-    <p class="text-lg text-gray-700 italic">
-      💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.
-    </p>
-    <p class="text-lg text-gray-700 italic">
-      💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.
-    </p>
+  <div class="bg-white/95 p-6 md:p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+    <p class="text-base md:text-lg">Welcome to your professional hub for Level 2. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.</p>
+    <p class="text-base md:text-lg">Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.</p>
+    <p class="text-base md:text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.</p>
+    <p class="text-base md:text-lg">Thank you for your unwavering devotion to your students and your craft. Together, we are building not just a school, but a community where learning thrives, potential is unlocked, and every teacher has the support to shine. Let us continue to inspire, innovate, and transform education every day, one student at a time.</p>
+    <p class="text-base md:text-lg text-gray-700 italic">💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.</p>
+    <p class="text-base md:text-lg text-gray-700 italic">💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.</p>
   </div>
 </section>
 
+<!-- Lessons Section -->
+<section id="lessons" class="hidden space-y-6">
+  <h2 class="text-2xl font-semibold text-white">📘 Lessons (Upload any file)</h2>
+  <div id="lessonsContainer"></div>
+</section>
 
-  <!-- Lessons Section -->
-  <section id="lessons" class="hidden space-y-6">
-    <h2 class="text-2xl font-semibold text-white">📘 Lessons (Upload any file)</h2>
-    <div id="lessonsContainer"></div>
-  </section>
+<!-- Tests Section -->
+<section id="tests" class="hidden">
+  <h2 class="text-2xl font-semibold text-white mb-4">📝 Tests</h2>
+  <div class="bg-white shadow rounded-2xl p-6 space-y-4" id="testsContainer"></div>
+</section>
 
-  <!-- Tests Section -->
-  <section id="tests" class="hidden">
-    <h2 class="text-2xl font-semibold text-white mb-4">📝 Tests</h2>
-    <div class="bg-white shadow rounded-2xl p-6 space-y-4" id="testsContainer"></div>
-  </section>
-
-  <!-- Students Section -->
-  <section id="students" class="hidden">
-    <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
-    <div class="bg-white shadow rounded-2xl p-6">
-      <p>Here you can view and manage Level 2 students. Future updates can include progress tracking and notes per student.</p>
-    </div>
-  </section>
+<!-- Students Section -->
+<section id="students" class="hidden">
+  <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
+  <div class="bg-white shadow rounded-2xl p-6">
+    <p>Here you can view and manage Level 2 students. Future updates can include progress tracking and notes per student.</p>
+  </div>
+</section>
 
 </main>
 
@@ -83,6 +76,13 @@
     alert('Access denied. Only the teacher can access Level 2.');
     window.location.href = '../login.html';
   }
+
+  // Hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.getElementById('sidebar');
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
 
   function showSection(section) {
     document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
@@ -184,7 +184,6 @@
     }
   }
 
-  // Load saved lessons
   window.onload = function() {
     for (let i = 1; i <= level2Lessons.length; i++) {
       const savedInstructions = localStorage.getItem(`level2_instructions${i}`);
@@ -219,7 +218,6 @@
     alert(`${id} saved!`);
   }
 
-  // Load saved tests
   window.addEventListener('load', () => {
     for(let t=1; t<=testTitles.length; t++){
       const savedTest = localStorage.getItem(`level2_test${t}`);

@@ -33,9 +33,41 @@
   footer { background: #111827; color: #fff; text-align: center; padding: 1rem; width: calc(100% - 20rem); margin-left:20rem; position: relative; }
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
   .language-container { position: fixed; top: 1rem; right: 2rem; z-index: 50; }
+
+  /* Mobile-friendly adjustments */
+  @media (max-width: 768px) {
+    .sidebar-btn { font-size: 1rem; padding: 0.5rem 1rem; }
+    .main-content { margin-left: 0; padding: 1rem; min-height: auto; }
+    footer { width: 100%; margin-left: 0; }
+    .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
+    .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
+    .grid-cols-1 { grid-template-columns: 1fr !important; }
+    .language-container { top: 0.5rem; right: 1rem; }
+    /* Sidebar toggle for mobile */
+    aside { width: 100%; height: auto; position: relative; display: none; }
+    aside.show { display: flex; flex-direction: column; }
+    #sidebarToggleBtn {
+      display: block;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 60;
+      background: #e53935;
+      color: white;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+  }
 </style>
 </head>
 <body>
+
+<!-- Mobile sidebar toggle button -->
+<button id="sidebarToggleBtn" onclick="toggleSidebar()">☰ Menu</button>
 
 <!-- Sidebar -->
 <aside class="w-64 bg-gradient-to-b from-blue-900 via-red-700 to-yellow-500 text-white p-6 flex flex-col shadow-xl fixed h-full">
@@ -209,8 +241,7 @@
 
   <!-- Contact -->
   <div id="contactPage" class="page-slide">
-    <h1 class="page-title">📞 <span id="contactTitleEn">Contact Us</span><span id="contactTitlePt" style="display:none;">
-Contacte-Nos</span></h1>
+    <h1 class="page-title">📞 <span id="contactTitleEn">Contact Us</span><span id="contactTitlePt" style="display:none;">Contacte-Nos</span></h1>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
       <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-8 rounded-2xl shadow-lg flex flex-col items-center hover:scale-105 transition-all">
         <span class="text-5xl mb-4">📞</span>
@@ -307,6 +338,20 @@ Contacte-Nos</span></h1>
     else if (strength <= 75) bar.classList.add("bg-yellow-400");
     else bar.classList.add("bg-green-500");
   }
+
+  // Mobile sidebar toggle
+  function toggleSidebar() {
+    const sidebar = document.querySelector('aside');
+    sidebar.classList.toggle('show');
+  }
+
+  // Hide sidebar after clicking a link on mobile
+  const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+  sidebarBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(window.innerWidth <= 768) document.querySelector('aside').classList.remove('show');
+    });
+  });
 </script>
 
 </body>

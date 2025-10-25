@@ -6,79 +6,69 @@
   <title>Teacher Subscription - CUAMBE ENGLISH SCHOOL</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex items-center justify-center p-6">
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex items-center justify-center p-4 sm:p-6">
 
-  <div class="bg-white/95 shadow-2xl rounded-3xl p-10 w-full max-w-3xl backdrop-blur-md">
+  <div class="bg-white/95 shadow-2xl rounded-3xl p-6 sm:p-10 w-full max-w-md sm:max-w-3xl backdrop-blur-md">
     <!-- Welcoming Note -->
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-extrabold text-blue-900 mb-3 drop-shadow-md">
+    <div class="text-center mb-6 sm:mb-8">
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-blue-900 mb-2 sm:mb-3 drop-shadow-md">
         👩‍🏫 Teacher Subscription
       </h1>
-      <p class="text-gray-700 text-lg leading-relaxed">
+      <p class="text-gray-700 text-sm sm:text-lg leading-relaxed">
         Join our team of professional educators! Fill the form below to register as a Cuambe English School teacher.
       </p>
     </div>
 
     <!-- Teacher Subscription Form -->
-    <form id="teacherForm" class="space-y-6">
+    <form id="teacherForm" class="space-y-4 sm:space-y-6">
 
-      <!-- Full Name -->
       <div>
         <label class="block font-semibold text-gray-700">👤 Full Name</label>
-        <input type="text" name="name" id="name" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
+        <input type="text" name="name" id="name" required 
+               class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
-      <!-- Email -->
       <div>
         <label class="block font-semibold text-gray-700">📧 Entrance Email Address</label>
-        <input type="email" 
-               name="email" 
-               id="email" 
-               required 
-               placeholder="e.g., felizbertocuamber@gmail.com" 
-               class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
-        <p class="text-gray-500 text-sm mt-1">
+        <input type="email" name="email" id="email" required placeholder="e.g., felizbertocuamber@gmail.com"
+               class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
+        <p class="text-gray-500 text-xs sm:text-sm mt-1">
           Use a valid email (Gmail, Yahoo, Outlook, or your own domain). This will be your login email.
         </p>
       </div>
 
-      <!-- Password -->
       <div>
         <label class="block font-semibold text-gray-700">🔑 Create Entrance Password</label>
-        <input type="password" 
-               name="password" 
-               id="password" 
-               required 
-               minlength="6" 
-               placeholder="Enter a secure password" 
-               class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
-        <p class="text-gray-500 text-sm mt-1">
+        <input type="password" name="password" id="password" required minlength="6"
+               placeholder="Enter a secure password"
+               class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
+        <p class="text-gray-500 text-xs sm:text-sm mt-1">
           Your password must be at least 6 characters. This will be used with your entrance email to log in.
         </p>
       </div>
 
-      <!-- Phone Number -->
       <div>
         <label class="block font-semibold text-gray-700">📞 Phone Number</label>
-        <input type="text" name="phone" id="phone" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
+        <input type="text" name="phone" id="phone" required 
+               class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
-      <!-- ID Number -->
       <div>
         <label class="block font-semibold text-gray-700">🆔 ID Number</label>
-        <input type="text" name="idNumber" id="idNumber" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
+        <input type="text" name="idNumber" id="idNumber" required 
+               class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
-      <!-- ID Validity -->
       <div>
         <label class="block font-semibold text-gray-700">📅 ID Validity Date</label>
-        <input type="date" name="idValidity" id="idValidity" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
+        <input type="date" name="idValidity" id="idValidity" required 
+               class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
-      <!-- Level of Education -->
       <div>
         <label class="block font-semibold text-gray-700">🎓 Level of Education</label>
-        <select id="educationLevel" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none">
+        <select id="educationLevel" required
+                class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
           <option value="">Select your level</option>
           <option value="High School">High School Training</option>
           <option value="Bachelor">Bachelor</option>
@@ -87,15 +77,15 @@
         </select>
       </div>
 
-      <!-- Experience / Bio -->
       <div>
         <label class="block font-semibold text-gray-700">📝 Bio / Experience</label>
-        <textarea name="bio" id="bio" rows="4" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"></textarea>
+        <textarea name="bio" id="bio" rows="3" required 
+                  class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none"></textarea>
       </div>
 
-      <!-- Submit Button -->
       <div class="text-center">
-        <button type="submit" class="bg-gradient-to-r from-red-600 to-blue-900 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transform transition">
+        <button type="submit" 
+                class="bg-gradient-to-r from-red-600 to-blue-900 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition duration-200 text-sm sm:text-base">
           ✅ Submit Subscription
         </button>
       </div>
@@ -103,7 +93,6 @@
   </div>
 
 <script>
-// SHA-256 hashing for password
 async function hashPassword(password) {
   const enc = new TextEncoder();
   const data = enc.encode(password);
@@ -112,11 +101,8 @@ async function hashPassword(password) {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-const form = document.getElementById("teacherForm");
-
-form.addEventListener("submit", async function(event) {
+document.getElementById("teacherForm").addEventListener("submit", async function(event) {
   event.preventDefault();
-
   const password = document.getElementById("password").value;
   const passwordHash = await hashPassword(password);
 
@@ -133,8 +119,6 @@ form.addEventListener("submit", async function(event) {
   };
 
   let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
-
-  // Prevent duplicate email
   if (teachers.some(t => t.email === teacher.email)) {
     alert("This email is already registered. Please login instead.");
     return;
@@ -144,7 +128,7 @@ form.addEventListener("submit", async function(event) {
   localStorage.setItem("teachers", JSON.stringify(teachers));
 
   alert("Teacher subscription successful!");
-  form.reset();
+  this.reset();
 });
 </script>
 

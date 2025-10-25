@@ -13,10 +13,10 @@
   input[type="file"] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 0.5rem; }
 </style>
 </head>
-<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex">
+<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex flex-col md:flex-row">
 
 <!-- Sidebar -->
-<aside class="w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+<aside class="w-full md:w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col shadow-lg p-4 space-y-4">
   <h1 class="text-2xl font-bold text-center mb-6">Level 1 Dashboard</h1>
   <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
   <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
@@ -26,12 +26,12 @@
 </aside>
 
 <!-- Main Content -->
-<main class="flex-1 p-8 space-y-8 overflow-y-auto">
+<main class="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto">
 
   <!-- Welcome Section -->
   <section id="welcome" class="space-y-6">
     <h2 class="text-3xl font-bold text-white">👋 Welcome Teacher!</h2>
-    <div class="bg-white/95 p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+    <div class="bg-white/95 p-6 md:p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
       <p class="text-lg">Welcome to your professional hub for Level 1. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.</p>
       <p class="text-lg">Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.</p>
       <p class="text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.</p>
@@ -116,7 +116,8 @@
     "Invitations",
     "Jobs",
     "Workplaces",
-    "Future dreams"
+    "Future dreams",
+    "Celebrations & Festivals" // Lesson 33
   ];
 
   const lessonsContainer = document.getElementById('lessonsContainer');
