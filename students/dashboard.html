@@ -46,9 +46,10 @@
       flex-direction: column;
       background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15);
       padding: 1.5rem;
-      transition: left 0.4s ease, opacity 0.4s ease;
+      transition: left 0.3s ease, opacity 0.3s ease;
       opacity: 0;
       z-index: 999;
+      overflow-y: auto;
     }
     aside.show { left: 0; opacity: 1; }
     #sidebarToggleBtn {
@@ -67,12 +68,13 @@
       transition: transform 0.3s;
     }
     #sidebarToggleBtn:active { transform: scale(0.95); }
-    .main-content { margin-left: 0; padding: 1rem; min-height: auto; }
-    footer { width: 100%; margin-left: 0; }
-    .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .main-content { margin-left: 0; padding: 1rem; min-height: 100vh; }
+    footer { width: 100%; margin-left: 0; position: relative; bottom: 0; }
+    .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); min-height: calc(100vh - 60px); }
     .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
     .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
     .language-container { top: 0.5rem; right: 1rem; }
+    aside nav { flex-shrink: 0; display: flex; flex-direction: column; gap: 0.5rem; }
   }
 </style>
 </head>
@@ -198,56 +200,55 @@
   </div>
 
   <!-- Settings -->
-<div id="settingsPage" class="page-slide">
-  <h1 class="page-title">
-    <span id="settingsTitleEn">⚙ Settings</span>
-    <span id="settingsTitlePt" style="display:none;">⚙ Configurações</span>
-  </h1>
-  <div class="max-w-2xl mx-auto grid gap-6 mt-6">
-    <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-8">
-      <h2 class="text-2xl font-bold mb-4">Change Password</h2>
-      <form id="passwordForm">
-        <label class="block mb-2 font-semibold" for="currentPassword">Current Password</label>
-        <input id="currentPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
-        <label class="block mb-2 font-semibold" for="newPassword">New Password</label>
-        <input id="newPassword" type="password" class="w-full p-2 mb-4 rounded border" oninput="checkStrength()"/>
-        <label class="block mb-2 font-semibold" for="confirmPassword">Confirm Password</label>
-        <input id="confirmPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
-        <div class="w-full bg-white/30 rounded-full h-2 mb-4">
-          <div id="strengthBar" class="h-2 rounded-full bg-red-400 w-0"></div>
-        </div>
-        <button type="submit" class="bg-white text-purple-600 font-bold px-6 py-2 rounded hover:opacity-90 transition">Save Changes</button>
-        <div id="passwordMessage" class="mt-2 text-sm"></div>
-      </form>
+  <div id="settingsPage" class="page-slide">
+    <h1 class="page-title">
+      <span id="settingsTitleEn">⚙ Settings</span>
+      <span id="settingsTitlePt" style="display:none;">⚙ Configurações</span>
+    </h1>
+    <div class="max-w-2xl mx-auto grid gap-6 mt-6">
+      <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold mb-4">Change Password</h2>
+        <form id="passwordForm">
+          <label class="block mb-2 font-semibold" for="currentPassword">Current Password</label>
+          <input id="currentPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
+          <label class="block mb-2 font-semibold" for="newPassword">New Password</label>
+          <input id="newPassword" type="password" class="w-full p-2 mb-4 rounded border" oninput="checkStrength()"/>
+          <label class="block mb-2 font-semibold" for="confirmPassword">Confirm Password</label>
+          <input id="confirmPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
+          <div class="w-full bg-white/30 rounded-full h-2 mb-4">
+            <div id="strengthBar" class="h-2 rounded-full bg-red-400 w-0"></div>
+          </div>
+          <button type="submit" class="bg-white text-purple-600 font-bold px-6 py-2 rounded hover:opacity-90 transition">Save Changes</button>
+          <div id="passwordMessage" class="mt-2 text-sm"></div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Contact -->
-<div id="contactPage" class="page-slide">
-  <h1 class="page-title">
-    <span id="contactTitleEn">📞 Contact Us</span>
-    <span id="contactTitlePt" style="display:none;">📞 Contacte-nos</span>
-  </h1>
-  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
-      <span class="text-4xl mb-2">📞</span>
-      <h2 class="font-bold text-xl mb-1">Call</h2>
-      <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
-    </div>
-    <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
-      <span class="text-4xl mb-2">💬</span>
-      <h2 class="font-bold text-xl mb-1">WhatsApp</h2>
-      <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
-    </div>
-    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
-      <span class="text-4xl mb-2">✉️</span>
-      <h2 class="font-bold text-xl mb-1">Email</h2>
-      <p class="text-white/90">cuambeenglishschool@gmail.com</p>
+  <!-- Contact -->
+  <div id="contactPage" class="page-slide">
+    <h1 class="page-title">
+      <span id="contactTitleEn">📞 Contact Us</span>
+      <span id="contactTitlePt" style="display:none;">📞 Contacte-nos</span>
+    </h1>
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+        <span class="text-4xl mb-2">📞</span>
+        <h2 class="font-bold text-xl mb-1">Call</h2>
+        <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
+      </div>
+      <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+        <span class="text-4xl mb-2">💬</span>
+        <h2 class="font-bold text-xl mb-1">WhatsApp</h2>
+        <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
+      </div>
+      <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+        <span class="text-4xl mb-2">✉️</span>
+        <h2 class="font-bold text-xl mb-1">Email</h2>
+        <p class="text-white/90">cuambeenglishschool@gmail.com</p>
+      </div>
     </div>
   </div>
-</div>
-
 
 </div>
 
@@ -259,11 +260,13 @@
   const pages = ['overviewPage','lessonsPage','paymentsPage','notificationsPage','settingsPage','contactPage'];
   function showPage(pageId){
     pages.forEach(id => document.getElementById(id).classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+    const page = document.getElementById(pageId);
+    page.classList.add('active');
+    if(window.innerWidth <= 768) page.scrollTop = 0;
   }
+
   function logout(){alert("Logging out..."); window.location.href="login.html";}
-  
-  // Language switcher
+
   const languageSelect = document.getElementById('languageSelect');
   languageSelect.addEventListener('change', () => {
     const lang = languageSelect.value;
@@ -273,7 +276,6 @@
     else{ allEn.forEach(el => el.style.display = 'none'); allPt.forEach(el => el.style.display = 'inline'); }
   });
 
-  // Password strength check
   function checkStrength() {
     const value = document.getElementById('newPassword').value;
     let strength = 0;
@@ -289,15 +291,19 @@
     else bar.classList.add("bg-green-500");
   }
 
-  // Sidebar toggle for mobile
   function toggleSidebar() {
     const sidebar = document.querySelector('aside');
     sidebar.classList.toggle('show');
   }
+
   document.querySelectorAll('.sidebar-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       if(window.innerWidth <= 768) document.querySelector('aside').classList.remove('show');
     });
+  });
+
+  window.addEventListener('resize', () => {
+    if(window.innerWidth > 768) document.querySelector('aside').classList.remove('show');
   });
 </script>
 
