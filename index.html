@@ -113,7 +113,12 @@
 
   @media (max-width: 768px) {
     /* Sidebar slide-in */
-    .sidebar { left: -100%; width: 16rem; transition: left 0.3s ease; }
+    .sidebar { 
+      left: -100%; 
+      width: 16rem; 
+      transition: left 0.3s ease; 
+      z-index: 200; /* above overlay */
+    }
     .sidebar.open { left: 0; }
 
     /* Content */
@@ -131,7 +136,7 @@
       position: fixed;
       top: 1rem;
       left: 1rem;
-      z-index: 200;
+      z-index: 250; /* above sidebar & overlay */
       cursor: pointer;
       background: #111827;
       padding: 0.6rem 0.7rem;
@@ -141,8 +146,18 @@
     .hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
 
     /* Overlay */
-    .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 150; }
+    .overlay { 
+      display: none; 
+      position: fixed; 
+      top:0; left:0; 
+      width:100%; height:100%; 
+      background: rgba(0,0,0,0.4); 
+      z-index: 150; /* below sidebar */
+    }
     .overlay.show { display: block; }
+
+    /* Dashboard dropdown inside sidebar stays above */
+    #dashboardDropdown { z-index: 300; }
 
     /* Language dropdown */
     .language-container { top: 0.8rem; right: 3.5rem; }
@@ -172,7 +187,7 @@
       <button id="dashboardDropdownBtn" class="sidebar-btn flex items-center justify-between w-full px-3 py-2 font-semibold">
         🧭 Dashboards <span id="dropdownArrow">▼</span>
       </button>
-      <div id="dashboardDropdown" class="absolute left-0 mt-2 w-56 bg-white text-gray-900 rounded-lg shadow-lg hidden flex-col z-50 overflow-hidden">
+      <div id="dashboardDropdown" class="absolute left-0 mt-2 w-56 bg-white text-gray-900 rounded-lg shadow-lg hidden flex-col overflow-hidden">
         <div onclick="window.location.href='admin/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Admin Dashboard</div>
         <div onclick="window.location.href='teachers/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Teachers Dashboard</div>
         <div onclick="window.location.href='students/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Students Dashboard</div>
@@ -251,12 +266,28 @@
     overlay.classList.remove('show');
   });
 
+  // Prevent overlay from blocking clicks on sidebar items
+  sidebar.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
   // Dashboard dropdown toggle
-  document.getElementById('dashboardDropdownBtn').addEventListener('click', () => {
+  document.getElementById('dashboardDropdownBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
     const dropdown = document.getElementById('dashboardDropdown');
     const arrow = document.getElementById('dropdownArrow');
     dropdown.classList.toggle('hidden');
     arrow.textContent = dropdown.classList.contains('hidden') ? '▼' : '▲';
+  });
+
+  // Clicking anywhere outside the dropdown closes it
+  document.addEventListener('click', () => {
+    const dropdown = document.getElementById('dashboardDropdown');
+    const arrow = document.getElementById('dropdownArrow');
+    if (!dropdown.classList.contains('hidden')) {
+      dropdown.classList.add('hidden');
+      arrow.textContent = '▼';
+    }
   });
 
   // Bilingual content
