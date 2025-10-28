@@ -24,7 +24,7 @@
     opacity: 0;
     pointer-events: none;
     transform: scale(0.98);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
     overflow-y: auto;
   }
   .page-slide.active { opacity:1; pointer-events:auto; transform: scale(1); }
@@ -34,25 +34,29 @@
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
   .language-container { position: fixed; top: 1rem; right: 2rem; z-index: 50; }
 
-  /* Mobile-friendly adjustments */
+  /* Mobile sidebar */
   @media (max-width: 768px) {
-    .sidebar-btn { font-size: 1rem; padding: 0.5rem 1rem; }
-    .main-content { margin-left: 0; padding: 1rem; min-height: auto; }
-    footer { width: 100%; margin-left: 0; }
-    .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-    .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
-    .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
-    .grid-cols-1 { grid-template-columns: 1fr !important; }
-    .language-container { top: 0.5rem; right: 1rem; }
-    /* Sidebar toggle for mobile */
-    aside { width: 100%; height: auto; position: relative; display: none; }
-    aside.show { display: flex; flex-direction: column; }
+    aside {
+      width: 16rem;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -100%;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15);
+      padding: 1.5rem;
+      transition: left 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+      z-index: 999;
+    }
+    aside.show { left: 0; opacity: 1; }
     #sidebarToggleBtn {
       display: block;
       position: fixed;
       top: 1rem;
       left: 1rem;
-      z-index: 60;
+      z-index: 1000;
       background: #e53935;
       color: white;
       padding: 0.5rem 0.75rem;
@@ -60,13 +64,21 @@
       font-size: 1.25rem;
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
     }
+    #sidebarToggleBtn:active { transform: scale(0.95); }
+    .main-content { margin-left: 0; padding: 1rem; min-height: auto; }
+    footer { width: 100%; margin-left: 0; }
+    .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
+    .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
+    .language-container { top: 0.5rem; right: 1rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- Mobile sidebar toggle button -->
+<!-- Mobile sidebar toggle -->
 <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰ Menu</button>
 
 <!-- Sidebar -->
@@ -74,12 +86,12 @@
   <img src="images/logo.png" alt="CUAMBE Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
   <h2 class="text-2xl font-bold mb-6 text-center drop-shadow-lg" id="sidebarTitle">NAVIGATION PAD</h2>
   <nav class="flex-1 space-y-4">
-    <button onclick="showPage('overviewPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="overviewBtn">🏠 Overview</button>
-    <button onclick="showPage('lessonsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="lessonsBtn">📚 Lessons</button>
-    <button onclick="showPage('paymentsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="paymentsBtn">💳 Payments</button>
-    <button onclick="showPage('notificationsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="notificationsBtn">🔔 Notifications</button>
-    <button onclick="showPage('settingsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="settingsBtn">⚙ Settings</button>
-    <button onclick="showPage('contactPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold" id="contactBtn">📞 Contact Us</button>
+    <button onclick="showPage('overviewPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">🏠 Overview</button>
+    <button onclick="showPage('lessonsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">📚 Lessons</button>
+    <button onclick="showPage('paymentsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">💳 Payments</button>
+    <button onclick="showPage('notificationsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">🔔 Notifications</button>
+    <button onclick="showPage('settingsPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">⚙ Settings</button>
+    <button onclick="showPage('contactPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">📞 Contact Us</button>
     <button onclick="logout()" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">🚪 Log Out</button>
   </nav>
 </aside>
@@ -97,7 +109,7 @@
 
   <!-- Overview -->
   <div id="overviewPage" class="page-slide active">
-    <div class="text-center mb-8 bg-gradient-to-r from-blue-900 via-red-600 to-yellow-500 text-white py-6 rounded-3xl shadow-lg fade-in">
+    <div class="text-center mb-8 bg-gradient-to-r from-blue-900 via-red-600 to-yellow-500 text-white py-6 rounded-3xl shadow-lg">
       <h1 class="text-5xl font-extrabold tracking-wide drop-shadow-md" id="welcomeTitle">
         <span id="welcomeTitleEn">Welcome to Cuambe English School</span>
         <span id="welcomeTitlePt" style="display:none;">Bem-vindo à Cuambe English School</span>
@@ -107,8 +119,7 @@
         <span id="overviewSubtitlePt" style="display:none;">Capacitando os alunos com excelência, flexibilidade e dedicação.</span>
       </p>
     </div>
-
-    <div class="bg-white/80 shadow-2xl rounded-3xl backdrop-blur-md p-10 max-w-5xl mx-auto fade-in">
+    <div class="bg-white/80 shadow-2xl rounded-3xl backdrop-blur-md p-10 max-w-5xl mx-auto">
       <div id="welcomeTextEn" class="space-y-6 text-gray-800 leading-relaxed">
         <p>At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.</p>
         <p>Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.</p>
@@ -181,94 +192,62 @@
       <span id="notificationsTitlePt" style="display:none;">🔔 Notificações</span>
     </h1>
     <p class="content-paragraph">
-      <span id="notificationsTextEn">All notifications from teachers or administration regarding classes, tests, and important updates will appear here.</span>
-      <span id="notificationsTextPt" style="display:none;">Todas as notificações de professores ou da administração sobre aulas, testes e atualizações importantes aparecerão aqui.</span>
+      <span id="notificationsTextEn">All your notifications will appear here with full interactive cards, updates, and alerts from teachers.</span>
+      <span id="notificationsTextPt" style="display:none;">Todas as suas notificações aparecerão aqui com cartões interativos, atualizações e alertas dos professores.</span>
     </p>
   </div>
 
-  <!-- Settings (Password Section) -->
-  <div id="settingsPage" class="page-slide fade-in">
-    <h1 class="page-title">⚙ <span id="settingsTitleEn">Settings</span><span id="settingsTitlePt" style="display:none;">Configurações</span></h1>
-    <p class="content-paragraph text-center text-gray-700 fade-in">
-      <span id="settingsTextEn">Manage your personal information and update your password securely.</span>
-      <span id="settingsTextPt" style="display:none;">Gerencie suas informações pessoais e atualize sua senha com segurança.</span>
-    </p>
-
-    <div class="max-w-2xl mx-auto mt-10 bg-white shadow-2xl rounded-3xl overflow-hidden">
-      <div class="bg-gradient-to-r from-red-700 to-yellow-500 text-white text-center py-6">
-        <h2 class="text-2xl font-bold tracking-wide">
-          🔐 <span id="updatePasswordEn">Update Password</span><span id="updatePasswordPt" style="display:none;">Atualizar Senha</span>
-        </h2>
-        <p class="text-sm opacity-90">
-          <span id="updatePasswordTextEn">Keep your account secure by updating your password regularly.</span>
-          <span id="updatePasswordTextPt" style="display:none;">Mantenha sua conta segura atualizando sua senha regularmente.</span>
-        </p>
-      </div>
-
-      <form id="passwordForm" class="p-8 space-y-6">
-        <div class="fade-in">
-          <label class="block text-gray-700 font-medium mb-1">
-            <span id="currentPasswordLabelEn">Current Password</span><span id="currentPasswordLabelPt" style="display:none;">Senha Atual</span>
-          </label>
-          <input type="password" id="currentPassword" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Enter current password" required>
+  <!-- Settings -->
+<div id="settingsPage" class="page-slide">
+  <h1 class="page-title">
+    <span id="settingsTitleEn">⚙ Settings</span>
+    <span id="settingsTitlePt" style="display:none;">⚙ Configurações</span>
+  </h1>
+  <div class="max-w-2xl mx-auto grid gap-6 mt-6">
+    <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold mb-4">Change Password</h2>
+      <form id="passwordForm">
+        <label class="block mb-2 font-semibold" for="currentPassword">Current Password</label>
+        <input id="currentPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
+        <label class="block mb-2 font-semibold" for="newPassword">New Password</label>
+        <input id="newPassword" type="password" class="w-full p-2 mb-4 rounded border" oninput="checkStrength()"/>
+        <label class="block mb-2 font-semibold" for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
+        <div class="w-full bg-white/30 rounded-full h-2 mb-4">
+          <div id="strengthBar" class="h-2 rounded-full bg-red-400 w-0"></div>
         </div>
-
-        <div class="fade-in">
-          <label class="block text-gray-700 font-medium mb-1">
-            <span id="newPasswordLabelEn">New Password</span><span id="newPasswordLabelPt" style="display:none;">Nova Senha</span>
-          </label>
-          <input type="password" id="newPassword" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Enter new password" required oninput="checkStrength()">
-          <div class="w-full bg-gray-200 h-2 rounded mt-2">
-            <div id="strengthBar" class="h-2 rounded bg-red-400 transition-all duration-300" style="width: 0%;"></div>
-          </div>
-        </div>
-
-        <div class="fade-in">
-          <label class="block text-gray-700 font-medium mb-1">
-            <span id="confirmPasswordLabelEn">Confirm New Password</span><span id="confirmPasswordLabelPt" style="display:none;">Confirme a Nova Senha</span>
-          </label>
-          <input type="password" id="confirmPassword" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Re-enter new password" required>
-        </div>
-
-        <button type="submit" class="w-full bg-gradient-to-r from-red-600 to-yellow-500 hover:from-red-700 hover:to-yellow-600 text-white font-semibold py-2 rounded-lg shadow-md transform hover:scale-[1.02] transition-all">
-          <span id="updateBtnEn">Update Password</span><span id="updateBtnPt" style="display:none;">Atualizar Senha</span>
-        </button>
-
-        <p id="passwordMessage" class="text-center mt-4 font-medium transition-all"></p>
+        <button type="submit" class="bg-white text-purple-600 font-bold px-6 py-2 rounded hover:opacity-90 transition">Save Changes</button>
+        <div id="passwordMessage" class="mt-2 text-sm"></div>
       </form>
     </div>
   </div>
+</div>
 
-  <!-- Contact -->
-  <div id="contactPage" class="page-slide">
-    <h1 class="page-title">📞 <span id="contactTitleEn">Contact Us</span><span id="contactTitlePt" style="display:none;">Contacte-Nos</span></h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
-      <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-8 rounded-2xl shadow-lg flex flex-col items-center hover:scale-105 transition-all">
-        <span class="text-5xl mb-4">📞</span>
-        <h3 class="text-xl font-semibold mb-2"><span id="phoneTitleEn">Phone</span><span id="phoneTitlePt" style="display:none;">Telefone</span></h3>
-        <p class="text-center">+258 844 175 964<br>+258 874 175 964</p>
-      </div>
-      <div class="bg-gradient-to-br from-green-600 to-emerald-700 text-white p-8 rounded-2xl shadow-lg flex flex-col items-center hover:scale-105 transition-all">
-        <span class="text-5xl mb-4">💬</span>
-        <h3 class="text-xl font-semibold mb-2"><span id="whatsappTitleEn">WhatsApp</span><span id="whatsappTitlePt" style="display:none;">WhatsApp</span></h3>
-        <p class="text-center">+258 844 175 964<br>+258 874 175 964</p>
-      </div>
-      <div class="bg-gradient-to-br from-pink-600 to-red-600 text-white p-8 rounded-2xl shadow-lg flex flex-col items-center hover:scale-105 transition-all">
-        <span class="text-5xl mb-4">📧</span>
-        <h3 class="text-xl font-semibold mb-2"><span id="emailTitleEn">Email</span><span id="emailTitlePt" style="display:none;">Email</span></h3>
-        <a href="mailto:cuambeenglishschool@gmail.com" class="text-center text-white underline hover:text-yellow-300 transition-all">
-          cuambeenglishschool@gmail.com
-        </a>
-      </div>
+<!-- Contact -->
+<div id="contactPage" class="page-slide">
+  <h1 class="page-title">
+    <span id="contactTitleEn">📞 Contact Us</span>
+    <span id="contactTitlePt" style="display:none;">📞 Contacte-nos</span>
+  </h1>
+  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+      <span class="text-4xl mb-2">📞</span>
+      <h2 class="font-bold text-xl mb-1">Call</h2>
+      <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
     </div>
-    <div class="mt-10 text-center">
-      <h3 class="text-2xl font-semibold text-gray-800 mb-3">📍 <span id="onlinePresenceEn">Our Online Presence</span><span id="onlinePresencePt" style="display:none;">Nossa Presença Online</span></h3>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-        <span id="onlineTextEn">We are based in Mozambique and available worldwide online through Google Meet and WhatsApp for your convenience.</span>
-        <span id="onlineTextPt" style="display:none;">Estamos sediados em Moçambique e disponíveis em todo o mundo online através do Google Meet e WhatsApp para sua conveniência.</span>
-      </p>
+    <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+      <span class="text-4xl mb-2">💬</span>
+      <h2 class="font-bold text-xl mb-1">WhatsApp</h2>
+      <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
+    </div>
+    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+      <span class="text-4xl mb-2">✉️</span>
+      <h2 class="font-bold text-xl mb-1">Email</h2>
+      <p class="text-white/90">cuambeenglishschool@gmail.com</p>
     </div>
   </div>
+</div>
+
 
 </div>
 
@@ -278,51 +257,23 @@
 
 <script>
   const pages = ['overviewPage','lessonsPage','paymentsPage','notificationsPage','settingsPage','contactPage'];
-
-  function showPage(pageId) {
+  function showPage(pageId){
     pages.forEach(id => document.getElementById(id).classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
   }
-
   function logout(){alert("Logging out..."); window.location.href="login.html";}
-
+  
+  // Language switcher
   const languageSelect = document.getElementById('languageSelect');
   languageSelect.addEventListener('change', () => {
     const lang = languageSelect.value;
     const allEn = document.querySelectorAll('[id$="En"]');
     const allPt = document.querySelectorAll('[id$="Pt"]');
-
-    if(lang === 'en'){
-      allEn.forEach(el => el.style.display = 'inline');
-      allPt.forEach(el => el.style.display = 'none');
-    } else {
-      allEn.forEach(el => el.style.display = 'none');
-      allPt.forEach(el => el.style.display = 'inline');
-    }
+    if(lang === 'en'){ allEn.forEach(el => el.style.display = 'inline'); allPt.forEach(el => el.style.display = 'none'); }
+    else{ allEn.forEach(el => el.style.display = 'none'); allPt.forEach(el => el.style.display = 'inline'); }
   });
 
-  // Password validation + strength check
-  const form = document.getElementById('passwordForm');
-  const message = document.getElementById('passwordMessage');
-  const bar = document.getElementById('strengthBar');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const newPass = document.getElementById('newPassword').value;
-    const confirmPass = document.getElementById('confirmPassword').value;
-
-    if (newPass !== confirmPass) {
-      message.textContent = "❌ Passwords do not match!";
-      message.className = "text-center mt-4 font-medium text-red-600";
-      return;
-    }
-
-    message.textContent = "✅ Password updated successfully!";
-    message.className = "text-center mt-4 font-medium text-green-600";
-    form.reset();
-    bar.style.width = "0%";
-  });
-
+  // Password strength check
   function checkStrength() {
     const value = document.getElementById('newPassword').value;
     let strength = 0;
@@ -330,24 +281,20 @@
     if (/[A-Z]/.test(value)) strength += 25;
     if (/[0-9]/.test(value)) strength += 25;
     if (/[^A-Za-z0-9]/.test(value)) strength += 25;
-
+    const bar = document.getElementById('strengthBar');
     bar.style.width = strength + "%";
     bar.classList.remove("bg-red-400","bg-yellow-400","bg-green-500");
-
     if (strength <= 50) bar.classList.add("bg-red-400");
     else if (strength <= 75) bar.classList.add("bg-yellow-400");
     else bar.classList.add("bg-green-500");
   }
 
-  // Mobile sidebar toggle
+  // Sidebar toggle for mobile
   function toggleSidebar() {
     const sidebar = document.querySelector('aside');
     sidebar.classList.toggle('show');
   }
-
-  // Hide sidebar after clicking a link on mobile
-  const sidebarBtns = document.querySelectorAll('.sidebar-btn');
-  sidebarBtns.forEach(btn => {
+  document.querySelectorAll('.sidebar-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       if(window.innerWidth <= 768) document.querySelector('aside').classList.remove('show');
     });
