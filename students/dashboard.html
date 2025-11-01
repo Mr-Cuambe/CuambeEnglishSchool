@@ -34,41 +34,55 @@
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
   .language-container { position: fixed; top: 1rem; right: 2rem; z-index: 50; }
 
-  /* Mobile sidebar */
+  /* MOBILE STYLES */
   @media (max-width: 768px) {
+    .main-content { margin-left: 0; padding: 2rem 1rem; min-height: auto; }
+    footer { width: 100%; margin-left: 0; }
+
+    /* Sidebar hidden initially */
     aside {
-      width: 16rem;
-      height: 100vh;
       position: fixed;
       top: 0;
       left: -100%;
-      display: flex;
-      flex-direction: column;
+      width: 16rem;
+      height: 100%;
       background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15);
       padding: 1.5rem;
-      transition: left 0.4s ease, opacity 0.4s ease;
-      opacity: 0;
-      z-index: 999;
+      transition: left 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
     }
-    aside.show { left: 0; opacity: 1; }
-    #sidebarToggleBtn {
-      display: block;
+    aside.show { left: 0; }
+
+    /* Hamburger button */
+    #hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
       position: fixed;
       top: 1rem;
       left: 1rem;
-      z-index: 1000;
-      background: #e53935;
-      color: white;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      font-size: 1.25rem;
+      z-index: 250;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: transform 0.3s;
+      background: #111827;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
-    #sidebarToggleBtn:active { transform: scale(0.95); }
-    .main-content { margin-left: 0; padding: 1rem; min-height: auto; }
-    footer { width: 100%; margin-left: 0; }
+    #hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
+
+    /* Overlay */
+    .overlay { 
+      display: none; 
+      position: fixed; 
+      top:0; left:0; 
+      width:100%; height:100%; 
+      background: rgba(0,0,0,0.4); 
+      z-index: 150; 
+    }
+    .overlay.show { display: block; }
+
     .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
     .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
@@ -78,8 +92,15 @@
 </head>
 <body>
 
-<!-- Mobile sidebar toggle -->
-<button id="sidebarToggleBtn" onclick="toggleSidebar()">☰ Menu</button>
+<!-- Hamburger -->
+<div id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
 
 <!-- Sidebar -->
 <aside class="w-64 bg-gradient-to-b from-blue-900 via-red-700 to-yellow-500 text-white p-6 flex flex-col shadow-xl fixed h-full">
@@ -107,29 +128,27 @@
 <!-- Main Content -->
 <div class="main-content">
 
-<!-- Overview -->
-<div id="overviewPage" class="page-slide active">
-  <h1 class="text-5xl font-extrabold text-red-600 text-center mb-8">
-    <span id="welcomeTitleEn">WELCOME TO CUAMBE ENGLISH SCHOOL</span>
-    <span id="welcomeTitlePt" style="display:none;">BEM-VINDO À CUAMBE ENGLISH SCHOOL</span>
-  </h1>
-  
-  <div id="welcomeTextEn" class="space-y-6 text-gray-800 leading-relaxed mx-auto" style="max-width: 720px; padding: 0 1rem; text-align: justify;">
-    <p>At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.</p>
-    <p>Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.</p>
-    <p>All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.</p>
-    <p>Our teaching approach is student-centered, which leads students to be responsible for their own learning. Teachers share materials in advance; students explore them, practice, and clarify doubts before class to ensure lively interaction.</p>
-    <p>We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English. Our team supports you every step of the way, making learning enjoyable, meaningful, and empowering.</p>
+  <!-- Overview -->
+  <div id="overviewPage" class="page-slide active">
+    <h1 class="text-5xl font-extrabold text-red-600 text-center mb-8">
+      <span id="welcomeTitleEn">WELCOME TO CUAMBE ENGLISH SCHOOL</span>
+      <span id="welcomeTitlePt" style="display:none;">BEM-VINDO À CUAMBE ENGLISH SCHOOL</span>
+    </h1>
+    <div id="welcomeTextEn" class="space-y-6 text-gray-800 leading-relaxed mx-auto" style="max-width: 720px; padding: 0 1rem; text-align: justify;">
+      <p>At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.</p>
+      <p>Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.</p>
+      <p>All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.</p>
+      <p>Our teaching approach is student-centered, which leads students to be responsible for their own learning. Teachers share materials in advance; students explore them, practice, and clarify doubts before class to ensure lively interaction.</p>
+      <p>We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English. Our team supports you every step of the way, making learning enjoyable, meaningful, and empowering.</p>
+    </div>
+    <div id="welcomeTextPt" class="space-y-6 text-gray-800 leading-relaxed mx-auto" style="max-width: 720px; padding: 0 1rem; text-align: justify; display:none;">
+      <p>Na Cuambe English School, estamos comprometidos em fornecer educação de alta qualidade em língua inglesa para crianças e adultos. Nossos programas são oferecidos online através de plataformas flexíveis e profissionais como WhatsApp e Google Meet, garantindo que o aprendizado esteja sempre acessível e conveniente.</p>
+      <p>Nossas aulas são altamente interativas e participativas. Com uma abordagem centrada no aluno, garantimos que cada aprendiz esteja engajado, confiante e apoiado ao longo de sua jornada de aprendizagem.</p>
+      <p>Todos os nossos professores são profissionais altamente treinados, dedicados a criar um ambiente de aprendizagem dinâmico. Os materiais que usamos são cuidadosamente desenvolvidos para melhorar a comunicação oral e ajudar os alunos a construir habilidades linguísticas práticas e reais.</p>
+      <p>Nosso método de ensino é centrado no aluno, o que leva os estudantes a serem responsáveis pelo próprio aprendizado. Os professores compartilham os materiais com antecedência; os alunos os exploram, praticam e esclarecem dúvidas antes da aula para garantir uma interação viva.</p>
+      <p>Estamos muito animados para recebê-lo na Cuambe English School! Juntos, embarcaremos em uma jornada inspiradora pelo mundo do inglês. Nossa equipe apoia você em cada passo, tornando o aprendizado prazeroso, significativo e capacitivo.</p>
+    </div>
   </div>
-
-  <div id="welcomeTextPt" class="space-y-6 text-gray-800 leading-relaxed mx-auto" style="max-width: 720px; padding: 0 1rem; text-align: justify; display:none;">
-    <p>Na Cuambe English School, estamos comprometidos em fornecer educação de alta qualidade em língua inglesa para crianças e adultos. Nossos programas são oferecidos online através de plataformas flexíveis e profissionais como WhatsApp e Google Meet, garantindo que o aprendizado esteja sempre acessível e conveniente.</p>
-    <p>Nossas aulas são altamente interativas e participativas. Com uma abordagem centrada no aluno, garantimos que cada aprendiz esteja engajado, confiante e apoiado ao longo de sua jornada de aprendizagem.</p>
-    <p>Todos os nossos professores são profissionais altamente treinados, dedicados a criar um ambiente de aprendizagem dinâmico. Os materiais que usamos são cuidadosamente desenvolvidos para melhorar a comunicação oral e ajudar os alunos a construir habilidades linguísticas práticas e reais.</p>
-    <p>Nosso método de ensino é centrado no aluno, o que leva os estudantes a serem responsáveis pelo próprio aprendizado. Os professores compartilham os materiais com antecedência; os alunos os exploram, praticam e esclarecem dúvidas antes da aula para garantir uma interação viva.</p>
-    <p>Estamos muito animados para recebê-lo na Cuambe English School! Juntos, embarcaremos em uma jornada inspiradora pelo mundo do inglês. Nossa equipe apoia você em cada passo, tornando o aprendizado prazeroso, significativo e capacitivo.</p>
-  </div>
-</div>
 
   <!-- Lessons -->
   <div id="lessonsPage" class="page-slide">
@@ -192,56 +211,52 @@
   </div>
 
   <!-- Settings -->
-<div id="settingsPage" class="page-slide">
-  <h1 class="page-title">
-    <span id="settingsTitleEn">⚙ Settings</span>
-    <span id="settingsTitlePt" style="display:none;">⚙ Configurações</span>
-  </h1>
-  <div class="max-w-2xl mx-auto grid gap-6 mt-6">
-    <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-8">
-      <h2 class="text-2xl font-bold mb-4">Change Password</h2>
-      <form id="passwordForm">
-        <label class="block mb-2 font-semibold" for="currentPassword">Current Password</label>
-        <input id="currentPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
-        <label class="block mb-2 font-semibold" for="newPassword">New Password</label>
-        <input id="newPassword" type="password" class="w-full p-2 mb-4 rounded border" oninput="checkStrength()"/>
-        <label class="block mb-2 font-semibold" for="confirmPassword">Confirm Password</label>
-        <input id="confirmPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
-        <div class="w-full bg-white/30 rounded-full h-2 mb-4">
-          <div id="strengthBar" class="h-2 rounded-full bg-red-400 w-0"></div>
-        </div>
-        <button type="submit" class="bg-white text-purple-600 font-bold px-6 py-2 rounded hover:opacity-90 transition">Save Changes</button>
-        <div id="passwordMessage" class="mt-2 text-sm"></div>
-      </form>
+  <div id="settingsPage" class="page-slide">
+    <h1 class="page-title">
+      <span id="settingsTitleEn">⚙ Settings</span>
+      <span id="settingsTitlePt" style="display:none;">⚙ Configurações</span>
+    </h1>
+    <div class="max-w-2xl mx-auto grid gap-6 mt-6">
+      <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold mb-4">Change Password</h2>
+        <form id="passwordForm">
+          <label class="block mb-2 font-semibold" for="currentPassword">Current Password</label>
+          <input id="currentPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
+          <label class="block mb-2 font-semibold" for="newPassword">New Password</label>
+          <input id="newPassword" type="password" class="w-full p-2 mb-4 rounded border" oninput="checkStrength()"/>
+          <label class="block mb-2 font-semibold" for="confirmPassword">Confirm Password</label>
+          <input id="confirmPassword" type="password" class="w-full p-2 mb-4 rounded border"/>
+          <div class="w-full bg-white/30 rounded-full h-2 mb-4">
+            <div id="strengthBar" class="h-2 rounded-full bg-red-400 w-0"></div>
+          </div>
+          <button type="submit" class="bg-white text-purple-600 font-bold px-6 py-2 rounded hover:opacity-90 transition">Save Changes</button>
+          <div id="passwordMessage" class="mt-2 text-sm"></div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Contact -->
-<div id="contactPage" class="page-slide">
-  <h1 class="page-title">
-    <span id="contactTitleEn">📞 Contact Us</span>
-    <span id="contactTitlePt" style="display:none;">📞 Contacte-nos</span>
-  </h1>
-  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
-      <span class="text-4xl mb-2">📞</span>
-      <h2 class="font-bold text-xl mb-1">Call</h2>
-      <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
-    </div>
-    <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
-      <span class="text-4xl mb-2">💬</span>
-      <h2 class="font-bold text-xl mb-1">WhatsApp</h2>
-      <p class="text-white/90">+258 84 417 5964/ +258 87 417 5964</p>
-    </div>
-    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
-      <span class="text-4xl mb-2">✉️</span>
-      <h2 class="font-bold text-xl mb-1">Email</h2>
-      <p class="text-white/90">cuambeenglishschool@gmail.com</p>
+  <!-- Contact -->
+  <div id="contactPage" class="page-slide">
+    <h1 class="page-title">
+      <span id="contactTitleEn">📞 Contact Us</span>
+      <span id="contactTitlePt" style="display:none;">📞 Contacte-nos</span>
+    </h1>
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-3xl shadow-lg p-6 text-center">
+        <h2 class="font-bold text-lg mb-2">📧 Email</h2>
+        <p>cuambeenglishschool@gmail.com</p>
+      </div>
+      <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-3xl shadow-lg p-6 text-center">
+        <h2 class="font-bold text-lg mb-2">📱 Phone</h2>
+        <p>+258 84 417 5964</p>
+      </div>
+      <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-3xl shadow-lg p-6 text-center">
+        <h2 class="font-bold text-lg mb-2">📍 Address</h2>
+        <p>Av. Josina Machel, Maputo, Mozambique</p>
+      </div>
     </div>
   </div>
-</div>
-
 
 </div>
 
@@ -256,7 +271,34 @@
     document.getElementById(pageId).classList.add('active');
   }
   function logout(){alert("Logging out..."); window.location.href="login.html";}
-  
+
+  // Sidebar toggle for mobile
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.querySelector('aside');
+  const overlay = document.getElementById('overlay');
+
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('show');
+    overlay.classList.toggle('show');
+  });
+
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    overlay.classList.remove('show');
+  });
+
+  sidebar.addEventListener('click', e => e.stopPropagation());
+
+  // Hide sidebar on mobile after clicking a link
+  document.querySelectorAll('.sidebar-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(window.innerWidth <= 768) {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+      }
+    });
+  });
+
   // Language switcher
   const languageSelect = document.getElementById('languageSelect');
   languageSelect.addEventListener('change', () => {
@@ -282,17 +324,6 @@
     else if (strength <= 75) bar.classList.add("bg-yellow-400");
     else bar.classList.add("bg-green-500");
   }
-
-  // Sidebar toggle for mobile
-  function toggleSidebar() {
-    const sidebar = document.querySelector('aside');
-    sidebar.classList.toggle('show');
-  }
-  document.querySelectorAll('.sidebar-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if(window.innerWidth <= 768) document.querySelector('aside').classList.remove('show');
-    });
-  });
 </script>
 
 </body>
