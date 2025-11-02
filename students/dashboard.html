@@ -18,18 +18,48 @@
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
   .language-container { position: fixed; top: 1rem; right: 2rem; z-index: 50; }
 
+  /* ----------------- MOBILE STYLES ----------------- */
   @media (max-width: 768px) {
-    .main-content { margin-left: 0; padding: 2rem 1rem; }
-    aside { position: fixed; top: 0; left: -100%; width: 16rem; height: 100%; background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15); padding: 1.5rem; transition: left 0.3s ease; z-index: 200; display: flex; flex-direction: column; }
+    .main-content { margin-left: 0; padding: 2rem 1rem; min-height: auto; }
+    aside {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 16rem;
+      height: 100%;
+      max-height: 100vh;
+      overflow-y: auto; 
+      background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15);
+      padding: 1.5rem;
+      transition: left 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
     aside.show { left: 0; }
+
     #hamburger { display: flex; flex-direction: column; gap: 0.25rem; position: fixed; top: 1rem; left: 1rem; z-index: 250; cursor: pointer; background: #111827; padding: 0.6rem 0.7rem; border-radius: 0.5rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     #hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
+
     .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 150; }
     .overlay.show { display: block; }
+
     .page-slide { padding: 2rem 1.5rem; }
     .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
     .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
+
     .language-container { top: 0.5rem; right: 1rem; }
+  }
+
+  /* Extra small phones */
+  @media (max-width: 480px) {
+    .page-slide { padding: 1rem 1rem; }
+    .page-title { font-size: 1.5rem; margin-bottom: 1rem; }
+    .content-paragraph { font-size: 0.95rem; line-height: 1.3rem; }
+    aside { width: 14rem; padding: 1rem; }
+    .sidebar-btn { font-size: 1rem; padding: 0.5rem 0.75rem; }
+    .main-content { padding: 1rem 0.5rem; }
+    .language-container { top: 0.3rem; right: 0.5rem; }
   }
 </style>
 </head>
@@ -70,7 +100,6 @@
 
 <!-- Main Content -->
 <div class="main-content">
-
   <!-- Overview -->
   <div id="overviewPage" class="page-slide active">
     <h1 class="text-5xl font-extrabold text-red-600 text-center mb-8">
@@ -205,33 +234,17 @@
 
 <script>
   const pages = ['overviewPage','lessonsPage','paymentsPage','notificationsPage','settingsPage','contactPage'];
-  function showPage(pageId){
-    pages.forEach(id => document.getElementById(id).classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-  }
-  function logout(){alert("Logging out..."); window.location.href="login.html";}
+  function showPage(pageId){ pages.forEach(id => document.getElementById(id).classList.remove('active')); document.getElementById(pageId).classList.add('active'); }
+  function logout(){ alert("Logging out..."); window.location.href="login.html"; }
 
   const hamburger = document.getElementById('hamburger');
   const sidebar = document.querySelector('aside');
   const overlay = document.getElementById('overlay');
 
-  hamburger.addEventListener('click', () => {
-    sidebar.classList.toggle('show');
-    overlay.classList.toggle('show');
-  });
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('show');
-    overlay.classList.remove('show');
-  });
+  hamburger.addEventListener('click', () => { sidebar.classList.toggle('show'); overlay.classList.toggle('show'); });
+  overlay.addEventListener('click', () => { sidebar.classList.remove('show'); overlay.classList.remove('show'); });
   sidebar.addEventListener('click', e => e.stopPropagation());
-  document.querySelectorAll('.sidebar-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if(window.innerWidth <= 768) {
-        sidebar.classList.remove('show');
-        overlay.classList.remove('show');
-      }
-    });
-  });
+  document.querySelectorAll('.sidebar-btn').forEach(btn => { btn.addEventListener('click', () => { if(window.innerWidth <= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); } }); });
 
   const languageSelect = document.getElementById('languageSelect');
   languageSelect.addEventListener('change', () => {
