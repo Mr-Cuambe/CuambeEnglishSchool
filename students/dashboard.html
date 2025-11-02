@@ -30,16 +30,13 @@
   .page-slide.active { opacity:1; pointer-events:auto; transform: scale(1); }
   .page-title { font-size: 2.2rem; font-weight: bold; color: #e53935; margin-bottom: 2rem; text-align: center; }
   .content-paragraph { margin-bottom: 1rem; line-height: 1.7rem; font-size: 1.25rem; }
-  footer { background: #111827; color: #fff; text-align: center; padding: 1rem; width: calc(100% - 20rem); margin-left:20rem; position: relative; }
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
   .language-container { position: fixed; top: 1rem; right: 2rem; z-index: 50; }
 
   /* MOBILE STYLES */
   @media (max-width: 768px) {
     .main-content { margin-left: 0; padding: 2rem 1rem; min-height: auto; }
-    footer { width: 100%; margin-left: 0; }
 
-    /* Sidebar hidden initially */
     aside {
       position: fixed;
       top: 0;
@@ -55,7 +52,6 @@
     }
     aside.show { left: 0; }
 
-    /* Hamburger button */
     #hamburger {
       display: flex;
       flex-direction: column;
@@ -72,7 +68,6 @@
     }
     #hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
 
-    /* Overlay */
     .overlay { 
       display: none; 
       position: fixed; 
@@ -248,21 +243,17 @@
         <p>cuambeenglishschool@gmail.com</p>
       </div>
       <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-3xl shadow-lg p-6 text-center">
-        <h2 class="font-bold text-lg mb-2">📱 Phone</h2>
-        <p>+258 84 417 5964</p>
+        <h2 class="font-bold text-lg mb-2">📱 Call or WhatsApp</h2>
+        <p>+258 84 417 5964 or +258 87 417 5964</p>
       </div>
       <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-3xl shadow-lg p-6 text-center">
-        <h2 class="font-bold text-lg mb-2">📍 Address</h2>
-        <p>Av. Josina Machel, Maputo, Mozambique</p>
+        <h2 class="font-bold text-lg mb-2">🏢 Address</h2>
+        <p>Maxixe, Mozambique</p>
       </div>
     </div>
   </div>
 
 </div>
-
-<footer>
-  © 2025 Cuambe English School | All Rights Reserved
-</footer>
 
 <script>
   const pages = ['overviewPage','lessonsPage','paymentsPage','notificationsPage','settingsPage','contactPage'];
@@ -272,7 +263,6 @@
   }
   function logout(){alert("Logging out..."); window.location.href="login.html";}
 
-  // Sidebar toggle for mobile
   const hamburger = document.getElementById('hamburger');
   const sidebar = document.querySelector('aside');
   const overlay = document.getElementById('overlay');
@@ -281,15 +271,11 @@
     sidebar.classList.toggle('show');
     overlay.classList.toggle('show');
   });
-
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('show');
     overlay.classList.remove('show');
   });
-
   sidebar.addEventListener('click', e => e.stopPropagation());
-
-  // Hide sidebar on mobile after clicking a link
   document.querySelectorAll('.sidebar-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       if(window.innerWidth <= 768) {
@@ -299,7 +285,6 @@
     });
   });
 
-  // Language switcher
   const languageSelect = document.getElementById('languageSelect');
   languageSelect.addEventListener('change', () => {
     const lang = languageSelect.value;
@@ -309,7 +294,6 @@
     else{ allEn.forEach(el => el.style.display = 'none'); allPt.forEach(el => el.style.display = 'inline'); }
   });
 
-  // Password strength check
   function checkStrength() {
     const value = document.getElementById('newPassword').value;
     let strength = 0;
