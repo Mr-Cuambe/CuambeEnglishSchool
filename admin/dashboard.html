@@ -7,9 +7,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   body { font-family: 'Inter', sans-serif; }
-  /* small visual tweak for mobile table rows */
   tr.mobile-row { display: table-row; }
-  /* subtle shadow for cards on mobile */
   .card-shadow { box-shadow: 0 6px 18px rgba(2,6,23,0.12); }
 </style>
 </head>
@@ -35,7 +33,6 @@
   <aside id="sidebar" class="fixed md:relative z-40 left-0 top-0 md:top-auto md:left-auto w-full md:w-72 transform md:translate-x-0 transition-transform duration-200 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-4 md:h-auto">
     <div class="flex items-center justify-between md:block">
       <h1 class="text-2xl font-bold text-center md:mb-6">Admin Dashboard</h1>
-      <!-- close on mobile -->
       <button id="mobileCloseBtn" class="md:hidden p-2 bg-blue-800/60 rounded-lg">✕</button>
     </div>
 
@@ -75,10 +72,8 @@
     </nav>
   </aside>
 
-  <!-- Overlay for mobile when sidebar open -->
   <div id="overlay" class="hidden fixed inset-0 bg-black/30 z-30 md:hidden"></div>
 
-  <!-- Main content -->
   <main class="md:ml-72 p-4 md:p-8 space-y-6">
 
     <!-- Welcome Section -->
@@ -88,11 +83,8 @@
         <p class="text-sm md:text-base">
           Welcome to the <strong>Cuambe English School Administration Panel</strong>, where leadership meets purpose and organization inspires growth. This is your control center to empower teachers, support students, and strengthen our entire learning community.
         </p>
-
         <p class="text-sm md:text-base">Every decision you make here contributes to a brighter academic journey. By managing teachers, guiding students, and maintaining excellence, you are not just leading, you are shaping the foundation of success for every learner at Cuambe English School.</p>
-
         <p class="text-sm md:text-base">As the administrator, you hold the torch that lights the path of progress. Your insight ensures that the school remains a place where teaching thrives and every student discovers their voice, confidence, and love for English.</p>
-
         <p class="italic text-gray-700 border-l-4 border-blue-600 pl-4 text-sm md:text-base">
           💡 <strong>Tip:</strong> Lead with heart and vision. When you guide a teacher, update a record, or support a student, remember, you’re building a legacy of learning that lasts far beyond the classroom.
         </p>
@@ -103,7 +95,6 @@
             <p class="font-semibold text-sm md:text-lg">Felisberto Raimundo Cuambe</p>
             <p class="text-xs md:text-sm opacity-90 mt-2">Recognized for outstanding leadership, dedication, and commitment to excellence at Cuambe English School.</p>
           </div>
-
           <div class="p-4 rounded-2xl text-white bg-gradient-to-br from-blue-600 to-indigo-700">
             <h3 class="text-md md:text-xl font-bold mb-1">💬 Motivational Quote</h3>
             <p id="quote" class="text-sm md:text-lg italic"></p>
@@ -179,21 +170,18 @@
 </div>
 
 <script>
-/* ---------------- Responsive sidebar toggle ---------------- */
+/* ---------------- Sidebar & Mobile Menu ---------------- */
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileCloseBtn = document.getElementById('mobileCloseBtn');
 
 function openMobileMenu() {
-  sidebar.classList.remove('-translate-x-full');
-  sidebar.classList.add('translate-x-0');
   sidebar.style.transform = 'translateX(0)';
   overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
 function closeMobileMenu() {
-  // move sidebar off-screen on mobile
   sidebar.style.transform = 'translateX(-110%)';
   overlay.classList.add('hidden');
   document.body.style.overflow = '';
@@ -202,24 +190,16 @@ mobileMenuBtn?.addEventListener('click', openMobileMenu);
 mobileCloseBtn?.addEventListener('click', closeMobileMenu);
 overlay?.addEventListener('click', closeMobileMenu);
 
-/* mobile quick buttons */
 document.getElementById('mobileTeachersBtn')?.addEventListener('click', () => { closeMobileMenu(); showSection('teachers'); });
 document.getElementById('mobileStudentsBtn')?.addEventListener('click', () => { closeMobileMenu(); showSection('students'); });
 
-/* ---------------- Navigation ---------------- */
 function showSection(section) {
   document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
-  const el = document.getElementById(section);
-  if (el) el.classList.remove('hidden');
-  // close menu on small screens when navigating
+  document.getElementById(section)?.classList.remove('hidden');
   if (window.innerWidth < 768) closeMobileMenu();
 }
 
-/* ---------------- Logout ---------------- */
-function logout() {
-  // admin file sits in /admin/, so go up one level
-  window.location.href = '../login.html';
-}
+function logout() { window.location.href = '../login.html'; }
 
 /* ---------------- Load Teachers ---------------- */
 function loadTeachers() {
@@ -228,16 +208,11 @@ function loadTeachers() {
   tbody.innerHTML = '';
   const noMsg = document.getElementById('noTeachersMsg');
 
-  if (!teachers || teachers.length === 0) {
-    noMsg.classList.remove('hidden');
-    return;
-  } else {
-    noMsg.classList.add('hidden');
-  }
+  if (!teachers.length) { noMsg.classList.remove('hidden'); return; }
+  noMsg.classList.add('hidden');
 
   teachers.forEach((t, idx) => {
     const tr = document.createElement('tr');
-    tr.className = 'align-top';
     tr.innerHTML = `
       <td class="px-2 py-2">${t.name}</td>
       <td class="px-2 py-2 hidden sm:table-cell">${t.email || ''}</td>
@@ -261,12 +236,8 @@ function loadStudents() {
   tbody.innerHTML = '';
   const noMsg = document.getElementById('noStudentsMsg');
 
-  if (!students || students.length === 0) {
-    noMsg.classList.remove('hidden');
-    return;
-  } else {
-    noMsg.classList.add('hidden');
-  }
+  if (!students.length) { noMsg.classList.remove('hidden'); return; }
+  noMsg.classList.add('hidden');
 
   students.forEach((s, idx) => {
     const tr = document.createElement('tr');
@@ -295,32 +266,28 @@ const quotes = [
 ];
 document.getElementById('quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
-/* ---------------- Dashboard Navigation (paths kept correct for /admin/) ---------------- */
+/* ---------------- Chrome-safe Navigation Fix ---------------- */
 function goTeacherDashboard(email) {
-  window.location.href = '../teachers/dashboard.html';
+  const base = window.location.origin + window.location.pathname.replace(/admin\/.*/, '');
+  window.location.href = base + 'teachers/dashboard.html';
 }
 function goStudentDashboard(email) {
-  window.location.href = '../students/dashboard.html';
+  const base = window.location.origin + window.location.pathname.replace(/admin\/.*/, '');
+  window.location.href = base + 'students/dashboard.html';
 }
 
-/* ---------------- Quick Access Buttons (already have IDs in markup) ---------------- */
-document.getElementById('openTeachers').onclick = () => window.location.href = '../teachers/dashboard.html';
-document.getElementById('openStudents').onclick = () => window.location.href = '../students/dashboard.html';
+document.getElementById('openTeachers').onclick = () => goTeacherDashboard();
+document.getElementById('openStudents').onclick = () => goStudentDashboard();
 
-/* ---------------- Placeholder functions for edit/delete (if you have them elsewhere) ---------------- */
-function editTeacher(idx) {
-  // implement or call your existing edit logic
-  console.log('editTeacher', idx);
-}
+/* ---------------- Edit/Delete ---------------- */
+function editTeacher(idx) { console.log('editTeacher', idx); }
 function deleteTeacher(idx) {
   const teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
   teachers.splice(idx, 1);
   localStorage.setItem('teachers', JSON.stringify(teachers));
   loadTeachers();
 }
-function editStudent(idx) {
-  console.log('editStudent', idx);
-}
+function editStudent(idx) { console.log('editStudent', idx); }
 function deleteStudent(idx) {
   const students = JSON.parse(localStorage.getItem('students') || '[]');
   students.splice(idx, 1);
@@ -330,10 +297,7 @@ function deleteStudent(idx) {
 
 /* ---------------- Initialize ---------------- */
 window.onload = function() {
-  // ensure sidebar hidden on mobile initially
-  if (window.innerWidth < 768) {
-    sidebar.style.transform = 'translateX(-110%)';
-  }
+  if (window.innerWidth < 768) sidebar.style.transform = 'translateX(-110%)';
   showSection('welcome');
   loadTeachers();
   loadStudents();

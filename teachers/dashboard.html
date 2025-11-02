@@ -190,14 +190,7 @@
     sidebar.classList.toggle('-translate-x-full');
   });
 
-  // Access control
-  const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
-  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
-    alert('Access denied. Only the teacher can access this page.');
-    window.location.href = '../login.html';
-  }
-
-  // Navigation
+  // ---------------- Navigation ----------------
   function showSection(section) {
     document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
     document.getElementById(section).classList.remove('hidden');
@@ -209,7 +202,7 @@
   }
 
   function logout() {
-    localStorage.removeItem('loggedStudent');
+    localStorage.removeItem('loggedStudent'); // keep same localStorage for consistency
     window.location.href = '../login.html';
   }
 
