@@ -10,78 +10,23 @@
   body { font-family: 'Inter', sans-serif; background: #f0f4f8; margin:0; overflow-x:hidden; }
   .sidebar-btn { transition: all 0.2s; font-size: 1.15rem; }
   .sidebar-btn:hover { background: rgba(255,255,255,0.2); border-radius: 0.5rem; }
-  .main-content { margin-left: 20rem; padding: 0; min-height: calc(100vh - 60px); overflow: hidden; position: relative; }
-
-  /* Page Slide + Fade */
-  .page-slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    padding: 3rem 4rem;
-    top:0;
-    left:0;
-    background: rgba(255,255,255,0.95);
-    border-radius: 1.5rem 0 0 1.5rem;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.98);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    overflow-y: auto;
-  }
-  .page-slide.active { opacity: 1; pointer-events: auto; transform: scale(1); }
-
+  .main-content { margin-left: 20rem; padding: 0; min-height: 100vh; position: relative; }
+  .page-slide { display: none; width: 100%; padding: 3rem 4rem; box-sizing: border-box; }
+  .page-slide.active { display: block; }
   .page-title { font-size: 2.2rem; font-weight: bold; color: #e53935; margin-bottom: 2rem; text-align: center; }
   .content-paragraph { margin-bottom: 1rem; line-height: 1.7rem; font-size: 1.25rem; }
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
   .language-container { position: fixed; top: 1rem; right: 2rem; z-index: 50; }
 
-  /* MOBILE STYLES */
   @media (max-width: 768px) {
-    .main-content { margin-left: 0; padding: 2rem 1rem; min-height: auto; }
-
-    aside {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 16rem;
-      height: 100%;
-      background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15);
-      padding: 1.5rem;
-      transition: left 0.3s ease;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-    }
+    .main-content { margin-left: 0; padding: 2rem 1rem; }
+    aside { position: fixed; top: 0; left: -100%; width: 16rem; height: 100%; background: linear-gradient(to bottom, #1e3a8a, #dc2626, #facc15); padding: 1.5rem; transition: left 0.3s ease; z-index: 200; display: flex; flex-direction: column; }
     aside.show { left: 0; }
-
-    #hamburger {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 250;
-      cursor: pointer;
-      background: #111827;
-      padding: 0.6rem 0.7rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
+    #hamburger { display: flex; flex-direction: column; gap: 0.25rem; position: fixed; top: 1rem; left: 1rem; z-index: 250; cursor: pointer; background: #111827; padding: 0.6rem 0.7rem; border-radius: 0.5rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     #hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
-
-    .overlay { 
-      display: none; 
-      position: fixed; 
-      top:0; left:0; 
-      width:100%; height:100%; 
-      background: rgba(0,0,0,0.4); 
-      z-index: 150; 
-    }
+    .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 150; }
     .overlay.show { display: block; }
-
-    .page-slide { padding: 2rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .page-slide { padding: 2rem 1.5rem; }
     .page-title { font-size: 1.75rem; margin-bottom: 1.5rem; }
     .content-paragraph { font-size: 1rem; line-height: 1.5rem; }
     .language-container { top: 0.5rem; right: 1rem; }
@@ -102,7 +47,7 @@
 
 <!-- Sidebar -->
 <aside class="w-64 bg-gradient-to-b from-blue-900 via-red-700 to-yellow-500 text-white p-6 flex flex-col shadow-xl fixed h-full">
-  <img src="https://via.placeholder.com/80x80.png?text=Logo" alt="CUAMBE Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
+  <img src="images/logo.png" alt="CUAMBE Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
   <h2 class="text-2xl font-bold mb-6 text-center drop-shadow-lg" id="sidebarTitle">NAVIGATION PAD</h2>
   <nav class="flex-1 space-y-4">
     <button onclick="showPage('overviewPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">🏠 Overview</button>
