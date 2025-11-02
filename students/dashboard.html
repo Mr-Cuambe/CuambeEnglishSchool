@@ -11,6 +11,8 @@
   .sidebar-btn { transition: all 0.2s; font-size: 1.15rem; }
   .sidebar-btn:hover { background: rgba(255,255,255,0.2); border-radius: 0.5rem; }
   .main-content { margin-left: 20rem; padding: 0; min-height: calc(100vh - 60px); overflow: hidden; position: relative; }
+
+  /* Page Slide + Fade */
   .page-slide {
     position: absolute;
     width: 100%;
@@ -27,7 +29,8 @@
     transition: opacity 0.5s ease, transform 0.5s ease;
     overflow-y: auto;
   }
-  .page-slide.active { opacity:1; pointer-events:auto; transform: scale(1); }
+  .page-slide.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+
   .page-title { font-size: 2.2rem; font-weight: bold; color: #e53935; margin-bottom: 2rem; text-align: center; }
   .content-paragraph { margin-bottom: 1rem; line-height: 1.7rem; font-size: 1.25rem; }
   .language-select { border: 1px solid #ccc; border-radius: 0.5rem; padding: 0.6rem 1rem; font-size: 1.1rem; font-weight: 600; }
@@ -99,7 +102,7 @@
 
 <!-- Sidebar -->
 <aside class="w-64 bg-gradient-to-b from-blue-900 via-red-700 to-yellow-500 text-white p-6 flex flex-col shadow-xl fixed h-full">
-  <img src="images/logo.png" alt="CUAMBE Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
+  <img src="https://via.placeholder.com/80x80.png?text=Logo" alt="CUAMBE Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
   <h2 class="text-2xl font-bold mb-6 text-center drop-shadow-lg" id="sidebarTitle">NAVIGATION PAD</h2>
   <nav class="flex-1 space-y-4">
     <button onclick="showPage('overviewPage')" class="sidebar-btn flex items-center gap-2 px-3 py-2 font-semibold">🏠 Overview</button>
