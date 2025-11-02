@@ -66,8 +66,8 @@
 <script>
   // ------------------- ACCESS CHECK -------------------
   const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
-  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
-    alert('Access denied. Only the teacher can access Level 1.');
+  if (!loggedUser || (loggedUser.email !== 'mr@cuambe.com' && loggedUser.email !== 'admin@cuambe.com')) {
+    alert('Access denied. Only the teacher or admin can access Level 1.');
     window.location.href = '../login.html';
   }
 
@@ -117,7 +117,7 @@
     "Jobs",
     "Workplaces",
     "Future dreams",
-    "Celebrations & Festivals" // Lesson 33
+    "Celebrations & Festivals"
   ];
 
   const lessonsContainer = document.getElementById('lessonsContainer');

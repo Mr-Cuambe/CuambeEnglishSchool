@@ -70,10 +70,10 @@
 </main>
 
 <script>
-  // Teacher access
+  // ------------------- ACCESS CHECK -------------------
   const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
-  if (!loggedUser || loggedUser.email !== 'mr@cuambe.com') {
-    alert('Access denied. Only the teacher can access Level 3.');
+  if (!loggedUser || (loggedUser.email !== 'mr@cuambe.com' && loggedUser.email !== 'admin@cuambe.com')) {
+    alert('Access denied. Only the teacher or admin can access Level 3.');
     window.location.href = '../login.html';
   }
 
