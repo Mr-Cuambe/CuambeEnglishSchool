@@ -69,10 +69,8 @@
   <!-- Levels Section -->
   <section id="levels" class="hidden space-y-6">
     <h2 class="text-2xl font-semibold text-white">📚 Manage Course Levels</h2>
-
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <!-- Level 1 -->
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
         <h3 class="text-xl font-bold text-blue-700 mb-3">Level 1</h3>
         <p class="text-gray-600 text-center mb-4">
@@ -83,7 +81,6 @@
         </button>
       </div>
 
-      <!-- Level 2 -->
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
         <h3 class="text-xl font-bold text-blue-700 mb-3">Level 2</h3>
         <p class="text-gray-600 text-center mb-4">
@@ -94,7 +91,6 @@
         </button>
       </div>
 
-      <!-- Level 3 -->
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
         <h3 class="text-xl font-bold text-blue-700 mb-3">Level 3</h3>
         <p class="text-gray-600 text-center mb-4">
@@ -105,7 +101,6 @@
         </button>
       </div>
 
-      <!-- Level 4 -->
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
         <h3 class="text-xl font-bold text-blue-700 mb-3">Level 4</h3>
         <p class="text-gray-600 text-center mb-4">
@@ -116,7 +111,6 @@
         </button>
       </div>
 
-      <!-- Level 5 -->
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-between">
         <h3 class="text-xl font-bold text-blue-700 mb-3">Level 5</h3>
         <p class="text-gray-600 text-center mb-4">
@@ -133,9 +127,7 @@
   <!-- Students Section -->
   <section id="students" class="hidden space-y-4">
     <h2 class="text-2xl font-semibold text-white mb-4">👥 Students</h2>
-    <div class="bg-white/90 p-6 rounded-2xl shadow text-gray-800 space-y-4" id="studentsContainer">
-      <!-- Students will be dynamically listed here -->
-    </div>
+    <div class="bg-white/90 p-6 rounded-2xl shadow text-gray-800 space-y-4" id="studentsContainer"></div>
   </section>
 
   <!-- Settings Section -->
@@ -143,36 +135,29 @@
     <h2 class="text-2xl font-semibold text-white mb-4">⚙️ Settings</h2>
     <div class="bg-white/90 p-6 rounded-2xl shadow text-gray-800 space-y-6">
 
-      <p>Manage your account preferences, dashboard themes, or teaching notes here.</p>
-
       <div class="flex items-center justify-between border-t pt-4">
         <span class="font-semibold text-gray-700">Dark Mode</span>
         <input type="checkbox" id="darkModeToggle" class="w-6 h-6 cursor-pointer">
       </div>
 
-      <!-- Email & Password Update -->
       <div class="space-y-4 mt-4">
         <h3 class="text-xl font-semibold text-blue-700">Update Email & Password</h3>
         <div class="space-y-2">
           <label class="block font-semibold text-gray-700">Current Email</label>
-          <input type="email" id="currentEmail" class="w-full border rounded-lg px-4 py-2" value="mr@cuambe.com">
+          <input type="email" id="currentEmail" class="w-full border rounded-lg px-4 py-2">
         </div>
-
         <div class="space-y-2">
           <label class="block font-semibold text-gray-700">Current Password</label>
           <input type="password" id="currentPassword" class="w-full border rounded-lg px-4 py-2" placeholder="Enter current password">
         </div>
-
         <div class="space-y-2">
           <label class="block font-semibold text-gray-700">New Password</label>
           <input type="password" id="newPassword" class="w-full border rounded-lg px-4 py-2" placeholder="Enter new password">
         </div>
-
         <div class="space-y-2">
           <label class="block font-semibold text-gray-700">Confirm New Password</label>
           <input type="password" id="confirmNewPassword" class="w-full border rounded-lg px-4 py-2" placeholder="Confirm new password">
         </div>
-
         <button onclick="updateCredentials()" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-xl shadow mt-2 w-full sm:w-auto">
           Save Changes
         </button>
@@ -183,151 +168,127 @@
 </main>
 
 <script>
-  // --- Mobile sidebar toggle ---
-  const sidebar = document.getElementById('sidebar');
-  const menuToggle = document.getElementById('menuToggle');
-  menuToggle?.addEventListener('click', () => {
-    sidebar.classList.toggle('-translate-x-full');
-  });
+const sidebar = document.getElementById('sidebar');
+const menuToggle = document.getElementById('menuToggle');
+menuToggle?.addEventListener('click', () => sidebar.classList.toggle('-translate-x-full'));
 
-  // ✅ --- Access control for teacher and admin ---
-  document.addEventListener("DOMContentLoaded", async () => {
-    const loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
-    const loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
+document.addEventListener("DOMContentLoaded", async () => {
+  let loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
+  let loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
 
-    // Admin default access
-    if (!loggedInTeacher && !loggedInAdmin) {
-      const adminEmail = "mr@cuambe.com";
-      const adminPassword = "Felis84";
+  const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
 
-      // Check if admin exists
-      const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
-      let admin = teachers.find(t => t.email === adminEmail);
-      if (!admin) {
-        // Create default admin if missing
-        const enc = new TextEncoder();
-        const data = enc.encode(adminPassword);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        admin = { email: adminEmail, passwordHash: hash, role: "admin" };
-        teachers.push(admin);
-        localStorage.setItem("teachers", JSON.stringify(teachers));
-      }
-
-      // Auto-set admin as logged in if no one else is
-      localStorage.setItem("loggedInAdmin", JSON.stringify({ email: adminEmail, role: "admin" }));
-    }
-  });
-
-  // --- Navigation ---
-  function showSection(section) {
-    document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
-    document.getElementById(section).classList.remove('hidden');
-    if (window.innerWidth < 768) sidebar.classList.add('-translate-x-full');
-  }
-
-  // --- Open level ---
-  function openLevel(url) {
-    const loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
-    const loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
-    if (!loggedInTeacher && !loggedInAdmin) {
-      alert("Access denied. Only the teacher or admin can access Level pages.");
-      return;
-    }
-    window.location.href = url;
-  }
-
-  // --- Logout ---
-  function logout() {
-    localStorage.removeItem('loggedStudent');
-    localStorage.removeItem('loggedInTeacher');
-    localStorage.removeItem('loggedInAdmin');
-    localStorage.removeItem('role');
-    window.location.href = '../login.html';
-  }
-
-  // --- Dark Mode toggle ---
-  document.getElementById('darkModeToggle').addEventListener('change', function() {
-    document.body.classList.toggle('bg-gray-900');
-  });
-
-  // --- Students display ---
-  function loadStudents() {
-    const container = document.getElementById('studentsContainer');
-    container.innerHTML = '';
-    const students = JSON.parse(localStorage.getItem('students') || '[]');
-    if(students.length === 0){
-      container.innerHTML = '<p>No students subscribed yet.</p>';
-      return;
-    }
-
-    students.forEach((student, i) => {
-      const div = document.createElement('div');
-      div.className = "flex flex-col sm:flex-row sm:justify-between sm:items-center bg-gray-100 rounded-lg p-3 gap-2";
-      div.innerHTML = `
-        <div>
-          <p class="font-semibold text-blue-700">${student.fullName}</p>
-          <p class="text-gray-700 text-sm break-all">Email: ${student.email} | Level: ${student.level}</p>
-        </div>
-        <button onclick="removeStudent(${i})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg w-full sm:w-auto">Remove</button>
-      `;
-      container.appendChild(div);
-    });
-  }
-
-  function removeStudent(index){
-    let students = JSON.parse(localStorage.getItem('students') || '[]');
-    students.splice(index,1);
-    localStorage.setItem('students', JSON.stringify(students));
-    loadStudents();
-  }
-
-  // --- Email & password update ---
-  async function hashPassword(password) {
+  // Default admin creation if missing
+  const adminEmail = "mr@cuambe.com";
+  const adminPassword = "Felis84";
+  let admin = teachers.find(t => t.email === adminEmail);
+  if(!admin){
     const enc = new TextEncoder();
-    const data = enc.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(adminPassword));
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+    const hash = hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+    admin = {email: adminEmail, passwordHash: hash, role: "admin"};
+    teachers.push(admin);
+    localStorage.setItem("teachers", JSON.stringify(teachers));
   }
 
-  async function updateCredentials() {
-    const email = document.getElementById("currentEmail").value.trim();
-    const currentPassword = document.getElementById("currentPassword").value;
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+  // Redirect if not logged in
+  if(!loggedInTeacher && !loggedInAdmin){
+    alert("Access denied. Please log in first.");
+    window.location.href = "../login.html";
+    return;
+  }
 
-    let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
-    const teacher = teachers.find(t => t.email === "mr@cuambe.com");
-    if(!teacher){ alert("Teacher not found."); return; }
+  // Set current email field
+  const currentUser = loggedInAdmin || loggedInTeacher;
+  document.getElementById("currentEmail").value = currentUser.email;
 
-    const currentPasswordHash = await hashPassword(currentPassword);
-    if(currentPasswordHash !== teacher.passwordHash){
+  loadStudents();
+});
+
+function showSection(section){
+  document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(section).classList.remove('hidden');
+  if(window.innerWidth < 768) sidebar.classList.add('-translate-x-full');
+}
+
+function openLevel(url){
+  const loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
+  const loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
+  if(!loggedInTeacher && !loggedInAdmin){
+    alert("Access denied.");
+    return;
+  }
+  window.location.href = url;
+}
+
+function logout(){
+  localStorage.removeItem('loggedStudent');
+  localStorage.removeItem('loggedInTeacher');
+  localStorage.removeItem('loggedInAdmin');
+  window.location.href = '../login.html';
+}
+
+document.getElementById('darkModeToggle').addEventListener('change', function(){
+  document.body.classList.toggle('bg-gray-900');
+});
+
+function loadStudents(){
+  const container = document.getElementById('studentsContainer');
+  container.innerHTML = '';
+  const students = JSON.parse(localStorage.getItem('students') || '[]');
+  if(students.length === 0){
+    container.innerHTML = '<p>No students subscribed yet.</p>';
+    return;
+  }
+  students.forEach((student,i)=>{
+    const div = document.createElement('div');
+    div.className = "flex flex-col sm:flex-row sm:justify-between sm:items-center bg-gray-100 rounded-lg p-3 gap-2";
+    div.innerHTML = `<div><p class="font-semibold text-blue-700">${student.fullName}</p><p class="text-gray-700 text-sm break-all">Email: ${student.email} | Level: ${student.level}</p></div>`;
+    container.appendChild(div);
+  });
+}
+
+async function hashPassword(password){
+  const enc = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(password));
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function updateCredentials(){
+  const email = document.getElementById("currentEmail").value.trim();
+  const currentPassword = document.getElementById("currentPassword").value;
+  const newPassword = document.getElementById("newPassword").value;
+  const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+  let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+  let user = teachers.find(t => t.email === email) || teachers.find(t => t.role==="admin");
+
+  if(currentPassword){
+    const hash = await hashPassword(currentPassword);
+    if(hash !== user.passwordHash){
       alert("Current password is incorrect.");
       return;
     }
-
-    if(newPassword && newPassword !== confirmNewPassword){
-      alert("New password and confirmation do not match.");
-      return;
-    }
-
-    teacher.email = email;
-    if(newPassword) teacher.passwordHash = await hashPassword(newPassword);
-
-    const index = teachers.findIndex(t => t.email === "mr@cuambe.com");
-    teachers[index] = teacher;
-    localStorage.setItem("teachers", JSON.stringify(teachers));
-    localStorage.setItem("loggedStudent", JSON.stringify({email: email}));
-
-    alert("Email and password updated successfully!");
-    document.getElementById("currentPassword").value = "";
-    document.getElementById("newPassword").value = "";
-    document.getElementById("confirmNewPassword").value = "";
   }
 
-  loadStudents();
+  if(newPassword && newPassword !== confirmNewPassword){
+    alert("New password and confirmation do not match.");
+    return;
+  }
+
+  user.email = email;
+  if(newPassword) user.passwordHash = await hashPassword(newPassword);
+
+  const index = teachers.findIndex(t => t.email === user.email || t.role==="admin");
+  teachers[index] = user;
+  localStorage.setItem("teachers", JSON.stringify(teachers));
+  alert("Email and password updated successfully!");
+  document.getElementById("currentPassword").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("confirmNewPassword").value = "";
+}
 </script>
 
 </body>
