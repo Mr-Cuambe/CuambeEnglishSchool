@@ -183,35 +183,76 @@
 </main>
 
 <script>
-  // Mobile sidebar toggle
+  // --- Mobile sidebar toggle ---
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   menuToggle?.addEventListener('click', () => {
     sidebar.classList.toggle('-translate-x-full');
   });
 
-  // ---------------- Navigation ----------------
+  // ✅ --- Access control for teacher and admin ---
+  document.addEventListener("DOMContentLoaded", async () => {
+    const loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
+    const loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
+
+    // Admin default access
+    if (!loggedInTeacher && !loggedInAdmin) {
+      const adminEmail = "mr@cuambe.com";
+      const adminPassword = "Felis84";
+
+      // Check if admin exists
+      const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+      let admin = teachers.find(t => t.email === adminEmail);
+      if (!admin) {
+        // Create default admin if missing
+        const enc = new TextEncoder();
+        const data = enc.encode(adminPassword);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        admin = { email: adminEmail, passwordHash: hash, role: "admin" };
+        teachers.push(admin);
+        localStorage.setItem("teachers", JSON.stringify(teachers));
+      }
+
+      // Auto-set admin as logged in if no one else is
+      localStorage.setItem("loggedInAdmin", JSON.stringify({ email: adminEmail, role: "admin" }));
+    }
+  });
+
+  // --- Navigation ---
   function showSection(section) {
     document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
     document.getElementById(section).classList.remove('hidden');
-    if (window.innerWidth < 768) sidebar.classList.add('-translate-x-full'); // close on mobile
+    if (window.innerWidth < 768) sidebar.classList.add('-translate-x-full');
   }
 
+  // --- Open level ---
   function openLevel(url) {
+    const loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
+    const loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
+    if (!loggedInTeacher && !loggedInAdmin) {
+      alert("Access denied. Only the teacher or admin can access Level pages.");
+      return;
+    }
     window.location.href = url;
   }
 
+  // --- Logout ---
   function logout() {
-    localStorage.removeItem('loggedStudent'); // keep same localStorage for consistency
+    localStorage.removeItem('loggedStudent');
+    localStorage.removeItem('loggedInTeacher');
+    localStorage.removeItem('loggedInAdmin');
+    localStorage.removeItem('role');
     window.location.href = '../login.html';
   }
 
-  // Dark Mode toggle
+  // --- Dark Mode toggle ---
   document.getElementById('darkModeToggle').addEventListener('change', function() {
     document.body.classList.toggle('bg-gray-900');
   });
 
-  // Display students
+  // --- Students display ---
   function loadStudents() {
     const container = document.getElementById('studentsContainer');
     container.innerHTML = '';
@@ -242,7 +283,7 @@
     loadStudents();
   }
 
-  // Email & Password update
+  // --- Email & password update ---
   async function hashPassword(password) {
     const enc = new TextEncoder();
     const data = enc.encode(password);

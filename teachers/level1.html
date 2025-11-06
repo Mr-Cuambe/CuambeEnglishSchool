@@ -22,7 +22,6 @@
   <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
   <button onclick="showSection('tests')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
   <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">👥 Students</button>
-  <button onclick="logout()" class="w-full px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-2 justify-center mt-auto">🚪 Logout</button>
 </aside>
 
 <!-- Main Content -->
@@ -32,10 +31,10 @@
   <section id="welcome" class="space-y-6">
     <h2 class="text-3xl font-bold text-white">👋 Welcome Teacher!</h2>
     <div class="bg-white/95 p-6 md:p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
-      <p class="text-lg">Welcome to your professional hub for Level 1. A place designed to support, empower, and celebrate you as the heart of Cuambe English School. Every click here connects you to the tools and resources that make teaching more effective, engaging, and impactful.</p>
-      <p class="text-lg">Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students. Your dedication transforms challenges into opportunities, and your guidance shapes the leaders, thinkers, and creators of tomorrow.</p>
-      <p class="text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education. Here, you can plan lessons, track progress, and collaborate with colleagues, all in one place designed to save time and enhance learning experiences.</p>
-      <p class="text-lg">Thank you for your unwavering devotion to your students and your craft. Together, we are building not just a school, but a community where learning thrives, potential is unlocked, and every teacher has the support to shine. Let us continue to inspire, innovate, and transform education every day, one student at a time.</p>
+      <p class="text-lg">Welcome to your professional hub for Level 1. A place designed to support, empower, and celebrate you as the heart of Cuambe English School.</p>
+      <p class="text-lg">Each day, you inspire curiosity, nurture talent, and open doors to new possibilities for your students.</p>
+      <p class="text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education.</p>
+      <p class="text-lg">Thank you for your unwavering devotion to your students and your craft.</p>
       <p class="text-lg text-gray-700 italic">💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.</p>
       <p class="text-lg text-gray-700 italic">💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.</p>
     </div>
@@ -64,22 +63,10 @@
 </main>
 
 <script>
-  // ------------------- ACCESS CHECK -------------------
-  const loggedUser = JSON.parse(localStorage.getItem('loggedStudent'));
-  if (!loggedUser || (loggedUser.email !== 'mr@cuambe.com' && loggedUser.email !== 'admin@cuambe.com')) {
-    alert('Access denied. Only the teacher or admin can access Level 1.');
-    window.location.href = '../login.html';
-  }
-
   // ------------------- NAVIGATION -------------------
   function showSection(section) {
     document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
     document.getElementById(section).classList.remove('hidden');
-  }
-
-  function logout() {
-    localStorage.removeItem('loggedStudent');
-    window.location.href = '../login.html';
   }
 
   // ------------------- LESSONS -------------------
@@ -126,7 +113,6 @@
     const i = index + 1;
     const div = document.createElement('div');
     div.className = "bg-white rounded-2xl shadow p-4 space-y-4";
-
     div.innerHTML = `
       <div class="accordion-header bg-blue-200 p-4 font-semibold rounded cursor-pointer flex justify-between items-center" onclick="toggleAccordion(this)">
         <span>Lesson ${i}: ${title}</span>
@@ -143,6 +129,13 @@
       </div>
     `;
     lessonsContainer.appendChild(div);
+
+    // Load saved data
+    const saved = JSON.parse(localStorage.getItem(`level1_lesson_${i}`));
+    if (saved) {
+      document.getElementById(`instructions${i}`).value = saved.instructions || "";
+      document.getElementById(`tasks${i}`).value = saved.tasks || "";
+    }
   });
 
   function toggleAccordion(header) {
@@ -170,42 +163,24 @@
       reader.onload = e => {
         lessonData.file = e.target.result;
         localStorage.setItem(lessonKey, JSON.stringify(lessonData));
-        updateStudentDashboard(i, lessonData);
         alert(`Lesson ${i} saved!`);
       };
       reader.readAsDataURL(fileInput.files[0]);
     } else {
       localStorage.setItem(lessonKey, JSON.stringify(lessonData));
-      updateStudentDashboard(i, lessonData);
       alert(`Lesson ${i} saved (without file)!`);
     }
   }
 
-  function updateStudentDashboard(i, lessonData) {
-    const lessons = JSON.parse(localStorage.getItem('student_lessons_level1')) || {};
-    lessons[i] = lessonData;
-    localStorage.setItem('student_lessons_level1', JSON.stringify(lessons));
-  }
-
-  // ------------------- LOAD SAVED DATA -------------------
-  window.onload = () => {
-    lessonTitles.forEach((_, i) => {
-      const saved = JSON.parse(localStorage.getItem(`level1_lesson_${i + 1}`));
-      if (saved) {
-        document.getElementById(`instructions${i + 1}`).value = saved.instructions || "";
-        document.getElementById(`tasks${i + 1}`).value = saved.tasks || "";
-      }
-    });
-  };
-
   // ------------------- TESTS -------------------
-  const testsContainer = document.getElementById('testsContainer');
   const testTitles = [
     "Test 1 – Units 1–4",
     "Test 2 – Units 5–8",
     "Test 3 – Units 9–12",
     "Final Presentation"
   ];
+
+  const testsContainer = document.getElementById('testsContainer');
 
   testTitles.forEach((title, t) => {
     const div = document.createElement('div');
@@ -216,6 +191,10 @@
       <button onclick="saveTest(${t+1})" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save Test ${t+1}</button>
     `;
     testsContainer.appendChild(div);
+
+    // Load saved data
+    const saved = localStorage.getItem(`level1_test_${t+1}`);
+    if (saved) document.getElementById(`test${t+1}`).value = saved;
   });
 
   function saveTest(t) {
@@ -224,12 +203,8 @@
     alert(`Test ${t} saved!`);
   }
 
-  window.addEventListener('load', () => {
-    testTitles.forEach((_, t) => {
-      const saved = localStorage.getItem(`level1_test_${t + 1}`);
-      if (saved) document.getElementById(`test${t + 1}`).value = saved;
-    });
-  });
+  // Show welcome section by default
+  showSection('welcome');
 </script>
 
 </body>

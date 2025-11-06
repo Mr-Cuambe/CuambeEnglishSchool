@@ -85,83 +85,25 @@
 
   /* RESPONSIVE */
   @media (max-width: 1024px) {
-    /* Slimmer sidebar for tablets/small laptops */
-    .sidebar {
-      width: 12rem;
-      padding: 1rem;
-    }
-
-    .sidebar h2 {
-      font-size: 1.5rem;
-    }
-
-    .sidebar-btn {
-      font-size: 0.95rem;
-      padding: 0.5rem 0.8rem;
-    }
-
-    .dropdown-item {
-      font-size: 0.9rem;
-    }
-
-    /* Main content adjusts */
-    .main-content {
-      margin-left: 12rem;
-      padding: 3rem 2rem;
-    }
+    .sidebar { width: 12rem; padding: 1rem; }
+    .sidebar h2 { font-size: 1.5rem; }
+    .sidebar-btn { font-size: 0.95rem; padding: 0.5rem 0.8rem; }
+    .dropdown-item { font-size: 0.9rem; }
+    .main-content { margin-left: 12rem; padding: 3rem 2rem; }
   }
 
   @media (max-width: 768px) {
-    /* Sidebar slide-in */
-    .sidebar { 
-      left: -100%; 
-      width: 16rem; 
-      transition: left 0.3s ease; 
-      z-index: 200; /* above overlay */
-    }
+    .sidebar { left: -100%; width: 16rem; transition: left 0.3s ease; z-index: 200; }
     .sidebar.open { left: 0; }
-
-    /* Content */
     .main-content { margin-left: 0; padding: 2rem 1rem; }
-
-    /* Header/text scale */
     .header-title { font-size: 1.6rem; margin-top: 4rem; }
     .content-paragraph { font-size: 1rem; line-height: 1.6rem; }
-
-    /* Hamburger */
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 250; /* above sidebar & overlay */
-      cursor: pointer;
-      background: #111827;
-      padding: 0.6rem 0.7rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
+    .hamburger { display: flex; flex-direction: column; gap: 0.25rem; position: fixed; top: 1rem; left: 1rem; z-index: 250; cursor: pointer; background: #111827; padding: 0.6rem 0.7rem; border-radius: 0.5rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     .hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
-
-    /* Overlay */
-    .overlay { 
-      display: none; 
-      position: fixed; 
-      top:0; left:0; 
-      width:100%; height:100%; 
-      background: rgba(0,0,0,0.4); 
-      z-index: 150; /* below sidebar */
-    }
+    .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 150; }
     .overlay.show { display: block; }
-
-    /* Dashboard dropdown inside sidebar stays above */
     #dashboardDropdown { z-index: 300; }
-
-    /* Language dropdown */
     .language-container { top: 0.8rem; right: 3.5rem; }
-
     footer { font-size: 0.9rem; padding: 0.8rem; }
   }
 </style>
@@ -188,9 +130,10 @@
         🧭 Dashboards <span id="dropdownArrow">▼</span>
       </button>
       <div id="dashboardDropdown" class="absolute left-0 mt-2 w-56 bg-white text-gray-900 rounded-lg shadow-lg hidden flex-col overflow-hidden">
-        <div onclick="window.location.href='admin/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Admin Dashboard</div>
-        <div onclick="window.location.href='teachers/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Teachers Dashboard</div>
-        <div onclick="window.location.href='students/dashboard.html'" class="dropdown-item px-3 py-2 cursor-pointer">Students Dashboard</div>
+        <!-- Prompt credentials before opening dashboard -->
+        <div class="dropdown-item px-3 py-2 cursor-pointer" onclick="promptLogin('admin')">Admin Dashboard</div>
+        <div class="dropdown-item px-3 py-2 cursor-pointer" onclick="promptLogin('teacher')">Teachers Dashboard</div>
+        <div class="dropdown-item px-3 py-2 cursor-pointer" onclick="promptLogin('student')">Students Dashboard</div>
       </div>
     </div>
 
@@ -260,19 +203,14 @@
     overlay.classList.toggle('show');
   });
 
-  // Close sidebar when overlay is clicked
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
   });
 
-  // Prevent overlay from blocking clicks on sidebar items
-  sidebar.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
+  sidebar.addEventListener('click', e => e.stopPropagation());
 
-  // Dashboard dropdown toggle
-  document.getElementById('dashboardDropdownBtn').addEventListener('click', (e) => {
+  document.getElementById('dashboardDropdownBtn').addEventListener('click', e => {
     e.stopPropagation();
     const dropdown = document.getElementById('dashboardDropdown');
     const arrow = document.getElementById('dropdownArrow');
@@ -280,7 +218,6 @@
     arrow.textContent = dropdown.classList.contains('hidden') ? '▼' : '▲';
   });
 
-  // Clicking anywhere outside the dropdown closes it
   document.addEventListener('click', () => {
     const dropdown = document.getElementById('dashboardDropdown');
     const arrow = document.getElementById('dropdownArrow');
@@ -290,30 +227,36 @@
     }
   });
 
-  // Bilingual content
-  const langSelect = document.getElementById('languageSelect');
-  langSelect.addEventListener('change', () => {
-    const lang = langSelect.value;
-    if(lang === 'pt'){
-      document.getElementById('welcomeTitle').textContent = "BEM-VINDO À CUAMBE ENGLISH SCHOOL";
-      document.getElementById('para1').textContent = "Para acessar o seu dashboard, você deve preencher a inscrição de acordo com sua função e inserir seu email e definir a senha que você usará para acessar seu dashboard como professor ou aluno. Suas credenciais são privadas, então certifique-se de não esquecê-las.";
-      document.getElementById('para2').textContent = "Na Cuambe English School, estamos comprometidos em fornecer educação de alta qualidade em inglês para crianças e adultos. Nossos programas são ministrados online por meio de plataformas flexíveis e profissionais como WhatsApp e Google Meet, garantindo que o aprendizado seja sempre acessível e conveniente.";
-      document.getElementById('para3').textContent = "Nossas aulas são projetadas para serem altamente interativas e participativas. Com uma abordagem centrada no aluno, garantimos que cada aprendiz esteja engajado, confiante e apoiado durante toda a sua jornada de aprendizado.";
-      document.getElementById('para4').textContent = "Todos os nossos professores são profissionais altamente qualificados, dedicados a criar um ambiente de aprendizagem dinâmico. Os materiais que usamos são cuidadosamente desenvolvidos para melhorar a comunicação oral e ajudar os alunos a construir habilidades práticas do mundo real.";
-      document.getElementById('para5').textContent = "Antes de iniciar as aulas, cada aluno realiza um teste diagnóstico para garantir que esteja matriculado no nível correto. Nossos cursos são divididos em níveis claros, cada um com duração de três meses, um período de aprendizado intensivo que chamamos de edição.";
-      document.getElementById('para6').textContent = "Para fortalecer as habilidades do mundo real, os alunos são obrigados a completar um estágio ao final dos estudos. Ao concluir o curso, os alunos também devem passar em um exame final, garantindo que cada graduado saia com conhecimento e competência prática.";
-      document.getElementById('para7').textContent = "Estamos muito felizes em recebê-lo na Cuambe English School! Juntos, embarcaremos em uma jornada inspiradora pelo mundo do inglês, onde seus sonhos e ambições florescerão. Nossa equipe está dedicada a apoiá-lo em cada passo, garantindo que o aprendizado seja agradável, significativo e fortalecedor.";
-    } else {
-      document.getElementById('welcomeTitle').textContent = "WELCOME TO CUAMBE ENGLISH SCHOOL";
-      document.getElementById('para1').textContent = "For you to login your dashboard, you have to fill in the subscription in accordance with your role and in the subscription you have to insert your email and set the password that you will use to access your dashboard as a teacher or as a student. Your credentials are private and no one can see them in your login so, make sure you don't forget them.";
-      document.getElementById('para2').textContent = "At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.";
-      document.getElementById('para3').textContent = "Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.";
-      document.getElementById('para4').textContent = "All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.";
-      document.getElementById('para5').textContent = "Before starting classes, every student takes a diagnostic test to ensure they are enrolled at the right level. Our courses are divided into clear levels, each lasting three months, an intensive learning period we call an edition.";
-      document.getElementById('para6').textContent = "To strengthen real-world skills, students are required to complete an internship towards the end of their studies. At the conclusion of the course, learners must also pass a final exam, ensuring that every graduate leaves with both knowledge and practical competence.";
-      document.getElementById('para7').textContent = "We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English, where your dreams and ambitions will flourish. Our team is dedicated to supporting you every step of the way, ensuring that learning is enjoyable, meaningful, and empowering.";
+  // LOGIN FUNCTION (fixed)
+  function promptLogin(role) {
+    const email = prompt("Enter your email for " + role + " dashboard:")?.trim().toLowerCase();
+    if (!email) return alert("Email is required!");
+    const password = prompt("Enter your password for " + role + " dashboard:");
+    if (!password) return alert("Password is required!");
+
+    // Admin hardcoded login
+    if (role === 'admin' && email === 'mr@cuambe.com' && password === 'Felis84') {
+      alert("Welcome Admin! Redirecting...");
+      localStorage.setItem('role', 'admin');
+      localStorage.setItem('userEmail', email);
+      return window.location.href = 'admin/dashboard.html';
     }
-  });
+
+    // Dynamic login for teachers and students
+    const storageKey = role === 'teacher' ? 'teachers' : 'students';
+    const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    const user = users.find(u => u.email?.toLowerCase() === email && u.password === password);
+
+    if (user) {
+      alert("Login successful! Redirecting...");
+      localStorage.setItem('role', role);
+      localStorage.setItem('userEmail', email);
+      if (role === 'teacher') window.location.href = 'teachers/dashboard.html';
+      if (role === 'student') window.location.href = 'students/dashboard.html';
+    } else {
+      alert("Invalid credentials. Please check your email and password or subscribe first.");
+    }
+  }
 </script>
 
 </body>

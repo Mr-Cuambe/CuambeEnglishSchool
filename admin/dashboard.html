@@ -176,6 +176,9 @@ const overlay = document.getElementById('overlay');
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileCloseBtn = document.getElementById('mobileCloseBtn');
 
+/* Improve mobile responsiveness */
+document.addEventListener('touchstart', () => {}, {passive: true});
+
 function openMobileMenu() {
   sidebar.style.transform = 'translateX(0)';
   overlay.classList.remove('hidden');
@@ -199,7 +202,11 @@ function showSection(section) {
   if (window.innerWidth < 768) closeMobileMenu();
 }
 
-function logout() { window.location.href = '../login.html'; }
+/* Logout: clear stored role and go to login */
+function logout() {
+  try { localStorage.removeItem('userRole'); localStorage.removeItem('userEmail'); } catch(e) {}
+  window.location.href = '../login.html';
+}
 
 /* ---------------- Load Teachers ---------------- */
 function loadTeachers() {
@@ -266,14 +273,20 @@ const quotes = [
 ];
 document.getElementById('quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
-/* ---------------- Chrome-safe Navigation Fix ---------------- */
 function goTeacherDashboard(email) {
-  const base = window.location.origin + window.location.pathname.replace(/admin\/.*/, '');
-  window.location.href = base + 'teachers/dashboard.html';
+  // Set user as admin so levels accept access
+  try { localStorage.setItem("userRole", "admin"); } catch(e) {}
+  // Optionally store email
+  if (email) try { localStorage.setItem("userEmail", email); } catch(e) {}
+  // Open teacher dashboard
+  window.location.href = "../teachers/dashboard.html";
 }
+
 function goStudentDashboard(email) {
-  const base = window.location.origin + window.location.pathname.replace(/admin\/.*/, '');
-  window.location.href = base + 'students/dashboard.html';
+  // Set user as admin (admin viewing student dashboard)
+  try { localStorage.setItem("userRole", "admin"); } catch(e) {}
+  if (email) try { localStorage.setItem("userEmail", email); } catch(e) {}
+  window.location.href = "../students/dashboard.html";
 }
 
 document.getElementById('openTeachers').onclick = () => goTeacherDashboard();
