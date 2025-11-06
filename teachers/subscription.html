@@ -65,24 +65,29 @@
                class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
       </div>
 
+      <!-- Levels to Teach -->
       <div>
-        <label class="block font-semibold text-gray-700">🎓 Level of Education</label>
-        <select id="educationLevel" required
-                class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none">
-          <option value="">Select your level</option>
-          <option value="High School">High School Training</option>
-          <option value="Bachelor">Bachelor</option>
-          <option value="Master">Master</option>
-          <option value="Other">Other</option>
-        </select>
+        <label class="block font-semibold text-gray-700">🎯 Levels to Teach</label>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-1">
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="teachingLevels" value="Level 1"> Level 1
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="teachingLevels" value="Level 2"> Level 2
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="teachingLevels" value="Level 3"> Level 3
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="teachingLevels" value="Level 4"> Level 4
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="teachingLevels" value="Level 5"> Level 5
+          </label>
+        </div>
       </div>
 
-      <div>
-        <label class="block font-semibold text-gray-700">📝 Bio / Experience</label>
-        <textarea name="bio" id="bio" rows="3" required 
-                  class="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:ring-2 focus:ring-red-500 outline-none"></textarea>
-      </div>
-
+      <!-- Submit Button -->
       <div class="text-center">
         <button type="submit" 
                 class="bg-gradient-to-r from-red-600 to-blue-900 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition duration-200 text-sm sm:text-base">
@@ -96,15 +101,18 @@
 document.getElementById("teacherForm").addEventListener("submit", function(event) {
   event.preventDefault();
 
+  // Get selected levels
+  const teachingLevels = Array.from(document.querySelectorAll('input[name="teachingLevels"]:checked'))
+                              .map(cb => cb.value);
+
   const teacher = {
     name: document.getElementById("name").value.trim(),
     email: document.getElementById("email").value.trim().toLowerCase(),
-    password: document.getElementById("password").value, // store as plain text
+    password: document.getElementById("password").value,
     phone: document.getElementById("phone").value.trim(),
     idNumber: document.getElementById("idNumber").value.trim(),
     idValidity: document.getElementById("idValidity").value,
-    educationLevel: document.getElementById("educationLevel").value,
-    bio: document.getElementById("bio").value.trim(),
+    teachingLevels: teachingLevels,
     createdAt: new Date().toISOString()
   };
 

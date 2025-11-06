@@ -103,44 +103,180 @@
       </div>
     </section>
 
-    <!-- Teachers Section -->
-    <section id="teachers" class="hidden space-y-4">
-      <h2 class="text-xl md:text-2xl font-semibold text-white">👩‍🏫 Manage Teachers</h2>
-      <div class="bg-white/90 p-3 md:p-6 rounded-2xl shadow text-gray-800 overflow-x-auto">
-        <table id="teachersTable" class="min-w-full text-sm md:text-base">
-          <thead>
-            <tr class="text-left text-xs md:text-sm">
-              <th class="px-2 py-2">Name</th>
-              <th class="px-2 py-2 hidden sm:table-cell">Email</th>
-              <th class="px-2 py-2">Level</th>
-              <th class="px-2 py-2 hidden md:table-cell">ID</th>
-              <th class="px-2 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <p id="noTeachersMsg" class="text-center text-gray-500 mt-3 hidden">No teachers found</p>
-      </div>
-    </section>
+    <<!-- Teachers Section -->
+<section id="teachers" class="hidden space-y-4">
+  <h2 class="text-xl md:text-2xl font-semibold text-white">👩‍🏫 Manage Teachers</h2>
+  <div class="bg-white/90 p-3 md:p-6 rounded-2xl shadow text-gray-800 overflow-x-auto">
+    <table id="teachersTable" class="min-w-full text-sm md:text-base border-collapse">
+      <thead>
+        <tr class="text-left text-xs md:text-sm bg-blue-100">
+          <th class="px-2 py-2 border">Name</th>
+          <th class="px-2 py-2 border hidden sm:table-cell">Email</th>
+          <th class="px-2 py-2 border">Phone</th>
+          <th class="px-2 py-2 border">Levels</th>
+          <th class="px-2 py-2 border">Access</th>
+          <th class="px-2 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="teachersBody">
+        <!-- Rows will be populated dynamically via JS -->
+      </tbody>
+    </table>
+    <p id="noTeachersMsg" class="text-center text-gray-500 mt-3 hidden">No teachers found</p>
+  </div>
+</section>
 
-    <!-- Students Section -->
-    <section id="students" class="hidden space-y-4">
-      <h2 class="text-xl md:text-2xl font-semibold text-white">👨‍🎓 Manage Students</h2>
-      <div class="bg-white/90 p-3 md:p-6 rounded-2xl shadow text-gray-800 overflow-x-auto">
-        <table id="studentsTable" class="min-w-full text-sm md:text-base">
-          <thead>
-            <tr class="text-left text-xs md:text-sm">
-              <th class="px-2 py-2">Name</th>
-              <th class="px-2 py-2 hidden sm:table-cell">Email</th>
-              <th class="px-2 py-2">Level</th>
-              <th class="px-2 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <p id="noStudentsMsg" class="text-center text-gray-500 mt-3 hidden">No students found</p>
-      </div>
-    </section>
+<script>
+// Load teachers from localStorage
+function loadTeachers() {
+  const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+  const tbody = document.getElementById("teachersBody");
+  tbody.innerHTML = "";
+
+  if (teachers.length === 0) {
+    document.getElementById("noTeachersMsg").classList.remove("hidden");
+    return;
+  } else {
+    document.getElementById("noTeachersMsg").classList.add("hidden");
+  }
+
+  teachers.forEach((teacher, index) => {
+    const tr = document.createElement("tr");
+    tr.classList.add("border-b", "hover:bg-gray-50");
+
+    tr.innerHTML = `
+      <td class="px-2 py-2">
+        <input type="text" class="w-full border rounded p-1 text-sm" value="${teacher.name}" data-index="${index}" data-field="name">
+      </td>
+      <td class="px-2 py-2 hidden sm:table-cell">
+        <input type="email" class="w-full border rounded p-1 text-sm" value="${teacher.email}" data-index="${index}" data-field="email">
+      </td>
+      <td class="px-2 py-2">
+        <input type="text" class="w-full border rounded p-1 text-sm" value="${teacher.phone}" data-index="${index}" data-field="phone">
+      </td>
+      <td class="px-2 py-2 space-y-1">
+        ${[1,2,3,4,5].map(lvl => `
+          <label class="flex items-center gap-2">
+            <input type="checkbox" ${teacher.teachingLevels.includes('Level ' + lvl) ? 'checked' : ''} data-index="${index}" data-level="Level ${lvl}"> Level ${lvl}
+          </label>
+        `).join("")}
+      </td>
+      <td class="px-2 py-2">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" ${teacher.dashboardAccess !== false ? 'checked' : ''} data-index="${index}" data-field="dashboardAccess"> Dashboard Access
+        </label>
+      </td>
+      <td class="px-2 py-2 space-y-1">
+        <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-xs w-full saveBtn" data-index="${index}">Save</button>
+        <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-xs w-full resetBtn" data-index="${index}">Reset Password</button>
+        <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs w-full deleteBtn" data-index="${index}">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  addEventListeners();
+}
+
+// Save, Reset, Delete functionality
+function addEventListeners() {
+  document.querySelectorAll(".saveBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+      const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+      const row = btn.closest("tr");
+
+      teachers[index].name = row.querySelector('input[data-field="name"]').value.trim();
+      teachers[index].email = row.querySelector('input[data-field="email"]').value.trim();
+      teachers[index].phone = row.querySelector('input[data-field="phone"]').value.trim();
+
+      // Update teaching levels
+      const levels = Array.from(row.querySelectorAll('input[type="checkbox"][data-level]:checked')).map(cb => cb.dataset.level);
+      teachers[index].teachingLevels = levels;
+
+      // Update dashboard access
+      teachers[index].dashboardAccess = row.querySelector('input[data-field="dashboardAccess"]').checked;
+
+      localStorage.setItem("teachers", JSON.stringify(teachers));
+      alert("Teacher information updated successfully!");
+    });
+  });
+
+  document.querySelectorAll(".resetBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+      const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+      teachers[index].password = "123456"; // default reset password
+      localStorage.setItem("teachers", JSON.stringify(teachers));
+      alert(`Password reset to default for ${teachers[index].name}`);
+    });
+  });
+
+  document.querySelectorAll(".deleteBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+      let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+      if (confirm(`Are you sure you want to delete ${teachers[index].name}?`)) {
+        teachers.splice(index, 1);
+        localStorage.setItem("teachers", JSON.stringify(teachers));
+        loadTeachers();
+      }
+    });
+  });
+}
+
+// Initialize
+loadTeachers();
+</script>
+
+<!-- Students Section -->
+<section id="students" class="hidden space-y-4">
+  <h2 class="text-xl md:text-2xl font-semibold text-white">👨‍🎓 Manage Students</h2>
+  <div class="bg-white/90 p-3 md:p-6 rounded-2xl shadow text-gray-800 overflow-x-auto">
+    <table id="studentsTable" class="min-w-full text-sm md:text-base border-collapse">
+      <thead>
+        <tr class="text-left text-xs md:text-sm bg-blue-100">
+          <th class="px-2 py-2 border">Name</th>
+          <th class="px-2 py-2 border hidden sm:table-cell">Email</th>
+          <th class="px-2 py-2 border">Level</th>
+          <th class="px-2 py-2 border">Status</th>
+          <th class="px-2 py-2 border">ID</th>
+          <th class="px-2 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Example row, dynamically fill using JS -->
+        <tr class="border-b hover:bg-gray-50">
+          <td class="px-2 py-2">
+            <input type="text" class="w-full border rounded p-1 text-sm" value="Jane Smith">
+          </td>
+          <td class="px-2 py-2 hidden sm:table-cell">
+            <input type="email" class="w-full border rounded p-1 text-sm" value="jane@example.com">
+          </td>
+          <td class="px-2 py-2">
+            <select class="w-full border rounded p-1 text-sm">
+              <option value="1">Level 1</option>
+              <option value="2" selected>Level 2</option>
+              <option value="3">Level 3</option>
+            </select>
+          </td>
+          <td class="px-2 py-2">
+            <select class="w-full border rounded p-1 text-sm">
+              <option value="active" selected>Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </td>
+          <td class="px-2 py-2 hidden md:table-cell">STD001</td>
+          <td class="px-2 py-2 space-x-2">
+            <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-xs">Save</button>
+            <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p id="noStudentsMsg" class="text-center text-gray-500 mt-3 hidden">No students found</p>
+  </div>
+</section>
 
     <!-- Settings Section -->
     <section id="settings" class="hidden space-y-4">
