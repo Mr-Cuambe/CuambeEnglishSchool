@@ -15,19 +15,24 @@
     <form id="loginForm" class="space-y-5">
       <div>
         <label class="block font-semibold text-gray-700">📧 Email Address</label>
-        <input type="email" id="loginEmail" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="example@gmail.com">
+        <input type="email" id="loginEmail" required
+               class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none"
+               placeholder="example@gmail.com">
       </div>
 
       <div>
         <label class="block font-semibold text-gray-700">🔑 Password</label>
         <div class="relative">
-          <input type="password" id="loginPassword" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <button type="button" onclick="toggleLoginPassword()" class="absolute right-3 top-3 text-gray-500 text-lg">👁️</button>
+          <input type="password" id="loginPassword" required
+                 class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+          <button type="button" onclick="toggleLoginPassword()" 
+                  class="absolute right-3 top-3 text-gray-500 text-lg">👁️</button>
         </div>
       </div>
 
       <div class="text-center pt-3">
-        <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:scale-105 transform transition w-full">
+        <button type="submit"
+                class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:scale-105 transform transition w-full">
           ✅ Login
         </button>
       </div>
@@ -35,44 +40,72 @@
   </div>
 
   <script>
+    // 👁️ Toggle password visibility
     function toggleLoginPassword() {
       const pass = document.getElementById("loginPassword");
       pass.type = pass.type === "password" ? "text" : "password";
+    }
+
+    // ⚠️ Warn if opened inside an in-app browser (Instagram, Facebook, WhatsApp)
+    if (
+      navigator.userAgent.includes("Instagram") ||
+      navigator.userAgent.includes("FBAN") ||
+      navigator.userAgent.includes("WhatsApp")
+    ) {
+      alert("⚠️ Please open this page in Safari or Chrome for login to work properly.");
     }
   </script>
 
   <!-- ✅ Firebase Login Script -->
   <script type="module">
-    import { auth, db } from "../firebase-init.js";
-    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    // ✅ Import Firebase configuration (absolute path for GitHub Pages)
+    import { auth, db } from "/CuambeEnglishSchool/firebase-init.js";
+
+    import {
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    import {
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     const loginForm = document.getElementById("loginForm");
 
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+      }
 
       try {
+        console.log("🔑 Attempting login for:", email);
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+        console.log("✅ Firebase user logged in:", user.uid);
 
-        // Retrieve student data from Firestore
+        // 🔍 Retrieve student data from Firestore
         const docRef = doc(db, "students", user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const student = docSnap.data();
-          localStorage.setItem("currentStudent", JSON.stringify(student));
+          // use sessionStorage (mobile-safe)
+          sessionStorage.setItem("currentStudent", JSON.stringify(student));
 
-          // Redirect to correct level dashboard
           const level = student.level || "1";
+          console.log(`➡️ Redirecting to level${level}.html`);
           window.location.href = `level${level}.html`;
         } else {
-          alert("No student data found. Please contact the administrator.");
+          alert("⚠️ No student data found. Please contact the administrator.");
         }
       } catch (error) {
+        console.error("❌ Login failed:", error.code, error.message);
         alert("Login failed: " + error.message);
       }
     });
