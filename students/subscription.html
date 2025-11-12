@@ -3,201 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Subscription - CUAMBE ENGLISH SCHOOL</title>
+  <title>Student Subscription - Cuambe English School</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Additional mobile tweaks */
+    body { font-family: 'Inter', sans-serif; }
     @media (max-width: 480px) {
-      h1 {
-        font-size: 1.6rem;
-      }
-      .form-container {
-        padding: 1.5rem;
-      }
-      label {
-        font-size: 0.95rem;
-      }
-      input, select {
-        font-size: 0.95rem;
-      }
-      button {
-        font-size: 1rem;
-        padding: 0.9rem 1.5rem;
-      }
+      h1 { font-size: 1.6rem; }
+      .form-container { padding: 1.5rem; }
+      label, input, select, button { font-size: 0.95rem; }
     }
   </style>
 </head>
-
 <body class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 min-h-screen flex items-center justify-center p-4 sm:p-6">
 
-  <div class="bg-white/95 shadow-2xl rounded-3xl form-container w-full max-w-3xl backdrop-blur-md">
-    <!-- Welcoming Note -->
-    <div class="text-center mb-6 sm:mb-8">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-md">
-        🧑‍🎓 Student Subscription
-      </h1>
-      <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-        Register to join Cuambe English School. Please fill in your details carefully.
-      </p>
-    </div>
-
-    <form id="studentForm" class="space-y-5 sm:space-y-6">
-
-      <div>
-        <label class="block font-semibold text-gray-700">👤 Full Name</label>
-        <input type="text" id="name" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">📧 Email Address (Entrance Email)</label>
-        <input type="email" id="email" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="example@gmail.com">
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🔑 Create Password</label>
-        <div class="relative">
-          <input type="password" id="password" required minlength="6" class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <button type="button" onclick="togglePassword()" class="absolute right-3 top-3 text-gray-500 text-lg">👁️</button>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">📞 Phone Number</label>
-        <input type="text" id="phone" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🎓 Level</label>
-        <select id="level" name="level" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <option value="">Select level</option>
-          <option value="1">Level 1</option>
-          <option value="2">Level 2</option>
-          <option value="3">Level 3</option>
-          <option value="4">Level 4</option>
-          <option value="5">Level 5</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🆔 Student ID</label>
-        <input type="text" id="studentID" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">⏰ Schedule</label>
-        <select id="schedule" name="schedule" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <option value="">Select your preferred schedule</option>
-          <option value="6:00-7:00">6:00-7:00</option>
-          <option value="6:30-7:30">6:30-7:30</option>
-          <option value="7:00-8:00">7:00-8:00</option>
-          <option value="7:30-8:30">7:30-8:30</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🏫 Course Type</label>
-        <select id="courseType" name="courseType" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <option value="">Select course type</option>
-          <option value="Regular">Regular</option>
-          <option value="Irregular">Irregular</option>
-        </select>
-      </div>
-
-      <!-- Skills -->
-      <div>
-        <label class="block font-semibold text-gray-700">🎯 Skills (Select all that apply)</label>
-        <div class="grid grid-cols-2 gap-2 mt-2 text-sm sm:text-base">
-          <label><input type="checkbox" name="skills" value="Reading"> Reading</label>
-          <label><input type="checkbox" name="skills" value="Writing"> Writing</label>
-          <label><input type="checkbox" name="skills" value="Listening"> Listening</label>
-          <label><input type="checkbox" name="skills" value="Speaking"> Speaking</label>
-        </div>
-      </div>
-
-      <!-- Speaking Problems -->
-      <div>
-        <label class="block font-semibold text-gray-700">🗣️ Speaking Problems (Select all that apply)</label>
-        <div class="grid grid-cols-2 gap-2 mt-2 text-sm sm:text-base">
-          <label><input type="checkbox" name="speakingProblems" value="Vocabulary"> Vocabulary</label>
-          <label><input type="checkbox" name="speakingProblems" value="Pronunciation"> Pronunciation</label>
-          <label><input type="checkbox" name="speakingProblems" value="Grammar"> Grammar</label>
-          <label><input type="checkbox" name="speakingProblems" value="Low confidence"> Low confidence</label>
-          <label><input type="checkbox" name="speakingProblems" value="Low fluency"> Low fluency</label>
-          <label><input type="checkbox" name="speakingProblems" value="Another"> Another</label>
-          <label><input type="checkbox" name="speakingProblems" value="All"> All</label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">📝 How did you hear about us?</label>
-        <input type="text" id="heardAbout" placeholder="Friend, social media, school, etc." class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-      </div>
-
-      <!-- Submit Button -->
-      <div class="text-center pt-3">
-        <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition w-full sm:w-auto">
-          ✅ Submit Subscription
-        </button>
-      </div>
-    </form>
+<div class="bg-white/95 shadow-2xl rounded-3xl form-container w-full max-w-3xl backdrop-blur-md">
+  <div class="text-center mb-6 sm:mb-8">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-md">🧑‍🎓 Student Subscription</h1>
+    <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+      Register to join Cuambe English School. Fill in your details carefully.
+    </p>
   </div>
 
-  <script>
-    function togglePassword() {
-      const pass = document.getElementById("password");
-      pass.type = pass.type === "password" ? "text" : "password";
+  <form id="studentForm" class="space-y-5 sm:space-y-6">
+
+    <div>
+      <label class="block font-semibold text-gray-700">👤 Full Name</label>
+      <input type="text" id="name" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">📧 Email Address</label>
+      <input type="email" id="email" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="example@gmail.com">
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">🔑 Create Password</label>
+      <div class="relative">
+        <input type="password" id="password" required minlength="6" class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+        <button type="button" onclick="togglePassword()" class="absolute right-3 top-3 text-gray-500 text-lg">👁️</button>
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">🎓 Level</label>
+      <select id="level" name="level" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+        <option value="">Select level</option>
+        <option value="1">Level 1</option>
+        <option value="2">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+        <option value="5">Level 5</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-semibold text-gray-700">🆔 Student ID</label>
+      <input type="text" id="studentID" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+    </div>
+
+    <div class="text-center pt-3">
+      <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition w-full sm:w-auto">
+        ✅ Subscribe & Go to Dashboard
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+// Hash password
+async function hashPassword(password) {
+  const enc = new TextEncoder();
+  const data = enc.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+const form = document.getElementById("studentForm");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  (async () => {
+    const password = document.getElementById("password").value;
+    const passwordHash = await hashPassword(password);
+
+    const student = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value.toLowerCase(),
+      passwordHash,
+      level: document.getElementById("level").value,
+      studentID: document.getElementById("studentID").value,
+      createdAt: new Date().toISOString()
+    };
+
+    let students = JSON.parse(localStorage.getItem("students") || "[]");
+
+    if (students.some(s => s.email === student.email)) {
+      alert("This email is already registered. Please login instead.");
+      return;
     }
 
-    // Hash password before storing
-    async function hashPassword(password) {
-      const enc = new TextEncoder();
-      const data = enc.encode(password);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+    students.push(student);
+    localStorage.setItem("students", JSON.stringify(students));
 
-    const form = document.getElementById("studentForm");
+    // Store loggedStudent to allow direct access to dashboard
+    localStorage.setItem("loggedStudent", JSON.stringify({
+      name: student.name,
+      email: student.email,
+      level: student.level
+    }));
 
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      (async () => {
-        const password = document.getElementById("password").value;
-        const passwordHash = await hashPassword(password);
-
-        const selectedSkills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
-        const selectedProblems = Array.from(document.querySelectorAll('input[name="speakingProblems"]:checked')).map(cb => cb.value);
-
-        const student = {
-          name: document.getElementById("name").value,
-          email: document.getElementById("email").value.toLowerCase(),
-          passwordHash,
-          phone: document.getElementById("phone").value,
-          level: document.getElementById("level").value,
-          studentID: document.getElementById("studentID").value,
-          schedule: document.getElementById("schedule").value,
-          courseType: document.getElementById("courseType").value,
-          skills: selectedSkills,
-          speakingProblems: selectedProblems,
-          heardAbout: document.getElementById("heardAbout").value,
-          createdAt: new Date().toISOString()
-        };
-
-        let students = JSON.parse(localStorage.getItem("students") || "[]");
-
-        if (students.some(s => s.email === student.email)) {
-          alert("This email is already registered. Please login instead.");
-          return;
-        }
-
-        students.push(student);
-        localStorage.setItem("students", JSON.stringify(students));
-
-        alert("Student subscription successful!");
-        form.reset();
-      })();
-    });
-  </script>
+    alert("Subscription successful! Redirecting to your dashboard...");
+    window.location.href = "dashboard.html"; // redirect to your dashboard
+  })();
+});
+</script>
 
 </body>
 </html>

@@ -18,13 +18,12 @@
 <!-- Sidebar -->
 <aside class="w-full md:w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col shadow-lg p-4 space-y-4">
   <h1 class="text-2xl font-bold text-center mb-6">Level 1 Dashboard</h1>
-  <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
-  <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
-  <button onclick="showSection('tests')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
-  <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 text-white font-semibold flex items-center gap-2 justify-center">👥 Students</button>
+  <button onclick="showSection('welcome')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">🏠 Welcome</button>
+  <button onclick="showSection('lessons')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
+  <button onclick="showSection('tests')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
+  <button onclick="showSection('students')" class="w-full px-4 py-3 rounded-xl bg-blue-800 hover:bg-blue-600 font-semibold flex items-center gap-2 justify-center">👥 Students</button>
 </aside>
 
-<!-- Main Content -->
 <main class="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto">
 
   <!-- Welcome Section -->
@@ -36,7 +35,6 @@
       <p class="text-lg">This dashboard is more than just a platform; it is a reflection of your commitment, creativity, and passion for education.</p>
       <p class="text-lg">Thank you for your unwavering devotion to your students and your craft.</p>
       <p class="text-lg text-gray-700 italic">💡 Tip: All your changes are stored locally. You can replace videos, audios, PDFs, images, and documents at any time by uploading new files.</p>
-      <p class="text-lg text-gray-700 italic">💡 Design suggestion: Keep your lesson descriptions concise, use bullet points in tasks, and encourage students to practice along with the materials.</p>
     </div>
   </section>
 
@@ -71,40 +69,12 @@
 
   // ------------------- LESSONS -------------------
   const lessonTitles = [
-    "Greetings and farewells",
-    "Introducing yourself and others",
-    "Classroom language",
-    "Numbers 0–20",
-    "Asking about age, nationality, and country",
-    "Alphabet and spelling",
-    "Days, months, seasons",
-    "Telling time",
-    "Family members",
-    "Describing people",
-    "Talking about friends",
-    "Possessives",
-    "Everyday activities",
-    "Talking about routines",
-    "Colors and shapes",
-    "Clothes and accessories",
-    "Weather and seasons",
-    "Places in the city",
-    "Fruits and vegetables",
-    "Meals",
-    "Likes and dislikes",
-    "At the restaurant",
-    "Types of transport",
-    "Asking/giving directions",
-    "Countries and cities",
-    "Body parts",
-    "Health problems",
-    "Gadgets",
-    "Hobbies",
-    "Invitations",
-    "Jobs",
-    "Workplaces",
-    "Future dreams",
-    "Celebrations & Festivals"
+    "Greetings and farewells","Introducing yourself and others","Classroom language","Numbers 0–20",
+    "Asking about age, nationality, and country","Alphabet and spelling","Days, months, seasons","Telling time",
+    "Family members","Describing people","Talking about friends","Possessives","Everyday activities","Talking about routines",
+    "Colors and shapes","Clothes and accessories","Weather and seasons","Places in the city","Fruits and vegetables","Meals",
+    "Likes and dislikes","At the restaurant","Types of transport","Asking/giving directions","Countries and cities",
+    "Body parts","Health problems","Gadgets","Hobbies","Invitations","Jobs","Workplaces","Future dreams","Celebrations & Festivals"
   ];
 
   const lessonsContainer = document.getElementById('lessonsContainer');
@@ -156,8 +126,16 @@
     const tasks = document.getElementById(`tasks${i}`).value;
 
     const lessonKey = `level1_lesson_${i}`;
-    const lessonData = { instructions, tasks, file: null };
+    const lessonData = {
+      id: `lesson${i}`,
+      title: `Lesson ${i}: ${lessonTitles[i-1]}`,
+      instructions: instructions,
+      tasks: tasks,
+      file: null,
+      new: true
+    };
 
+    // Synchronous save
     if (fileInput.files.length > 0) {
       const reader = new FileReader();
       reader.onload = e => {
@@ -173,13 +151,7 @@
   }
 
   // ------------------- TESTS -------------------
-  const testTitles = [
-    "Test 1 – Units 1–4",
-    "Test 2 – Units 5–8",
-    "Test 3 – Units 9–12",
-    "Final Presentation"
-  ];
-
+  const testTitles = ["Test 1 – Units 1–4","Test 2 – Units 5–8","Test 3 – Units 9–12","Final Presentation"];
   const testsContainer = document.getElementById('testsContainer');
 
   testTitles.forEach((title, t) => {
@@ -192,7 +164,6 @@
     `;
     testsContainer.appendChild(div);
 
-    // Load saved data
     const saved = localStorage.getItem(`level1_test_${t+1}`);
     if (saved) document.getElementById(`test${t+1}`).value = saved;
   });

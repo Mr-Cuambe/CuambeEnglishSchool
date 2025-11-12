@@ -176,30 +176,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   let loggedInTeacher = JSON.parse(localStorage.getItem("loggedInTeacher"));
   let loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
 
-  const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+  let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
 
-  // Default admin creation if missing
+  // Ensure admin exists
   const adminEmail = "mr@cuambe.com";
   const adminPassword = "Felis84";
   let admin = teachers.find(t => t.email === adminEmail);
-  if(!admin){
+  if (!admin) {
     const enc = new TextEncoder();
-    const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(adminPassword));
+    const hashBuffer = await crypto.subtle.digest("SHA-256", enc.encode(adminPassword));
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hash = hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
-    admin = {email: adminEmail, passwordHash: hash, role: "admin"};
+    const hash = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    admin = { email: adminEmail, passwordHash: hash, role: "admin" };
     teachers.push(admin);
     localStorage.setItem("teachers", JSON.stringify(teachers));
   }
 
   // Redirect if not logged in
-  if(!loggedInTeacher && !loggedInAdmin){
+  if (!loggedInTeacher && !loggedInAdmin) {
     alert("Access denied. Please log in first.");
     window.location.href = "../login.html";
     return;
   }
 
-  // Set current email field
   const currentUser = loggedInAdmin || loggedInTeacher;
   document.getElementById("currentEmail").value = currentUser.email;
 
@@ -265,9 +264,14 @@ async function updateCredentials(){
   let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
   let user = teachers.find(t => t.email === email) || teachers.find(t => t.role==="admin");
 
-  if(currentPassword){
+  if(user.role === "admin"){
     const hash = await hashPassword(currentPassword);
     if(hash !== user.passwordHash){
+      alert("Current password is incorrect.");
+      return;
+    }
+  } else {
+    if(user.password !== currentPassword){
       alert("Current password is incorrect.");
       return;
     }
@@ -279,7 +283,13 @@ async function updateCredentials(){
   }
 
   user.email = email;
-  if(newPassword) user.passwordHash = await hashPassword(newPassword);
+  if(newPassword){
+    if(user.role === "admin"){
+      user.passwordHash = await hashPassword(newPassword);
+    } else {
+      user.password = newPassword;
+    }
+  }
 
   const index = teachers.findIndex(t => t.email === user.email || t.role==="admin");
   teachers[index] = user;

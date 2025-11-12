@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 5 – Student Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .accordion-content { display: none; }
+  .accordion-header { cursor: pointer; }
+  .sidebar-button { transition: background 0.2s; }
+  .sidebar-button:hover { background-color: #155e75; }
+</style>
+</head>
+<body class="bg-gradient-to-r from-teal-900 via-cyan-700 to-blue-600 min-h-screen flex flex-col md:flex-row">
+
+<!-- Sidebar -->
+<aside class="w-full md:w-72 bg-gradient-to-b from-teal-900 to-cyan-700 text-white flex flex-col shadow-lg p-4 space-y-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Level 5 Student Hub</h1>
+  <button onclick="showSection('welcome')" class="sidebar-button w-full px-4 py-3 rounded-xl bg-teal-800 font-semibold flex items-center gap-2 justify-center">🏠 Home</button>
+  <button onclick="showSection('lessons')" class="sidebar-button w-full px-4 py-3 rounded-xl bg-teal-800 font-semibold flex items-center gap-2 justify-center">📘 Lessons</button>
+  <button onclick="showSection('tests')" class="sidebar-button w-full px-4 py-3 rounded-xl bg-teal-800 font-semibold flex items-center gap-2 justify-center">📝 Tests</button>
+  <button onclick="showSection('payments')" class="sidebar-button w-full px-4 py-3 rounded-xl bg-teal-800 font-semibold flex items-center gap-2 justify-center">💳 Payments</button>
+  <button onclick="showSection('contact')" class="sidebar-button w-full px-4 py-3 rounded-xl bg-teal-800 font-semibold flex items-center gap-2 justify-center">📧 Contact</button>
+  <button onclick="showSection('settings')" class="sidebar-button w-full px-4 py-3 rounded-xl bg-teal-800 font-semibold flex items-center gap-2 justify-center">⚙️ Settings</button>
+  <button onclick="logout()" class="sidebar-button w-full px-4 py-3 rounded-xl bg-red-600 font-semibold flex items-center gap-2 justify-center">🚪 Logout</button>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto">
+
+  <!-- Welcome Section -->
+  <section id="welcome" class="space-y-6">
+    <h2 class="text-3xl font-bold text-white">👋 Welcome, Level 5 Student!</h2>
+    <div class="bg-white/95 p-6 md:p-8 rounded-2xl shadow-lg text-gray-800 space-y-4">
+      <p class="text-lg font-semibold">Welcome to your personalized Level 5 Student Hub at Cuambe English School! 🌍</p>
+      <p class="text-lg">This dashboard is your space for accessing lessons, tests, and updates as you continue advancing your English skills.</p>
+      <p class="text-lg">At Level 5, you’re reaching upper-intermediate mastery — focus on fluency, pronunciation, and professional English communication.</p>
+      <p class="text-lg italic text-gray-700">💡 Tip: Watch your progress grow! Review older lessons, retake tests, and keep improving your confidence in speaking and writing.</p>
+    </div>
+  </section>
+
+  <!-- Lessons Section -->
+  <section id="lessons" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📘 My Lessons</h2>
+    <div id="lessonsContainer" class="space-y-4"></div>
+  </section>
+
+  <!-- Tests Section -->
+  <section id="tests" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📝 My Tests</h2>
+    <div id="testsContainer" class="space-y-4"></div>
+  </section>
+
+  <!-- Payments Section -->
+  <section id="payments" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">💰 Payments</h2>
+    <div class="bg-white p-6 rounded-2xl shadow-lg text-gray-800 space-y-4">
+      <p>View your payment history and upcoming fees here. Use the following payment options:</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="bg-blue-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform">
+          <span class="text-4xl mb-3">📱</span>
+          <h2 class="font-semibold text-lg mb-1">M-Pesa</h2>
+          <p class="text-gray-700">844175964 – Felisberto Cuambe</p>
+        </div>
+        <div class="bg-green-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform">
+          <span class="text-4xl mb-3">📱</span>
+          <h2 class="font-semibold text-lg mb-1">e-Mola</h2>
+          <p class="text-gray-700">874175964 – Felisberto Raimundo Cuambe</p>
+        </div>
+        <div class="bg-yellow-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform">
+          <span class="text-4xl mb-3">🏦</span>
+          <h2 class="font-semibold text-lg mb-1">BIM</h2>
+          <p class="text-gray-700">349209992 – CUAMBE FELISBERTO</p>
+        </div>
+        <div class="bg-purple-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform">
+          <span class="text-4xl mb-3">📲</span>
+          <h2 class="font-semibold text-lg mb-1">Conta Móvel</h2>
+          <p class="text-gray-700">844175964 – Felisberto Raimundo Cuambe</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">📧 Contact Us</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+      <div class="bg-blue-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform">
+        <span class="text-4xl mb-3">📞</span>
+        <h2 class="font-semibold text-lg mb-2">Calls</h2>
+        <p class="text-gray-700 text-base">+258 844 175 964 / +258 874 175 964</p>
+      </div>
+      <div class="bg-green-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform">
+        <span class="text-4xl mb-3">💬</span>
+        <h2 class="font-semibold text-lg mb-2">WhatsApp</h2>
+        <p class="text-gray-700 text-base">+258 844 175 964 / +258 874 175 964</p>
+      </div>
+      <div class="bg-yellow-50 rounded-xl shadow-lg p-5 flex flex-col items-center text-center hover:scale-105 transition-transform sm:col-span-2">
+        <span class="text-4xl mb-3">📧</span>
+        <h2 class="font-semibold text-lg mb-2">Email</h2>
+        <p class="text-gray-700 text-base">cuambeenglishschool@gmail.com</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings Section -->
+  <section id="settings" class="hidden space-y-6">
+    <h2 class="text-2xl font-semibold text-white">⚙️ Settings</h2>
+    <div class="bg-white p-6 rounded-2xl shadow-lg text-gray-800 space-y-6">
+      <p class="text-lg font-medium text-gray-700">Manage your account information below:</p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block font-semibold mb-1">Email</label>
+          <input id="userEmail" type="email" placeholder="Enter your email" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-teal-600">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">Current Password</label>
+          <input id="currentPassword" type="password" placeholder="Enter current password" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-teal-600">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">New Password</label>
+          <input id="newPassword" type="password" placeholder="Enter new password" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-teal-600">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">Confirm New Password</label>
+          <input id="confirmPassword" type="password" placeholder="Confirm new password" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-teal-600">
+        </div>
+
+        <button onclick="saveSettings()" class="bg-teal-700 hover:bg-teal-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-transform hover:scale-105">💾 Save Changes</button>
+
+        <p id="saveMessage" class="text-teal-700 font-semibold hidden">✅ Settings saved successfully!</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ------------------- NAVIGATION -------------------
+  function showSection(section) {
+    document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(section).classList.remove('hidden');
+  }
+
+  function logout() {
+    alert("You have been logged out!");
+  }
+
+  // ------------------- LOAD LESSONS -------------------
+  const lessonsContainer = document.getElementById('lessonsContainer');
+  for(let i = 1; i <= 34; i++) {
+    const savedLesson = JSON.parse(localStorage.getItem(`level5_lesson_${i}`));
+    if(savedLesson) {
+      const div = document.createElement('div');
+      div.className = "bg-white rounded-2xl shadow p-4 space-y-2";
+      div.innerHTML = `
+        <div class="accordion-header bg-cyan-200 p-4 font-semibold rounded cursor-pointer flex justify-between items-center" onclick="toggleAccordion(this)">
+          <span>${savedLesson.title}</span>
+          <span class="text-cyan-700">+</span>
+        </div>
+        <div class="accordion-content p-4 space-y-2 bg-gray-50 rounded">
+          <p><strong>Instructions:</strong> ${savedLesson.instructions || 'No instructions provided.'}</p>
+          <p><strong>Tasks / Notes:</strong> ${savedLesson.tasks || 'No tasks provided.'}</p>
+          ${savedLesson.file ? `<a href="${savedLesson.file}" download class="text-blue-600 underline">Download File</a>` : ''}
+        </div>
+      `;
+      lessonsContainer.appendChild(div);
+    }
+  }
+
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('span:last-child');
+    if (content.style.display === "block") {
+      content.style.display = "none";
+      icon.textContent = "+";
+    } else {
+      content.style.display = "block";
+      icon.textContent = "−";
+    }
+  }
+
+  // ------------------- LOAD TESTS -------------------
+  const testsContainer = document.getElementById('testsContainer');
+  for(let t = 1; t <= 4; t++) {
+    const savedTest = localStorage.getItem(`level5_test_${t}`);
+    if(savedTest) {
+      const div = document.createElement('div');
+      div.className = "bg-white rounded-2xl shadow p-4";
+      div.innerHTML = `
+        <h3 class="font-semibold mb-2">Test ${t}</h3>
+        <p>${savedTest}</p>
+      `;
+      testsContainer.appendChild(div);
+    }
+  }
+
+  // ------------------- SETTINGS LOGIC -------------------
+  function saveSettings() {
+    const email = document.getElementById('userEmail').value;
+    const currentPass = document.getElementById('currentPassword').value;
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+    const msg = document.getElementById('saveMessage');
+
+    if (!email || !currentPass || !newPass || !confirmPass) {
+      alert("Please fill in all fields before saving.");
+      return;
+    }
+    if (newPass !== confirmPass) {
+      alert("New passwords do not match!");
+      return;
+    }
+
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 3000);
+  }
+
+  // Show welcome by default
+  showSection('welcome');
+</script>
+
+</body>
+</html>

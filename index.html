@@ -13,7 +13,7 @@
     overflow-x: hidden;
   }
 
-  /* SIDEBAR (Desktop view) */
+  /* SIDEBAR */
   .sidebar-btn { transition: all 0.2s; }
   .sidebar-btn:hover { background: rgba(255,255,255,0.2); border-radius: 0.5rem; }
   .dropdown-item:hover { background-color: #f3f4f6; }
@@ -38,7 +38,6 @@
     padding: 3rem 4rem;
     text-align: justify;
     text-justify: inter-word;
-    transition: margin-left 0.3s ease;
   }
 
   .header-title {
@@ -51,7 +50,7 @@
 
   .content-paragraph {
     margin-bottom: 2rem;
-    line-height: 1.7rem;
+    line-height: 1.8rem;
     font-size: 1.15rem;
     text-align: justify;
     text-justify: inter-word;
@@ -62,8 +61,6 @@
     color: #fff;
     text-align: center;
     padding: 1rem;
-    position: relative;
-    width: 100%;
     margin-top: 2rem;
   }
 
@@ -86,9 +83,6 @@
   /* RESPONSIVE */
   @media (max-width: 1024px) {
     .sidebar { width: 12rem; padding: 1rem; }
-    .sidebar h2 { font-size: 1.5rem; }
-    .sidebar-btn { font-size: 0.95rem; padding: 0.5rem 0.8rem; }
-    .dropdown-item { font-size: 0.9rem; }
     .main-content { margin-left: 12rem; padding: 3rem 2rem; }
   }
 
@@ -96,15 +90,10 @@
     .sidebar { left: -100%; width: 16rem; transition: left 0.3s ease; z-index: 200; }
     .sidebar.open { left: 0; }
     .main-content { margin-left: 0; padding: 2rem 1rem; }
-    .header-title { font-size: 1.6rem; margin-top: 4rem; }
-    .content-paragraph { font-size: 1rem; line-height: 1.6rem; }
-    .hamburger { display: flex; flex-direction: column; gap: 0.25rem; position: fixed; top: 1rem; left: 1rem; z-index: 250; cursor: pointer; background: #111827; padding: 0.6rem 0.7rem; border-radius: 0.5rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+    .hamburger { display: flex; flex-direction: column; gap: 0.25rem; position: fixed; top: 1rem; left: 1rem; z-index: 250; cursor: pointer; background: #111827; padding: 0.6rem 0.7rem; border-radius: 0.5rem; }
     .hamburger span { display: block; width: 1.5rem; height: 0.2rem; background: #fff; }
     .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 150; }
     .overlay.show { display: block; }
-    #dashboardDropdown { z-index: 300; }
-    .language-container { top: 0.8rem; right: 3.5rem; }
-    footer { font-size: 0.9rem; padding: 0.8rem; }
   }
 </style>
 </head>
@@ -130,7 +119,6 @@
         🧭 Dashboards <span id="dropdownArrow">▼</span>
       </button>
       <div id="dashboardDropdown" class="absolute left-0 mt-2 w-56 bg-white text-gray-900 rounded-lg shadow-lg hidden flex-col overflow-hidden">
-        <!-- Prompt credentials before opening dashboard -->
         <div class="dropdown-item px-3 py-2 cursor-pointer" onclick="promptLogin('admin')">Admin Dashboard</div>
         <div class="dropdown-item px-3 py-2 cursor-pointer" onclick="promptLogin('teacher')">Teachers Dashboard</div>
         <div class="dropdown-item px-3 py-2 cursor-pointer" onclick="promptLogin('student')">Students Dashboard</div>
@@ -144,7 +132,6 @@
   </nav>
 </aside>
 
-<!-- Overlay -->
 <div class="overlay" id="overlay"></div>
 
 <!-- Language Selector -->
@@ -155,12 +142,12 @@
   </select>
 </div>
 
-<!-- Main Content -->
+<!-- MAIN CONTENT -->
 <div class="main-content">
   <h1 class="header-title" id="welcomeTitle">WELCOME TO CUAMBE ENGLISH SCHOOL</h1>
 
   <p class="content-paragraph" id="para1">
-    For you to login your dashboard, you have to fill in the subscription in accordance with your role and in the subscription you have to insert your email and set the password that you will use to access your dashboard as a teacher or as a student. Your credentials are private and no one can see them in your login so, make sure you don't forget them.
+    For you to login to your dashboard, you have to fill in the subscription in accordance with your role. During the subscription, you must insert your email and set the password that you will later use to access your dashboard as a teacher or as a student. Your credentials are private and cannot be seen by anyone else, so please make sure you don’t forget them.
   </p>
 
   <p class="content-paragraph" id="para2">
@@ -193,11 +180,11 @@
 </footer>
 
 <script>
+  // Sidebar toggle
   const hamburger = document.getElementById('hamburger');
   const sidebar = document.querySelector('.sidebar');
   const overlay = document.getElementById('overlay');
 
-  // Toggle sidebar on mobile
   hamburger.addEventListener('click', () => {
     sidebar.classList.toggle('open');
     overlay.classList.toggle('show');
@@ -208,8 +195,7 @@
     overlay.classList.remove('show');
   });
 
-  sidebar.addEventListener('click', e => e.stopPropagation());
-
+  // Dropdown
   document.getElementById('dashboardDropdownBtn').addEventListener('click', e => {
     e.stopPropagation();
     const dropdown = document.getElementById('dashboardDropdown');
@@ -227,14 +213,14 @@
     }
   });
 
-  // LOGIN FUNCTION (fixed)
+  // LOGIN FUNCTION
   function promptLogin(role) {
     const email = prompt("Enter your email for " + role + " dashboard:")?.trim().toLowerCase();
     if (!email) return alert("Email is required!");
     const password = prompt("Enter your password for " + role + " dashboard:");
     if (!password) return alert("Password is required!");
 
-    // Admin hardcoded login
+    // Admin hardcoded
     if (role === 'admin' && email === 'mr@cuambe.com' && password === 'Felis84') {
       alert("Welcome Admin! Redirecting...");
       localStorage.setItem('role', 'admin');
@@ -242,7 +228,7 @@
       return window.location.href = 'admin/dashboard.html';
     }
 
-    // Dynamic login for teachers and students
+    // Teachers & Students dynamic
     const storageKey = role === 'teacher' ? 'teachers' : 'students';
     const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
     const user = users.find(u => u.email?.toLowerCase() === email && u.password === password);
@@ -257,6 +243,31 @@
       alert("Invalid credentials. Please check your email and password or subscribe first.");
     }
   }
+
+  // TRANSLATION SYSTEM
+  const translations = {
+    pt: {
+      welcomeTitle: "BEM-VINDO À CUAMBE ENGLISH SCHOOL",
+      para1: "Para acessar o seu painel, preencha a inscrição de acordo com o seu papel. Durante a inscrição, insira o seu email e defina a senha que você usará para entrar no seu painel como professor ou estudante. As suas credenciais são privadas e ninguém pode vê-las, portanto, certifique-se de não esquecê-las.",
+      para2: "Na Cuambe English School, estamos comprometidos em oferecer ensino de inglês de alta qualidade para crianças e adultos. Nossos programas são oferecidos online por meio de plataformas flexíveis e profissionais, como WhatsApp e Google Meet, garantindo que o aprendizado seja sempre acessível e conveniente.",
+      para3: "Nossas aulas são altamente interativas e participativas. Com uma abordagem centrada no aluno, garantimos que cada aprendiz se sinta confiante e apoiado em sua jornada de aprendizagem.",
+      para4: "Todos os nossos professores são profissionais altamente capacitados, dedicados a criar um ambiente dinâmico de aprendizagem. Os materiais utilizados são cuidadosamente desenvolvidos para aprimorar a comunicação oral e desenvolver habilidades práticas e reais.",
+      para5: "Antes de iniciar as aulas, cada aluno faz um teste diagnóstico para garantir que está no nível correto. Nossos cursos são divididos em níveis claros, cada um com duração de três meses, um período intensivo de aprendizado que chamamos de edição.",
+      para6: "Para fortalecer as habilidades práticas, os alunos devem realizar um estágio no final do curso. Após a conclusão, é necessário fazer um exame final para garantir que todos os graduados saiam com conhecimento e competência prática.",
+      para7: "Estamos muito felizes em recebê-lo na Cuambe English School! Juntos, embarcaremos em uma jornada inspiradora pelo mundo do inglês, onde seus sonhos e ambições florescerão. Nossa equipe está dedicada a apoiá-lo em cada passo dessa caminhada, garantindo que o aprendizado seja agradável, significativo e inspirador."
+    }
+  };
+
+  document.getElementById('languageSelect').addEventListener('change', (e) => {
+    const lang = e.target.value;
+    if (lang === 'pt') {
+      for (const id in translations.pt) {
+        document.getElementById(id).textContent = translations.pt[id];
+      }
+    } else {
+      location.reload();
+    }
+  });
 </script>
 
 </body>
