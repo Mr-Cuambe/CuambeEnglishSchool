@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Login - CUAMBE ENGLISH SCHOOL</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 min-h-screen flex items-center justify-center p-4 sm:p-6">
 
   <div class="bg-white/95 shadow-2xl rounded-3xl w-full max-w-md p-8">
@@ -25,17 +26,6 @@
         </div>
       </div>
 
-      <div>
-        <label class="block font-semibold text-gray-700">🎓 Select Level</label>
-        <select id="loginLevel" class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <option value="1">Level 1</option>
-          <option value="2">Level 2</option>
-          <option value="3">Level 3</option>
-          <option value="4">Level 4</option>
-          <option value="5">Level 5</option>
-        </select>
-      </div>
-
       <div class="text-center pt-3">
         <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:scale-105 transform transition w-full">
           ✅ Login
@@ -49,44 +39,44 @@
       const pass = document.getElementById("loginPassword");
       pass.type = pass.type === "password" ? "text" : "password";
     }
+  </script>
 
-    async function hashPassword(password) {
-      const enc = new TextEncoder();
-      const data = enc.encode(password);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+  <!-- ✅ Firebase Login Script -->
+  <script type="module">
+    import { auth, db } from "../firebase-init.js";
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     const loginForm = document.getElementById("loginForm");
 
-    loginForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const email = document.getElementById("loginEmail").value.toLowerCase();
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
-      const passwordHash = await hashPassword(password);
-      const selectedLevel = document.getElementById("loginLevel").value;
 
-      let students = JSON.parse(localStorage.getItem("students") || "[]");
-      let student = students.find(s => s.email === email);
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-      if (!student) {
-        alert("No account found with this email. You can register first.");
-        return;
+        // Retrieve student data from Firestore
+        const docRef = doc(db, "students", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const student = docSnap.data();
+          localStorage.setItem("currentStudent", JSON.stringify(student));
+
+          // Redirect to correct level dashboard
+          const level = student.level || "1";
+          window.location.href = `level${level}.html`;
+        } else {
+          alert("No student data found. Please contact the administrator.");
+        }
+      } catch (error) {
+        alert("Login failed: " + error.message);
       }
-
-      if (student.passwordHash !== passwordHash) {
-        alert("Incorrect password. Try again.");
-        return;
-      }
-
-      // Save current logged-in student to localStorage
-      localStorage.setItem("currentStudent", JSON.stringify(student));
-
-      // Redirect to dashboard based on stored level or selection
-      const dashboardLevel = student.level || selectedLevel;
-      window.location.href = `level${dashboardLevel}.html`;
     });
   </script>
+
 </body>
 </html>

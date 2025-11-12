@@ -61,9 +61,32 @@
       <input type="text" id="studentID" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
     </div>
 
+    <!-- Schedule checkboxes -->
+    <div>
+      <label class="block font-semibold text-gray-700 mb-2">⏰ Preferred Schedule</label>
+      <div class="space-y-2">
+        <label><input type="checkbox" class="schedule" value="6:00-7:00"> 6:00 - 7:00</label>
+        <label><input type="checkbox" class="schedule" value="6:30-7:30"> 6:30 - 7:30</label>
+        <label><input type="checkbox" class="schedule" value="7:00-8:00"> 7:00 - 8:00</label>
+        <label><input type="checkbox" class="schedule" value="7:30-8:30"> 7:30 - 8:30</label>
+      </div>
+    </div>
+
+    <!-- Skills checkboxes -->
+    <div>
+      <label class="block font-semibold text-gray-700 mb-2">📚 Skills You Want to Improve</label>
+      <div class="space-y-2">
+        <label><input type="checkbox" class="skills" value="Grammar & Sentence Constructions"> Grammar & Sentence Constructions</label>
+        <label><input type="checkbox" class="skills" value="Speaking Skills"> Speaking Skills</label>
+        <label><input type="checkbox" class="skills" value="Listening & Interpretation Skills"> Listening & Interpretation Skills</label>
+        <label><input type="checkbox" class="skills" value="Writing Skills"> Writing Skills</label>
+        <label><input type="checkbox" class="skills" value="Reading Skills"> Reading Skills</label>
+      </div>
+    </div>
+
     <div class="text-center pt-3">
       <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition w-full sm:w-auto">
-        ✅ Subscribe & Go to Dashboard
+        ✅ Subscribe
       </button>
     </div>
   </form>
@@ -91,12 +114,17 @@ form.addEventListener("submit", (event) => {
     const password = document.getElementById("password").value;
     const passwordHash = await hashPassword(password);
 
+    const selectedSchedules = Array.from(document.querySelectorAll('.schedule:checked')).map(cb => cb.value);
+    const selectedSkills = Array.from(document.querySelectorAll('.skills:checked')).map(cb => cb.value);
+
     const student = {
       name: document.getElementById("name").value,
       email: document.getElementById("email").value.toLowerCase(),
       passwordHash,
       level: document.getElementById("level").value,
       studentID: document.getElementById("studentID").value,
+      schedules: selectedSchedules,
+      skills: selectedSkills,
       createdAt: new Date().toISOString()
     };
 
@@ -110,15 +138,8 @@ form.addEventListener("submit", (event) => {
     students.push(student);
     localStorage.setItem("students", JSON.stringify(students));
 
-    // Store loggedStudent to allow direct access to dashboard
-    localStorage.setItem("loggedStudent", JSON.stringify({
-      name: student.name,
-      email: student.email,
-      level: student.level
-    }));
-
-    alert("Subscription successful! Redirecting to your dashboard...");
-    window.location.href = "dashboard.html"; // redirect to your dashboard
+    alert("Subscription successful! You can now login using your email and password.");
+    form.reset();
   })();
 });
 </script>
