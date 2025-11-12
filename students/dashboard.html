@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Students Dashboard – Cuambe English School</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .card-shadow { box-shadow: 0 6px 18px rgba(2,6,23,0.12); }
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+
+<h1 class="text-2xl md:text-3xl font-bold mb-6 text-center">👨‍🎓 Students Dashboard</h1>
+
+<!-- Level Selector -->
+<div class="flex justify-center gap-3 mb-6">
+  <button onclick="filterByLevel(1)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Level 1</button>
+  <button onclick="filterByLevel(2)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Level 2</button>
+  <button onclick="filterByLevel(3)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Level 3</button>
+  <button onclick="filterByLevel(4)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Level 4</button>
+  <button onclick="filterByLevel(5)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Level 5</button>
+</div>
+
+<!-- Students Table -->
+<div class="bg-white p-4 rounded-2xl card-shadow overflow-x-auto">
+  <table class="min-w-full text-sm md:text-base border-collapse">
+    <thead>
+      <tr class="bg-blue-100">
+        <th class="px-2 py-2 border">Name</th>
+        <th class="px-2 py-2 border hidden sm:table-cell">Email</th>
+        <th class="px-2 py-2 border">Level</th>
+        <th class="px-2 py-2 border">Status</th>
+        <th class="px-2 py-2 border">ID</th>
+        <th class="px-2 py-2 border">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="studentsBody"></tbody>
+  </table>
+  <p id="noStudentsMsg" class="text-center text-gray-500 mt-3 hidden">No students found for this level</p>
+</div>
+
+<script>
+// Load students from localStorage
+let allStudents = JSON.parse(localStorage.getItem('students') || '[]');
+
+function filterByLevel(level) {
+  const students = allStudents.filter(s => s.level == level || s.level == `Level ${level}`);
+  const tbody = document.getElementById('studentsBody');
+  tbody.innerHTML = '';
+  const noMsg = document.getElementById('noStudentsMsg');
+
+  if (!students.length) { noMsg.classList.remove('hidden'); return; }
+  noMsg.classList.add('hidden');
+
+  students.forEach((s, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="px-2 py-2">${s.name}</td>
+      <td class="px-2 py-2 hidden sm:table-cell">${s.email || ''}</td>
+      <td class="px-2 py-2">${s.level}</td>
+      <td class="px-2 py-2">${s.status || ''}</td>
+      <td class="px-2 py-2">${s.id || ''}</td>
+      <td class="px-2 py-2 flex flex-col sm:flex-row sm:gap-2 gap-2">
+        <button onclick="editStudent('${s.id}')" class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
+        <button onclick="deleteStudent('${s.id}')" class="bg-red-600 text-white px-2 py-1 rounded text-xs">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function editStudent(id) { alert(`Edit student with ID: ${id}`); }
+function deleteStudent(id) {
+  if (!confirm('Are you sure you want to delete this student?')) return;
+  allStudents = allStudents.filter(s => s.id !== id);
+  localStorage.setItem('students', JSON.stringify(allStudents));
+  filterByLevel(1); // reload default or adjust as needed
+}
+
+// Initial load
+filterByLevel(1);
+</script>
+
+</body>
+</html>
