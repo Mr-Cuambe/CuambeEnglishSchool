@@ -1,160 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Subscription - Cuambe English School</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    @media (max-width: 480px) {
-      h1 { font-size: 1.6rem; }
-      .form-container { padding: 1.5rem; }
-      label, input, select, button { font-size: 0.95rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Subscription - Cuambe English School</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 min-h-screen flex items-center justify-center p-4 sm:p-6">
 
-  <div class="bg-white/95 shadow-2xl rounded-3xl form-container w-full max-w-3xl backdrop-blur-md">
-    <div class="text-center mb-6 sm:mb-8">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-md">🧑‍🎓 Student Subscription</h1>
-      <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
-        Register to join Cuambe English School. Fill in your details carefully.
-      </p>
-    </div>
-
-    <form id="studentForm" class="space-y-5 sm:space-y-6">
-
-      <div>
-        <label class="block font-semibold text-gray-700">👤 Full Name</label>
-        <input type="text" id="name" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">📧 Email Address</label>
-        <input type="email" id="email" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="example@gmail.com">
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🔑 Create Password</label>
-        <div class="relative">
-          <input type="password" id="password" required minlength="6" class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <button type="button" onclick="togglePassword()" class="absolute right-3 top-3 text-gray-500 text-lg">👁️</button>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🎓 Level</label>
-        <select id="level" name="level" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-          <option value="">Select level</option>
-          <option value="1">Level 1</option>
-          <option value="2">Level 2</option>
-          <option value="3">Level 3</option>
-          <option value="4">Level 4</option>
-          <option value="5">Level 5</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block font-semibold text-gray-700">🆔 Student ID</label>
-        <input type="text" id="studentID" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
-      </div>
-
-      <!-- Schedule checkboxes -->
-      <div>
-        <label class="block font-semibold text-gray-700 mb-2">⏰ Preferred Schedule</label>
-        <div class="space-y-2">
-          <label><input type="checkbox" class="schedule" value="6:00-7:00"> 6:00 - 7:00</label>
-          <label><input type="checkbox" class="schedule" value="6:30-7:30"> 6:30 - 7:30</label>
-          <label><input type="checkbox" class="schedule" value="7:00-8:00"> 7:00 - 8:00</label>
-          <label><input type="checkbox" class="schedule" value="7:30-8:30"> 7:30 - 8:30</label>
-        </div>
-      </div>
-
-      <!-- Skills checkboxes -->
-      <div>
-        <label class="block font-semibold text-gray-700 mb-2">📚 Skills You Want to Improve</label>
-        <div class="space-y-2">
-          <label><input type="checkbox" class="skills" value="Grammar & Sentence Constructions"> Grammar & Sentence Constructions</label>
-          <label><input type="checkbox" class="skills" value="Speaking Skills"> Speaking Skills</label>
-          <label><input type="checkbox" class="skills" value="Listening & Interpretation Skills"> Listening & Interpretation Skills</label>
-          <label><input type="checkbox" class="skills" value="Writing Skills"> Writing Skills</label>
-          <label><input type="checkbox" class="skills" value="Reading Skills"> Reading Skills</label>
-        </div>
-      </div>
-
-      <div class="text-center pt-3">
-        <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition w-full sm:w-auto">
-          ✅ Subscribe
-        </button>
-      </div>
-    </form>
+<div class="bg-white/95 shadow-2xl rounded-3xl form-container w-full max-w-3xl backdrop-blur-md">
+  <div class="text-center mb-6 sm:mb-8">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-md">🧑‍🎓 Student Subscription</h1>
   </div>
 
-  <script>
-    function togglePassword() {
-      const pass = document.getElementById("password");
-      pass.type = pass.type === "password" ? "text" : "password";
-    }
-  </script>
+  <form id="studentForm" class="space-y-5 sm:space-y-6">
+    <div>
+      <label class="block font-semibold text-gray-700">👤 Full Name</label>
+      <input type="text" id="name" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+    </div>
 
-  <!-- ✅ Firebase Subscription Script -->
-  <script type="module">
-    import { auth, db } from "/CuambeEnglishSchool/firebase-init.js";
-    import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    <div>
+      <label class="block font-semibold text-gray-700">📧 Email Address</label>
+      <input type="email" id="email" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+    </div>
 
-    const form = document.getElementById("studentForm");
+    <div>
+      <label class="block font-semibold text-gray-700">🔑 Create Password</label>
+      <div class="relative">
+        <input type="password" id="password" required minlength="6" class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+        <button type="button" onclick="togglePassword()" class="absolute right-3 top-3 text-gray-500 text-lg">👁️</button>
+      </div>
+    </div>
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    <div>
+      <label class="block font-semibold text-gray-700">🎓 Level</label>
+      <select id="level" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+        <option value="">Select level</option>
+        <option value="1">Level 1</option>
+        <option value="2">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+        <option value="5">Level 5</option>
+      </select>
+    </div>
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const password = document.getElementById("password").value;
-      const level = document.getElementById("level").value;
-      const studentID = document.getElementById("studentID").value;
-      const schedules = Array.from(document.querySelectorAll('.schedule:checked')).map(cb => cb.value);
-      const skills = Array.from(document.querySelectorAll('.skills:checked')).map(cb => cb.value);
+    <div class="text-center pt-3">
+      <button type="submit" class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-lg hover:scale-105 transform transition w-full sm:w-auto">
+        ✅ Subscribe
+      </button>
+    </div>
+  </form>
+</div>
 
-      if (!name || !email || !password || !level || !studentID) {
-        alert("⚠️ Please fill in all required fields.");
-        return;
-      }
+<script>
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+</script>
 
-      try {
-        console.log("🧾 Creating account for:", email);
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+<script type="module">
+import { auth, db } from "https://mr-cuambe.github.io/CuambeEnglishSchool/students/firebase-init.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-        const studentData = {
-          uid: user.uid,
-          name,
-          email,
-          level,
-          studentID,
-          schedules,
-          skills,
-          subscribed: true,
-          plan: "Monthly",
-          createdAt: new Date().toISOString()
-        };
+const form = document.getElementById("studentForm");
 
-        await setDoc(doc(db, "students", user.uid), studentData);
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value.toLowerCase();
+  const password = document.getElementById("password").value;
+  const level = document.getElementById("level").value;
 
-        alert("🎉 Subscription successful! You can now log in using your email and password.");
-        form.reset();
-      } catch (error) {
-        console.error("❌ Subscription error:", error.code, error.message);
-        if (error.code === "auth/email-already-in-use") {
-          alert("⚠️ This email is already registered. Please log in instead.");
-        } else {
-          alert("❌ Subscription failed: " + error.message);
-        }
-      }
-    });
-  </script>
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    const studentData = { name, email, level, createdAt: new Date().toISOString() };
+    await setDoc(doc(db, "students", user.uid), studentData);
+
+    alert("Subscription successful! You can now login.");
+    form.reset();
+  } catch (error) {
+    alert("Subscription failed: " + error.message);
+  }
+});
+</script>
+
 </body>
 </html>
