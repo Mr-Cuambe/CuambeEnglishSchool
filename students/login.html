@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Login - CUAMBE ENGLISH SCHOOL</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Login - Cuambe English School</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -41,9 +41,7 @@
     }
   </script>
 
-  <!-- ✅ Firebase Login Script -->
   <script type="module">
-    // Use absolute import for GitHub Pages
     import { auth, db } from "https://mr-cuambe.github.io/CuambeEnglishSchool/students/firebase-init.js";
     import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
@@ -52,28 +50,28 @@
 
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Fetch the student's data from Firestore
         const docRef = doc(db, "students", user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const student = docSnap.data();
           localStorage.setItem("currentStudent", JSON.stringify(student));
+
+          alert(`🎓 Welcome ${student.name || "Student"}! Redirecting...`);
           const level = student.level || "1";
           window.location.href = `level${level}.html`;
         } else {
-          alert("No student data found. Please contact the administrator.");
+          alert("⚠️ No student data found. Please contact the administrator.");
         }
       } catch (error) {
-        console.error("Firebase login error:", error);
-        alert("Login failed: " + error.message);
+        alert("❌ Login failed: " + error.message);
       }
     });
   </script>
