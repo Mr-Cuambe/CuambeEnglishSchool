@@ -6,11 +6,15 @@
 <title>Student Subscription - Cuambe English School</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gradient-to-r from-orange-500 via-violet-600 to-pink-500 min-h-screen flex items-center justify-center p-4 sm:p-6">
 
 <div class="bg-white/95 shadow-2xl rounded-3xl form-container w-full max-w-3xl backdrop-blur-md">
   <div class="text-center mb-6 sm:mb-8">
     <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-md">🧑‍🎓 Student Subscription</h1>
+    <p class="text-gray-700 text-base sm:text-lg leading-relaxed">
+      Register below to join Cuambe English School.
+    </p>
   </div>
 
   <form id="studentForm" class="space-y-5 sm:space-y-6">
@@ -21,7 +25,7 @@
 
     <div>
       <label class="block font-semibold text-gray-700">📧 Email Address</label>
-      <input type="email" id="email" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none">
+      <input type="email" id="email" required class="w-full border rounded-lg px-3 py-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="example@gmail.com">
     </div>
 
     <div>
@@ -59,33 +63,50 @@ function togglePassword() {
 }
 </script>
 
+<!-- ✅ Firebase Subscription Script -->
 <script type="module">
-import { auth, db } from "https://mr-cuambe.github.io/CuambeEnglishSchool/students/firebase-init.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  import { auth, db } from "https://mr-cuambe.github.io/CuambeEnglishSchool/students/firebase-init.js";
+  import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-const form = document.getElementById("studentForm");
+  const form = document.getElementById("studentForm");
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value.toLowerCase();
-  const password = document.getElementById("password").value;
-  const level = document.getElementById("level").value;
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const level = document.getElementById("level").value;
 
-    const studentData = { name, email, level, createdAt: new Date().toISOString() };
-    await setDoc(doc(db, "students", user.uid), studentData);
+    if (!name || !email || !password || !level) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-    alert("Subscription successful! You can now login.");
-    form.reset();
-  } catch (error) {
-    alert("Subscription failed: " + error.message);
-  }
-});
+    try {
+      // ✅ Create user in Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // ✅ Save student data in Firestore
+      const studentData = {
+        uid: user.uid,
+        name,
+        email,
+        level,
+        createdAt: new Date().toISOString()
+      };
+      await setDoc(doc(db, "students", user.uid), studentData);
+
+      alert("🎉 Subscription successful! You can now log in.");
+      form.reset();
+      window.location.href = "login.html"; // redirect to login after signup
+    } catch (error) {
+      console.error("Firebase subscription error:", error);
+      alert("Subscription failed: " + error.message);
+    }
+  });
 </script>
 
 </body>

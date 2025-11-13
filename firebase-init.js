@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyA8q0qJf_RG91s2KjbKmo2b2Wd62ZbjGGw",
   authDomain: "cuambeenglishschool-398fe.firebaseapp.com",
   projectId: "cuambeenglishschool-398fe",
-  storageBucket: "cuambeenglishschool-398fe.firebasestorage.app",
+  storageBucket: "cuambeenglishschool-398fe.appspot.com", // ✅ fixed
   messagingSenderId: "780467231205",
   appId: "1:780467231205:web:f77ac28a94c2b07cd2b70c",
   measurementId: "G-03E2FSHP3J"
