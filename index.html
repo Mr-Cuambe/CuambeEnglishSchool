@@ -195,7 +195,7 @@
     overlay.classList.remove('show');
   });
 
-  // Dropdown
+  // Dropdown toggle
   document.getElementById('dashboardDropdownBtn').addEventListener('click', e => {
     e.stopPropagation();
     const dropdown = document.getElementById('dashboardDropdown');
@@ -220,12 +220,14 @@
     const password = prompt("Enter your password for " + role + " dashboard:");
     if (!password) return alert("Password is required!");
 
+    const baseURL = window.location.origin; // root of your hosted site
+
     // Admin hardcoded
     if (role === 'admin' && email === 'mr@cuambe.com' && password === 'Felis84') {
       alert("Welcome Admin! Redirecting...");
       localStorage.setItem('role', 'admin');
       localStorage.setItem('userEmail', email);
-      return window.location.href = 'admin/dashboard.html';
+      return window.location.href = baseURL + '/admin/dashboard.html';
     }
 
     // Teachers & Students dynamic
@@ -237,11 +239,14 @@
       alert("Login successful! Redirecting...");
       localStorage.setItem('role', role);
       localStorage.setItem('userEmail', email);
-      if (role === 'teacher') window.location.href = 'teachers/dashboard.html';
-if (role === 'student') window.location.href = '/students/students-levels.html';
-    } else {
-      alert("Invalid credentials. Please check your email and password or subscribe first.");
+
+      if (role === 'teacher') window.location.href = baseURL + '/teachers/dashboard.html';
+      if (role === 'student') window.location.href = baseURL + '/students/students-levels.html';
+      return; // stop further execution
     }
+
+    // If no user found
+    alert("Invalid credentials. Please check your email and password or subscribe first.");
   }
 
   // TRANSLATION SYSTEM
