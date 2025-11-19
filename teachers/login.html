@@ -3,44 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Login</title>
+<title>Teacher Login – Cuambe English School</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
-<body class="bg-gradient-to-r from-blue-800 via-red-600 to-yellow-500 min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen bg-gradient-to-r from-green-500 via-yellow-400 to-indigo-500 flex flex-col items-center justify-center p-4">
 
-<div class="bg-white/95 shadow-2xl rounded-3xl p-8 w-full max-w-md sm:max-w-lg">
-  <h1 class="text-3xl sm:text-4xl font-bold text-center mb-6">👩‍🏫 Teacher Login</h1>
-  <form id="loginForm" class="space-y-4 sm:space-y-6">
-    <input type="email" id="email" placeholder="Email Address" required 
-           class="w-full border rounded px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <input type="password" id="password" placeholder="Password" required 
-           class="w-full border rounded px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <button type="submit" 
-            class="bg-blue-700 text-white w-full py-3 rounded-xl text-sm sm:text-base hover:bg-blue-800 transition duration-200">
-      🔑 Login
-    </button>
-  </form>
+<h1 class="text-3xl text-white font-bold mb-6 text-center">Login as Teacher</h1>
+
+<div class="bg-white p-6 rounded-2xl shadow max-w-md w-full space-y-4">
+  <input id="email" type="email" placeholder="Email" class="w-full p-2 border rounded">
+  <input id="password" type="password" placeholder="Password" class="w-full p-2 border rounded">
+  <button onclick="loginTeacher()" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Login</button>
 </div>
 
 <script>
-async function hashPassword(password) {
-  const enc = new TextEncoder();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(password));
-  return Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
+function loginTeacher() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
 
-document.getElementById("loginForm").addEventListener("submit", async function(e){
-  e.preventDefault();
-  const email = document.getElementById("email").value.toLowerCase();
-  const password = document.getElementById("password").value;
-  const teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
-  const teacher = teachers.find(t=>t.email===email);
-  if(!teacher){ alert("Teacher not found"); return; }
-  const hash = await hashPassword(password);
-  if(hash !== teacher.passwordHash){ alert("Incorrect password"); return; }
-  localStorage.setItem("loggedTeacher", JSON.stringify(teacher));
-  window.location.href = "dashboard.html";
-});
+  const teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
+  const teacher = teachers.find(t => t.email === email && t.password === password);
+
+  if(teacher){
+    localStorage.setItem('userRole','teacher');
+    localStorage.setItem('userEmail', email);
+    window.location.href = 'dashboard.html';
+  } else {
+    alert('Incorrect email or password');
+  }
+}
 </script>
 </body>
 </html>

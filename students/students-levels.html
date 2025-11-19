@@ -20,18 +20,23 @@ Click a level below to open its dashboard.
 </p>
 
 <div id="levelsContainer" class="flex flex-col gap-4 w-full max-w-sm px-4">
-
   <!-- Levels will be inserted here dynamically -->
-
 </div>
 
 <script>
+// Determine user role (admin or student)
+const userRole = localStorage.getItem('userRole') || 'student';
+
+// Base path from this page to level pages
+const basePath = './'; // Adjust if needed, e.g., '../students/'
+
+// Define levels
 const levels = [
-  { name: 'Level 1', dashboard: '../students/level1.html' },
-  { name: 'Level 2', dashboard: '../students/level2.html' },
-  { name: 'Level 3', dashboard: '../students/level3.html' },
-  { name: 'Level 4', dashboard: '../students/level4.html' },
-  { name: 'Level 5', dashboard: '../students/level5.html' }
+  { name: 'Level 1', dashboard: basePath + 'level1.html' },
+  { name: 'Level 2', dashboard: basePath + 'level2.html' },
+  { name: 'Level 3', dashboard: basePath + 'level3.html' },
+  { name: 'Level 4', dashboard: basePath + 'level4.html' },
+  { name: 'Level 5', dashboard: basePath + 'level5.html' }
 ];
 
 const container = document.getElementById('levelsContainer');
@@ -41,11 +46,16 @@ levels.forEach(lvl => {
   div.className = "level-card bg-white/90 text-gray-800 p-4 rounded-2xl text-center font-semibold text-lg hover:bg-blue-200 card-shadow";
   div.innerText = lvl.name;
   div.onclick = () => { 
+    // Save selected level in localStorage
     localStorage.setItem('studentLevel', lvl.name);
+    // Redirect to the correct student level page
     window.location.href = lvl.dashboard; 
   };
   container.appendChild(div);
 });
+
+// Optional: if admin clicks directly on a level from the main dashboard
+// you could automatically highlight or pre-select it
 </script>
 </body>
 </html>
