@@ -19,7 +19,7 @@
     font-weight: bold;
     text-align: center;
     margin-bottom: 2rem;
-    font-size: clamp(1.5rem, 5vw, 2.5rem); /* responsive font */
+    font-size: clamp(1.5rem, 5vw, 2.5rem); /* responsive font for mobile */
   }
 
   /* Paragraphs */
@@ -152,27 +152,21 @@
   <p class="content-paragraph" id="para1">
     For you to login to your dashboard, you have to fill in the subscription in accordance with your role. During the subscription, you must insert your email and set the password that you will later use to access your dashboard as a teacher or as a student. Your credentials are private and cannot be seen by anyone else, so please make sure you don’t forget them.
   </p>
-
   <p class="content-paragraph" id="para2">
     At Cuambe English School, we are committed to providing high-quality English language education for both children and adults. Our programs are delivered online through flexible and professional platforms such as WhatsApp and Google Meet, ensuring that learning is always accessible and convenient.
   </p>
-
   <p class="content-paragraph" id="para3">
     Our classes are designed to be highly interactive and participative. With a student-centered learning approach, we ensure that every learner is engaged, confident, and supported throughout their learning journey.
   </p>
-
   <p class="content-paragraph" id="para4">
     All our teachers are highly trained professionals, dedicated to creating a dynamic learning environment. The materials we use are carefully developed to improve oral communication and help learners build practical, real-world language skills.
   </p>
-
   <p class="content-paragraph" id="para5">
     Before starting classes, every student takes a diagnostic test to ensure they are enrolled at the right level. Our courses are divided into clear levels, each lasting three months, an intensive learning period we call an edition.
   </p>
-
   <p class="content-paragraph" id="para6">
     To strengthen real-world skills, students are required to complete an internship towards the end of their studies. At the conclusion of the course, learners must also pass a final exam, ensuring that every graduate leaves with both knowledge and practical competence.
   </p>
-
   <p class="content-paragraph" id="para7">
     We are more than excited to welcome you to Cuambe English School! Together, we will embark on an inspiring journey through the world of English, where your dreams and ambitions will flourish. Our team is dedicated to supporting you every step of the way, ensuring that learning is enjoyable, meaningful, and empowering.
   </p>
@@ -191,6 +185,7 @@
     sidebar.classList.toggle('open');
     overlay.classList.toggle('show');
   });
+
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
@@ -242,7 +237,6 @@
     }
   }
 
-  // Translation system
   const translations = {
     pt: {
       welcomeTitle: "BEM-VINDO À CUAMBE ENGLISH SCHOOL",
