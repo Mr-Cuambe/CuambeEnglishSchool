@@ -13,7 +13,50 @@
     overflow-x: hidden;
   }
 
-  /* SIDEBAR */
+  /* Header */
+  .header-title {
+    color: #e53935;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem); /* responsive font */
+  }
+
+  /* Paragraphs */
+  .content-paragraph {
+    margin-bottom: 2rem;
+    line-height: 1.8rem;
+    font-size: 1.15rem;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  /* Footer */
+  footer {
+    background: #111827;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+
+  /* Language Selector */
+  .language-select {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #fff;
+  }
+  .language-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 150;
+  }
+
+  /* Sidebar */
   .sidebar-btn { transition: all 0.2s; }
   .sidebar-btn:hover { background: rgba(255,255,255,0.2); border-radius: 0.5rem; }
   .dropdown-item:hover { background-color: #f3f4f6; }
@@ -40,47 +83,7 @@
     text-justify: inter-word;
   }
 
-  .header-title {
-    color: #e53935;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive font for mobile */
-  }
-
-  .content-paragraph {
-    margin-bottom: 2rem;
-    line-height: 1.8rem;
-    font-size: 1.15rem;
-    text-align: justify;
-    text-justify: inter-word;
-  }
-
-  footer {
-    background: #111827;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
-  }
-
-  .language-select {
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.9rem;
-    font-size: 1rem;
-    font-weight: 600;
-    background: #fff;
-  }
-
-  .language-container {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 150;
-  }
-
-  /* RESPONSIVE */
+  /* Responsive */
   @media (max-width: 1024px) {
     .sidebar { width: 12rem; padding: 1rem; }
     .main-content { margin-left: 12rem; padding: 3rem 2rem; }
@@ -180,7 +183,6 @@
 </footer>
 
 <script>
-  // Sidebar toggle
   const hamburger = document.getElementById('hamburger');
   const sidebar = document.querySelector('.sidebar');
   const overlay = document.getElementById('overlay');
@@ -189,13 +191,11 @@
     sidebar.classList.toggle('open');
     overlay.classList.toggle('show');
   });
-
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
   });
 
-  // Dropdown
   document.getElementById('dashboardDropdownBtn').addEventListener('click', e => {
     e.stopPropagation();
     const dropdown = document.getElementById('dashboardDropdown');
@@ -213,16 +213,13 @@
     }
   });
 
-  // LOGIN FUNCTION
   function promptLogin(role) {
-    const baseURL = window.location.origin; // root of hosted site
-
+    const baseURL = window.location.origin;
     const email = prompt("Enter your email for " + role + " dashboard:")?.trim().toLowerCase();
     if (!email) return alert("Email is required!");
     const password = prompt("Enter your password for " + role + " dashboard:");
     if (!password) return alert("Password is required!");
 
-    // Admin hardcoded
     if (role === 'admin' && email === 'mr@cuambe.com' && password === 'Felis84') {
       alert("Welcome Admin! Redirecting...");
       localStorage.setItem('role', 'admin');
@@ -230,7 +227,6 @@
       return window.location.href = baseURL + '/admin/dashboard.html';
     }
 
-    // Teachers & Students dynamic
     const storageKey = role === 'teacher' ? 'teachers' : 'students';
     const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
     const user = users.find(u => u.email?.toLowerCase() === email && u.password === password);
@@ -239,7 +235,6 @@
       alert("Login successful! Redirecting...");
       localStorage.setItem('role', role);
       localStorage.setItem('userEmail', email);
-
       if (role === 'teacher') window.location.href = baseURL + '/teachers/dashboard.html';
       if (role === 'student') window.location.href = baseURL + '/students/students-levels.html';
     } else {
@@ -247,7 +242,7 @@
     }
   }
 
-  // TRANSLATION SYSTEM
+  // Translation system
   const translations = {
     pt: {
       welcomeTitle: "BEM-VINDO À CUAMBE ENGLISH SCHOOL",
